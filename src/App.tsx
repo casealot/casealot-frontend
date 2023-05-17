@@ -1,5 +1,5 @@
 import "./App.css";
-import Header from "./components/Nav";
+import Header from "./components/Nav/Nav";
 
 function App() {
   return (
