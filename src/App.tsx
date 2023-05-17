@@ -1,10 +1,10 @@
 import "./App.css";
-import Header from "./components/Nav/Nav";
+import MainPage from "./pages/MainPage";
 
 function App() {
   return (
     <>
-      <Header />
+      <MainPage />
     </>
   );
 }

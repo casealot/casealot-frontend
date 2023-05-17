@@ -1,11 +1,14 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  text-align: center; */
+  font: 0.75em "Questrial", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", Dotum,
+    "돋움", "AppleGothic", "Apple SD Gothic Neo", sans-serif;
+  color: #111111;
 }
 
-.logo {
+/* .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
@@ -39,4 +42,4 @@
 
 .read-the-docs {
   color: #888;
-}
+} */
