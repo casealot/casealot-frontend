@@ -55,10 +55,14 @@ export default function DrawerAppBar(props: Props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", height: "64px", width: "100%" }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{ background: "#000" }}>
-        <Toolbar>
+      <AppBar
+        position="static"
+        component="nav"
+        sx={{ background: "#000", width: "100%" }}
+      >
+        <Toolbar sx={{ margin: "0" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -121,9 +125,6 @@ export default function DrawerAppBar(props: Props) {
         >
           {drawer}
         </Drawer>
-      </Box>
-      <Box component="main" sx={{ p: 3 }}>
-        <Toolbar />
       </Box>
     </Box>
   );

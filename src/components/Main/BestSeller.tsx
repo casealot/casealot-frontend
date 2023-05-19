@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import img1 from "../../dummy/img/1.jpg";
+import img2 from "../../dummy/img/2.jpg";
+import img3 from "../../dummy/img/3.jpg";
+import img4 from "../../dummy/img/4.jpg";
+import img5 from "../../dummy/img/5.gif";
 import { Divider } from "@mui/material";
-import Grid from "@mui/material/Grid";
 
 const BestSellerSection = styled.div`
   display: block;
@@ -10,14 +13,13 @@ const BestSellerTextArea = styled.div`
   font-size: 24px;
   font-weight: 400;
   text-align: center;
-  padding: 110px 0 5px;
+  padding: 50px 0 5px;
 `;
 const BestSellerText = styled.h2`
   font-weight: 400;
-  color: #000;
+  color: #2b64f3;
 `;
 const ProductArea = styled.div`
-  margin: 70px 0 0;
   padding: 30px 0 40px;
   display: flex;
   justify-content: center;
@@ -51,22 +53,22 @@ const BestSeller = () => {
               <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
             </Product>
             <Product>
-              <img src={img1} width="100%" />
+              <img src={img2} width="100%" />
               <span>타이틀 영역</span>
               <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
             </Product>
             <Product>
-              <img src={img1} width="100%" />
+              <img src={img3} width="100%" />
               <span>타이틀 영역</span>
               <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
             </Product>
             <Product>
-              <img src={img1} width="100%" />
+              <img src={img4} width="100%" />
               <span>타이틀 영역</span>
               <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
             </Product>
             <Product>
-              <img src={img1} width="100%" />
+              <img src={img5} width="100%" />
               <span>타이틀 영역</span>
               <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
             </Product>
