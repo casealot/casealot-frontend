@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import img1 from "../../dummy/img/1.jpg";
 import img2 from "../../dummy/img/2.jpg";
 import img3 from "../../dummy/img/3.jpg";
@@ -18,6 +18,10 @@ const BestSellerTextArea = styled.div`
 const BestSellerText = styled.h2`
   font-weight: 400;
   color: #2b64f3;
+
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 `;
 const ProductArea = styled.div`
   padding: 30px 0 40px;
@@ -38,13 +42,35 @@ const Product = styled.li`
   width: 20%;
   text-align: center;
 `;
+const changeColor = keyframes`
+   0% {
+    color: #00ff7f;
+  }
+  33% {
+    color: #cd5c5c;
+  }
+  66% {
+    color: #6495ed;
+  }
+  100% {
+    color: red;
+  }
+  
+`;
+
+const AnimatedText = styled.span`
+  animation: ${changeColor} 1s infinite;
+`;
 const BestSeller = () => {
   return (
     <>
       <BestSellerSection>
         <BestSellerTextArea>
-          <BestSellerText>BEST SELLER</BestSellerText>
+          <BestSellerText>
+            <AnimatedText>BEST SELLER</AnimatedText>
+          </BestSellerText>
         </BestSellerTextArea>
+
         <ProductArea>
           <ProductGrid>
             <Product>

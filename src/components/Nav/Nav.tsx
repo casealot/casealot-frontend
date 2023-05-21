@@ -87,7 +87,7 @@ export default function DrawerAppBar(props: Props) {
             }}
           >
             <Link to={"/"} style={{ textDecoration: "none", color: "#fff" }}>
-              Case A Lot
+              CASE A LOT
             </Link>
           </Typography>
           <SearchBar />

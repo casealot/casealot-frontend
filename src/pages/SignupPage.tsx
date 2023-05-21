@@ -10,8 +10,15 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useRecoilState } from "recoil";
+import { emailState, passwordState } from "../atom/Signup";
+import { useCallback, useState } from "react";
 
 const SignUpPage = () => {
+  const [email, setEmail] = useRecoilState(emailState);
+  const [password, setPassword] = useRecoilState(passwordState);
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [isPassword, setIsPassword] = useState<boolean>(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -21,6 +28,22 @@ const SignUpPage = () => {
     });
   };
 
+  const onChangePassword = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+      const passwordCurrent = e.target.value;
+      setPassword(passwordCurrent);
+
+      if (!passwordRegex.test(passwordCurrent)) {
+        setPasswordMessage("영문 + 숫자 조합으로 8자리 이상 입력해주세요 😅");
+        setIsPassword(false);
+      } else {
+        setPasswordMessage("안전한 비밀번호에요 😄");
+        setIsPassword(true);
+      }
+    },
+    []
+  );
   return (
     <Container component="main" maxWidth="xs" sx={{ marginBottom: "160px" }}>
       <CssBaseline />
@@ -38,6 +61,7 @@ const SignUpPage = () => {
         <Typography component="h1" variant="h5">
           회원가입
         </Typography>
+
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -56,7 +80,12 @@ const SignUpPage = () => {
                 id="password"
                 label="비밀번호"
                 name="password"
+                type="password"
                 autoComplete="password"
+                value={password}
+                onChange={onChangePassword}
+                error={!isPassword}
+                helperText={passwordMessage}
               />
             </Grid>
             <Grid item xs={12}>

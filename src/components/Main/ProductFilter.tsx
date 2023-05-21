@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import Button from "@mui/material/Button";
 const FilterArea = styled.ul`
   margin-top: 50px;
   text-align: center;
@@ -18,6 +18,7 @@ const FilterItem = styled.li`
   line-height: 1;
   cursor: pointer;
 `;
+
 const ProductFilter = () => {
   return (
     <>

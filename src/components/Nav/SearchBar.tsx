@@ -43,7 +43,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const dummyData = [];
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const onchange = (e: ChangeEvent<HTMLInputElement>) => {

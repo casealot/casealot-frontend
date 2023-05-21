@@ -37,6 +37,7 @@ const NavRight = () => {
         MenuListProps={{
           "aria-labelledby": "fade-button",
         }}
+        sx={{ transition: "ease 0.3s" }}
       >
         {" "}
         <MenuItem onClick={handleClose}>MyPage</MenuItem>
