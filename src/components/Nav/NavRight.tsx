@@ -3,6 +3,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Badge from "@mui/material/Badge";
 
 const NavRight = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -45,7 +46,9 @@ const NavRight = () => {
       <Button sx={{ color: "#fff" }}>NOTICE</Button>
 
       <Button sx={{ color: "#fff" }}>
-        <ShoppingCartIcon sx={{ marginLeft: "2px" }} />
+        <Badge badgeContent={4} color="primary">
+          <ShoppingCartIcon sx={{ marginLeft: "2px" }} />
+        </Badge>
       </Button>
     </>
   );

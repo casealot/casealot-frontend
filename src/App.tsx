@@ -2,17 +2,22 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import MainPage from "./pages/MainPage";
 import SigninPage from "./pages/SigninPage";
+import Nav from "./components/Nav/Nav";
+import Footer from "./components/Footer/Footer";
+import SignUpPage from "./pages/SignupPage";
 
 function App() {
   return (
     <>
-      {/* <BrowserRouter>
+      <BrowserRouter>
+        <Nav />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/signin" element={<SigninPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
         </Routes>
-      </BrowserRouter> */}
-      <MainPage />
+        <Footer />
+      </BrowserRouter>
     </>
   );
 }

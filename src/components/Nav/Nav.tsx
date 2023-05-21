@@ -13,6 +13,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
 import NavRight from "./NavRight";
+import { Link } from "react-router-dom";
 
 interface Props {
   /**
@@ -38,6 +39,7 @@ export default function DrawerAppBar(props: Props) {
       <Typography variant="h6" sx={{ my: 2 }}>
         Case A Lot
       </Typography>
+
       <Divider />
       <List>
         {navItems.map((item) => (
@@ -84,7 +86,9 @@ export default function DrawerAppBar(props: Props) {
               },
             }}
           >
-            Case A Lot
+            <Link to={"/"} style={{ textDecoration: "none", color: "#fff" }}>
+              Case A Lot
+            </Link>
           </Typography>
           <SearchBar />
           <Box
