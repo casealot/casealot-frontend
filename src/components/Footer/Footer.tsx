@@ -1,11 +1,7 @@
-import * as React from "react";
-import { ColorPaletteProp } from "@mui/joy/styles";
-import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import IconButton from "@mui/joy/IconButton";
-import Card from "@mui/joy/Card";
-import CardContent from "@mui/joy/CardContent";
+
 import Chip from "@mui/joy/Chip";
 import Divider from "@mui/joy/Divider";
 import Input from "@mui/joy/Input";
