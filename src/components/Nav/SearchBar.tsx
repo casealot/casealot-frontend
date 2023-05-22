@@ -1,7 +1,13 @@
 import { styled, alpha } from "@mui/material/styles";
+
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { ChangeEvent, useState } from "react";
+import { Popover, Typography } from "@mui/material";
+import { ChangeEvent, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
+import { ProductListAtom, fakeProduct } from "../../atom/Product";
+import { MouseEventHandler } from "react";
+import SearchpopUp from "./SearchpopUp";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -45,11 +51,27 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState<string>("");
-  const onchange = (e: ChangeEvent<HTMLInputElement>) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [productTitle, setProductTitle] = useState("");
+  const [productData, setProductData] =
+    useRecoilState<fakeProduct[]>(ProductListAtom);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  console.log(productData);
   return (
-    <Search>
+    <Search onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
@@ -58,9 +80,12 @@ const SearchBar = () => {
         inputProps={{ "aria-label": "search" }}
         type="text"
         value={searchValue}
-        onChange={onchange}
-        // sx={{ marginX: "4px" }}/
+        onChange={onChange}
+        ref={inputRef}
+        sx={{ position: "relative" }}
       />
+
+      {isHovered ? <SearchpopUp /> : ""}
     </Search>
   );
 };

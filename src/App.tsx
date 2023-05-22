@@ -5,6 +5,7 @@ import SigninPage from "./pages/SigninPage";
 import Nav from "./components/Nav/Nav";
 import Footer from "./components/Footer/Footer";
 import SignUpPage from "./pages/SignupPage";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>
         <Footer />
       </BrowserRouter>

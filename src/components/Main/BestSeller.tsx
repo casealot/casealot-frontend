@@ -18,7 +18,6 @@ const BestSellerTextArea = styled.div`
 const BestSellerText = styled.h2`
   font-weight: 400;
   color: #2b64f3;
-
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
