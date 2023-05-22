@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import { ProductListAtom, fakeProduct } from "../../atom/Product";
 import { useEffect } from "react";
-
 import { Link } from "react-router-dom";
 const ProductArea = styled.div`
   margin: 70px 0 0;
@@ -34,6 +33,10 @@ const ProductList = styled.li`
   flex-direction: column;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `;
 
 const getProduct = async () => {
@@ -69,26 +72,35 @@ const Product = () => {
           <ProductGrid>
             {productList.map((item: fakeProduct) => (
               <ProductList key={item.id}>
-                <img
-                  src={item.image}
-                  width="100%"
-                  height="100%"
-                  style={{ maxHeight: 300, maxWidth: 300 }}
-                />
-                <span
-                  style={{
-                    marginTop: "20px",
-                    textAlign: "left",
-                    marginLeft: "15px",
-                    // Add this line
-                    whiteSpace: "nowrap",
-                    maxWidth: "200px",
-                  }}
-                >
-                  {item.title}
-                </span>
+                <StyledLink to={`/products/${item.id}`}>
+                  <img
+                    src={item.image}
+                    style={{
+                      maxHeight: 300,
+                      maxWidth: 300,
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                </StyledLink>
+                <StyledLink to={`/products/${item.id}`}>
+                  <span
+                    style={{
+                      marginTop: "20px",
+                      textAlign: "left",
+                      marginLeft: "15px",
+                      // Add this line
+                      whiteSpace: "nowrap",
+                      maxWidth: "200px",
+                    }}
+                  >
+                    {item.title}
+                  </span>
+                </StyledLink>
                 <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-                <span>{item.price}$</span>
+                <StyledLink to={`/products/${item.id}`}>
+                  <span>{item.price}$</span>
+                </StyledLink>
               </ProductList>
             ))}
           </ProductGrid>
