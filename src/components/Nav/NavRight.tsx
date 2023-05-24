@@ -4,10 +4,12 @@ import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
+import { useRecoilValue } from "recoil";
+import { CartListState } from "../../atom/Cart";
 
 const NavRight = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
+  const cartCount = useRecoilValue(CartListState);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -17,6 +19,7 @@ const NavRight = () => {
     setAnchorEl(null);
   };
 
+  const Count = cartCount.length;
   return (
     <>
       <Button
@@ -47,7 +50,7 @@ const NavRight = () => {
       <Button sx={{ color: "#fff" }}>NOTICE</Button>
 
       <Button sx={{ color: "#fff" }}>
-        <Badge badgeContent={4} color="primary">
+        <Badge badgeContent={Count} color="primary">
           <ShoppingCartIcon sx={{ marginLeft: "2px" }} />
         </Badge>
       </Button>

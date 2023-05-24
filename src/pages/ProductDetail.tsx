@@ -1,23 +1,45 @@
 import CssBaseline from "@mui/material/CssBaseline";
-
-import Container from "@mui/material/Container";
 import { useParams } from "react-router";
 import { ProductListAtom, fakeProduct } from "../atom/Product";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
-
+import { CartListState } from "../atom/Cart";
+import { cartItems } from "../atom/Cart";
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const params = Number(id);
   const [productData, setProductData] =
     useRecoilState<fakeProduct[]>(ProductListAtom);
 
+  const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
+
   const filter: fakeProduct[] = productData.filter(
     (item) => item.id === params
   );
 
+  const handleAddToCart = () => {
+    const selectedProduct = filter[0];
+    const isInCart = cartItems.find((item) => item.id === selectedProduct.id);
+
+    if (isInCart) {
+      const updatedCartItems = cartItems.map((item) => {
+        if (item.id === selectedProduct.id) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      });
+      setCartItems(updatedCartItems);
+    } else {
+      const updatedCartItems = [
+        ...cartItems,
+        { ...selectedProduct, quantity: 1 },
+      ];
+      setCartItems(updatedCartItems);
+    }
+  };
+  console.log(cartItems);
   const DetailTop = styled.div`
     width: 1180px;
     margin: 0 auto;
@@ -109,6 +131,7 @@ const ProductDetail = () => {
                   color: "#000",
                   borderColor: "#000",
                 }}
+                onClick={handleAddToCart}
               >
                 장바구니 담기
               </Button>

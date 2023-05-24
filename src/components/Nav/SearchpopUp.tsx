@@ -36,11 +36,9 @@ const WrapWords = styled.div`
   border-top: 1px solid #111;
   background-color: #fff;
   display: block;
-    padding-bottom: 20px;
-
-}
-
+  padding-bottom: 20px;
 `;
+
 const Left = styled.div`
   position: relative;
   width: 100%;
@@ -57,6 +55,7 @@ const Title = styled.div`
   font-weight: 700;
   color: #000;
 `;
+
 const Swiper = styled.div`
   overflow: hidden;
   margin: 0 30px;
@@ -73,22 +72,29 @@ const ProductList = styled.ul`
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
 `;
+
 const ProductListli = styled.li`
   margin-left: 10px;
   position: relative;
   border-radius: 5px;
   overflow: hidden;
-  color: #111;
-
   padding: 5px 25px 5px 11px;
   line-height: 25px;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #111;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .highlight {
+    color: red;
+    font-weight: 600;
+  }
 `;
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-`;
+
 const SearchpopUp = () => {
   const [productData, setProductData] =
     useRecoilState<fakeProduct[]>(ProductListAtom);
@@ -99,13 +105,24 @@ const SearchpopUp = () => {
 
     const filteredItems = productData.filter((item) => {
       return item.title
-        .toLowerCase()
-        .includes(inputValue.toLowerCase().replace(" ", ""));
+        .replace(" ", "")
+        .toLocaleLowerCase()
+        .includes(inputValue.toLocaleLowerCase().replace(" ", ""));
     });
 
     setFilteredData(filteredItems);
   };
   const [searchValue, setSearchValue] = useState<string>("");
+
+  const highlightMatchingText = (text: string) => {
+    if (!searchValue) return text;
+
+    const regex = new RegExp(
+      `(${searchValue.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")})`,
+      "gi"
+    );
+    return text.replace(regex, "<span class='highlight'>$1</span>");
+  };
 
   return (
     <SearchWrap>
@@ -121,11 +138,14 @@ const SearchpopUp = () => {
             </>
           ) : (
             <ProductList>
-              {productData.map((item) => (
-                <ProductListli>
-                  <StyledLink to={`products/${item.id}`}>
-                    {item.title}
-                  </StyledLink>
+              {filteredData.map((item) => (
+                <ProductListli key={item.id}>
+                  <Link
+                    to={`products/${item.id}`}
+                    dangerouslySetInnerHTML={{
+                      __html: highlightMatchingText(item.title),
+                    }}
+                  />
                 </ProductListli>
               ))}
             </ProductList>
