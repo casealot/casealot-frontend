@@ -21,6 +21,7 @@ const NavRight = () => {
   };
 
   const Count = cartCount.length;
+
   return (
     <>
       <Button
@@ -44,7 +45,7 @@ const NavRight = () => {
         sx={{ transition: "ease 0.3s" }}
       >
         {" "}
-        <MenuItem onClick={handleClose}>MyPage</MenuItem>
+        <MenuItem onClick={handleClose}>MYPAGE</MenuItem>
         <MenuItem onClick={handleClose}>ORDER</MenuItem>
       </Menu>
 

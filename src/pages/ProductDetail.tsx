@@ -18,7 +18,7 @@ const ProductDetail = () => {
   const filter: fakeProduct[] = productData.filter(
     (item) => item.id === params
   );
-
+  //카트 담기 이벤트//
   const handleAddToCart = () => {
     const selectedProduct = filter[0];
     const isInCart = cartItems.find((item) => item.id === selectedProduct.id);
@@ -39,7 +39,7 @@ const ProductDetail = () => {
       setCartItems(updatedCartItems);
     }
   };
-  console.log(cartItems);
+  // console.log(cartItems);
   const DetailTop = styled.div`
     width: 1180px;
     margin: 0 auto;

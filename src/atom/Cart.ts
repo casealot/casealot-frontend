@@ -14,3 +14,8 @@ export const CartListState = atom<cartItems[]>({
   key: "CartListState",
   default: [],
 });
+
+export const ConfirmButton = atom<number | null>({
+  key: "ConfirmButtonState",
+  default: null,
+});
