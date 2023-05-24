@@ -6,6 +6,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
 import { useRecoilValue } from "recoil";
 import { CartListState } from "../../atom/Cart";
+import { Link } from "react-router-dom";
 
 const NavRight = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -48,12 +49,13 @@ const NavRight = () => {
       </Menu>
 
       <Button sx={{ color: "#fff" }}>NOTICE</Button>
-
-      <Button sx={{ color: "#fff" }}>
-        <Badge badgeContent={Count} color="primary">
-          <ShoppingCartIcon sx={{ marginLeft: "2px" }} />
-        </Badge>
-      </Button>
+      <Link to="/cart">
+        <Button sx={{ color: "#fff" }}>
+          <Badge badgeContent={Count} color="primary">
+            <ShoppingCartIcon sx={{ marginLeft: "2px" }} />
+          </Badge>
+        </Button>
+      </Link>
     </>
   );
 };
