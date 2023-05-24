@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { fakeProduct, ProductListAtom } from "../../atom/Product";
 import { ChangeEvent } from "react";
+import { Link } from "react-router-dom";
 
 const SearchWrap = styled.div`
   position: absolute;
@@ -78,12 +79,31 @@ const ProductListli = styled.li`
   border-radius: 5px;
   overflow: hidden;
   color: #111;
+
+  padding: 5px 25px 5px 11px;
+  line-height: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `;
 const SearchpopUp = () => {
   const [productData, setProductData] =
     useRecoilState<fakeProduct[]>(ProductListAtom);
+  const [filteredData, setFilteredData] = useState<fakeProduct[]>([]);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+    const inputValue = e.target.value;
+    setSearchValue(inputValue);
+
+    const filteredItems = productData.filter((item) => {
+      return item.title
+        .toLowerCase()
+        .includes(inputValue.toLowerCase().replace(" ", ""));
+    });
+
+    setFilteredData(filteredItems);
   };
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -102,7 +122,11 @@ const SearchpopUp = () => {
           ) : (
             <ProductList>
               {productData.map((item) => (
-                <ProductListli>{item.title}</ProductListli>
+                <ProductListli>
+                  <StyledLink to={`products/${item.id}`}>
+                    {item.title}
+                  </StyledLink>
+                </ProductListli>
               ))}
             </ProductList>
           )}

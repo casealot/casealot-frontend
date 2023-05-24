@@ -6,6 +6,7 @@ import { ProductListAtom, fakeProduct } from "../atom/Product";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Button from "@mui/material/Button";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,12 +30,13 @@ const ProductDetail = () => {
     height: 600px;
     padding-left: 50px;
     margin-right: auto;
+    transform: scale(0.8);
   `;
 
   const DetailTitle = styled.h1`
     margin: 19px 0 9px;
     font-size: 27px;
-    font-weight: 700;
+    font-weight: 500;
     font-family: "ssgBan", sans-serif;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -58,7 +60,9 @@ const ProductDetail = () => {
         <DetailTop>
           <ThumbNail src={item.image} />
 
-          <div style={{ width: "470px", textAlign: "left" }}>
+          <div
+            style={{ width: "470px", textAlign: "left", paddingTop: "20px" }}
+          >
             <DetailRightTop>
               <DetailTitle>{item.title}</DetailTitle>
               <div
@@ -89,6 +93,41 @@ const ProductDetail = () => {
                 </span>
               </div>
             </DetailRightTop>
+            <div
+              style={{
+                display: "flex",
+                marginTop: "20px",
+              }}
+            >
+              <Button
+                variant="outlined"
+                sx={{
+                  width: "220px",
+                  marginRight: "auto",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  color: "#000",
+                  borderColor: "#000",
+                }}
+              >
+                장바구니 담기
+              </Button>
+              <Button
+                variant="contained"
+                size="large"
+                sx={{
+                  width: "220px",
+                  marginLeft: "auto",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  color: "#fff",
+                  borderColor: "#000",
+                  backgroundColor: "#000",
+                }}
+              >
+                바로구매
+              </Button>
+            </div>
           </div>
         </DetailTop>
       ))}
