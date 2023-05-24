@@ -1,5 +1,4 @@
 import { atom } from "recoil";
-import { fakeProduct } from "./Product";
 
 export interface cartItems {
   id: number;
@@ -15,7 +14,7 @@ export const CartListState = atom<cartItems[]>({
   default: [],
 });
 
-export const ConfirmButton = atom<number | null>({
+export const ConfirmButtonState = atom<number | null>({
   key: "ConfirmButtonState",
   default: null,
 });

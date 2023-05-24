@@ -2,12 +2,10 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { CartListState, ConfirmButtonState } from "../../atom/Cart";
-import { useState } from "react";
 
 const CartItems = () => {
   const cartItems = useRecoilValue(CartListState);

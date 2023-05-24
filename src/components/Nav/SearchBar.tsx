@@ -1,12 +1,9 @@
 import { styled, alpha } from "@mui/material/styles";
-
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Popover, Typography } from "@mui/material";
 import { ChangeEvent, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { ProductListAtom, fakeProduct } from "../../atom/Product";
-import { MouseEventHandler } from "react";
 import SearchpopUp from "./SearchpopUp";
 
 const Search = styled("div")(({ theme }) => ({
@@ -52,7 +49,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isHovered, setIsHovered] = useState(false);
-  const [productTitle, setProductTitle] = useState("");
   const [productData, setProductData] =
     useRecoilState<fakeProduct[]>(ProductListAtom);
 
