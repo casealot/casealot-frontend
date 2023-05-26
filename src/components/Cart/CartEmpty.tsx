@@ -30,7 +30,7 @@ const CartEmpty = () => {
             marginY: "10px",
           }}
         >
-          담으러가기
+          구매하러 가기
         </Button>
       </Link>
     </>

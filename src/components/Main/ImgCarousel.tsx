@@ -11,7 +11,7 @@ const ImgCarousel = () => {
     infinite: true, // 슬라이드가 끝까지 가면 다시 처음으로 반복
     speed: 2000, // 속도
     autoplay: true, // 자동 재생
-    autoplaySpeed: 5000, // 자동 재생 속도
+    autoplaySpeed: 3000, // 자동 재생 속도
     slidesToShow: 1, // 한 번에 보여줄 슬라이드 개수
     slidesToScroll: 1, // 한 번에 넘어가는 슬라이드 개수
   };
