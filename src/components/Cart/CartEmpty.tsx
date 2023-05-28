@@ -15,7 +15,7 @@ const CartEmpty = () => {
       <Typography variant="body1" sx={{ marginTop: "20px", fontSize: "28px" }}>
         텅
       </Typography>
-      <Link to="/">
+      <Link to="/products">
         <Button
           variant="contained"
           size="large"
