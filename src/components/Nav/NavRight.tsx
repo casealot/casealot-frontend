@@ -32,8 +32,9 @@ const NavRight = () => {
         onClick={handleClick}
         sx={{ color: "#fff" }}
       >
-        MYPAGE
+        Account
       </Button>
+
       <Menu
         id="fade-button"
         anchorEl={anchorEl}
@@ -45,7 +46,10 @@ const NavRight = () => {
         sx={{ transition: "ease 0.3s" }}
       >
         {" "}
-        <MenuItem onClick={handleClose}>MYPAGE</MenuItem>
+        <Link to="/mypage" style={{ textDecoration: "none", color: "inherit" }}>
+          {" "}
+          <MenuItem onClick={handleClose}>MYPAGE</MenuItem>{" "}
+        </Link>
         <MenuItem onClick={handleClose}>ORDER</MenuItem>
       </Menu>
 

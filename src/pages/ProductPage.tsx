@@ -16,10 +16,7 @@ import { Link } from "react-router-dom";
 const ProductPage = () => {
   const [productList, setProductList] =
     useRecoilState<fakeProduct[]>(ProductListAtom);
-  const StyledLink = styled(Link)`
-    text-decoration: none;
-    color: inherit;
-  `;
+
   return (
     <>
       <main>
@@ -75,8 +72,8 @@ const ProductPage = () => {
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography
                         gutterBottom
-                        variant="h5"
-                        component="h2"
+                        variant="h6"
+                        component="h3"
                         sx={{
                           maxHeight: "33px",
                           overflow: "hidden",
