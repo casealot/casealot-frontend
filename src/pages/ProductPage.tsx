@@ -10,11 +10,16 @@ import Container from "@mui/material/Container";
 
 import { useRecoilState } from "recoil";
 import { fakeProduct, ProductListAtom } from "../atom/Product";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const ProductPage = () => {
   const [productList, setProductList] =
     useRecoilState<fakeProduct[]>(ProductListAtom);
-
+  const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: inherit;
+  `;
   return (
     <>
       <main>
@@ -49,45 +54,50 @@ const ProductPage = () => {
           <Grid container spacing={4} gap={2} rowGap={4}>
             {productList.map((card) => (
               <Grid key={card.id} xs={12} sm={6} md={2.9}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
+                <Link
+                  to={`/products/${card.id}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
                 >
-                  <CardMedia
-                    component="div"
+                  <Card
                     sx={{
-                      pt: "100%",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
-                    image={card.image}
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="h2"
+                  >
+                    <CardMedia
+                      component="div"
                       sx={{
-                        maxHeight: "33px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
+                        pt: "100%",
                       }}
-                    >
-                      {card.title}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        maxHeight: "50px",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {card.description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions sx={{ justifyContent: "end" }}></CardActions>
-                </Card>
+                      image={card.image}
+                    />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        sx={{
+                          maxHeight: "33px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {card.title}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          maxHeight: "50px",
+                          textOverflow: "ellipsis",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {card.description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions sx={{ justifyContent: "end" }}></CardActions>
+                  </Card>
+                </Link>
               </Grid>
             ))}
           </Grid>
