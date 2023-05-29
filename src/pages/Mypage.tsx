@@ -4,6 +4,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Link } from "react-router-dom";
 const Mypage = () => {
   return (
     <>
@@ -18,14 +19,20 @@ const Mypage = () => {
         >
           MY ACCOUNT
         </Typography>
-        <AccountCircleIcon
-          sx={{
-            width: "8em",
-            height: "8em",
-            color: "#808080",
-            marginY: "20px",
-          }}
-        />
+        <Link
+          to="/mypage/profile"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          {" "}
+          <AccountCircleIcon
+            sx={{
+              width: "8em",
+              height: "8em",
+              color: "#808080",
+              marginY: "20px",
+            }}
+          />
+        </Link>
         <Grid
           container
           spacing={0}
