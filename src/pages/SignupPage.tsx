@@ -13,8 +13,12 @@ import Container from "@mui/material/Container";
 import { useRecoilState } from "recoil";
 import { emailState, passwordState } from "../atom/Signup";
 import { useCallback, useState } from "react";
+import { Modal } from "@mui/material";
+import DaumPostcode from "react-daum-postcode";
 
 const SignUpPage = () => {
+  const [openPostcode, setOpenPostcode] = React.useState<boolean>(false);
+  const [address, setAddress] = useState("");
   const [email, setEmail] = useRecoilState(emailState);
   const [password, setPassword] = useRecoilState(passwordState);
   const [passwordMessage, setPasswordMessage] = useState("");
@@ -44,6 +48,28 @@ const SignUpPage = () => {
     },
     []
   );
+  const handle = {
+    // 버튼 클릭 이벤트
+    clickButton: () => {
+      setOpenPostcode((current) => !current);
+    },
+
+    // 주소 선택 이벤트
+    selectAddress: (data: any) => {
+      setAddress(data.address);
+      setOpenPostcode(false);
+    },
+  };
+
+  const postCodeStyle = {
+    width: "500px",
+    height: "500px",
+    margin: "auto",
+    marginTop: "50px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
   return (
     <Container component="main" maxWidth="xs" sx={{ marginBottom: "160px" }}>
       <CssBaseline />
@@ -81,7 +107,6 @@ const SignUpPage = () => {
                 label="비밀번호"
                 name="password"
                 type="password"
-                autoComplete="password"
                 value={password}
                 onChange={onChangePassword}
                 error={!isPassword}
@@ -95,7 +120,6 @@ const SignUpPage = () => {
                 id="email"
                 label="이메일 주소"
                 name="email"
-                autoComplete="email"
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,7 +129,6 @@ const SignUpPage = () => {
                 id="username"
                 label="이름"
                 name="username"
-                autoComplete="username"
               />
             </Grid>
             <Grid item xs={12}>
@@ -116,7 +139,54 @@ const SignUpPage = () => {
                 label="닉네임"
                 type="nickname"
                 id="nickname"
-                autoComplete="nickname"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="nickname"
+                label="휴대전화 번호"
+                type="nickname"
+                id="nickname"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="nickname"
+                label="주소1"
+                defaultValue="경기 성남시 분당구 판교역로 166"
+                value={address}
+                sx={{ width: "81%", marginRight: "auto" }}
+              />
+
+              <Button onClick={handle.clickButton} sx={{ marginY: "10px" }}>
+                주소찾기
+              </Button>
+            </Grid>
+            <Modal
+              open={openPostcode}
+              onClose={() => setOpenPostcode(false)}
+              aria-labelledby="address-search-modal"
+              aria-describedby="address-search-modal-description"
+            >
+              <div style={postCodeStyle}>
+                <DaumPostcode
+                  onComplete={handle.selectAddress} // 값을 선택할 경우 실행되는 이벤트
+                  autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+                />
+              </div>
+            </Modal>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="nickname"
+                label="주소2"
+                type="nickname"
+                id="nickname"
               />
             </Grid>
           </Grid>

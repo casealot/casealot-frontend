@@ -7,6 +7,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
 import { CartListState } from "../atom/Cart";
 import { cartItems } from "../atom/Cart";
+
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const params = Number(id);

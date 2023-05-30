@@ -5,15 +5,14 @@ import {
   Box,
   Typography,
   Container,
-  FormControl,
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup,
+  Modal,
 } from "@mui/material";
 import { styled } from "styled-components";
 import DaumPostcode from "react-daum-postcode";
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const EditProfile = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -52,6 +51,15 @@ const EditProfile = () => {
     },
   };
 
+  const postCodeStyle = {
+    width: "500px",
+    height: "500px",
+    margin: "auto",
+    marginTop: "50px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }; // 스타일 정의 code
   const FormFlex = styled.div`
     display: flex;
     justify-content: start;
@@ -79,6 +87,14 @@ const EditProfile = () => {
         >
           EDIT PROFILE
         </Typography>
+        <AccountCircleIcon
+          sx={{
+            width: "8em",
+            height: "8em",
+            color: "#808080",
+            marginY: "20px",
+          }}
+        />
         <Typography
           component="h6"
           sx={{ fontWeight: "600", marginLeft: "24px", marginTop: "100px" }}
@@ -157,12 +173,19 @@ const EditProfile = () => {
             />
             <Button onClick={handle.clickButton}>주소찾기</Button>
           </FormFlex>
-          {openPostcode && (
-            <DaumPostcode
-              onComplete={handle.selectAddress} // 값을 선택할 경우 실행되는 이벤트
-              autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-            />
-          )}
+          <Modal
+            open={openPostcode}
+            onClose={() => setOpenPostcode(false)}
+            aria-labelledby="address-search-modal"
+            aria-describedby="address-search-modal-description"
+          >
+            <div style={postCodeStyle}>
+              <DaumPostcode
+                onComplete={handle.selectAddress} // 값을 선택할 경우 실행되는 이벤트
+                autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+              />
+            </div>
+          </Modal>
           <FormFlex>
             <FormText>주소2</FormText>
             <TextField
@@ -170,6 +193,7 @@ const EditProfile = () => {
               id="standard-required"
               label="주소2"
               defaultValue="0동 000호"
+              placeholder="0동 000호"
               sx={{ width: "33%" }}
             />
           </FormFlex>

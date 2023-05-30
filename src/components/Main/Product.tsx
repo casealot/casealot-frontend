@@ -105,60 +105,10 @@ const Product = () => {
             ))}
           </ProductGrid>
         )}
-        {/* <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList>
-          <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList>
-          <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList>
-          <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList>
-          <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList> */}
+       
       </ProductArea>
       <ProductArea>
-        {/* <ProductGrid>
-          <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList>
-          <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList>
-          <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList>
-          <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList>
-          <ProductList>
-            <img src={img1} width="100%" />
-            <span>타이틀 영역</span>
-            <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-          </ProductList>
-        </ProductGrid> */}
+      
       </ProductArea>
     </>
   );

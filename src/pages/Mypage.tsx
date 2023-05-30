@@ -5,6 +5,12 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
 const Mypage = () => {
   return (
     <>
@@ -106,9 +112,13 @@ const Mypage = () => {
             paddingY="0px"
             sx={{ padding: "24px", borderRight: "1px solid" }}
           >
-            <ManageAccountsIcon sx={{ width: "2em", height: "2em" }} />
-            <br />
-            <span style={{ fontSize: "24px", margin: "0 auto" }}>회원정보</span>
+            <StyledLink to="/mypage/profile">
+              <ManageAccountsIcon sx={{ width: "2em", height: "2em" }} />
+              <br />
+              <span style={{ fontSize: "24px", margin: "0 auto" }}>
+                회원정보
+              </span>
+            </StyledLink>
           </Grid>
 
           <Grid
@@ -117,13 +127,19 @@ const Mypage = () => {
             paddingY="0px"
             sx={{ padding: "24px", borderRight: "1px solid" }}
           >
-            <ShoppingBagIcon sx={{ width: "2em", height: "2em" }} />
-            <br />
-            <span
-              style={{ fontSize: "24px", margin: "0 auto", fontWeight: "500" }}
-            >
-              장바구니
-            </span>
+            <StyledLink to="/cart">
+              <ShoppingBagIcon sx={{ width: "2em", height: "2em" }} />
+              <br />
+              <span
+                style={{
+                  fontSize: "24px",
+                  margin: "0 auto",
+                  fontWeight: "500",
+                }}
+              >
+                장바구니
+              </span>
+            </StyledLink>
           </Grid>
           <Grid item xs={4} paddingY="0px" sx={{ padding: "24px" }}>
             <FavoriteBorderOutlinedIcon sx={{ width: "2em", height: "2em" }} />
