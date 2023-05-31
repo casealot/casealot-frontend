@@ -25,6 +25,6 @@ jobs:
           destination-repository-name: [casealot-front]
           user-email: ${{ tykim1227@gmail.com }}
           commit-message: ${{ github.event.commits[0].message }}
-          target-branch: dev
+          target-branch: main
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
