@@ -10,6 +10,7 @@ import CartPage from "./pages/CartPage";
 import ProductPage from "./pages/ProductPage";
 import Mypage from "./pages/Mypage";
 import EditProfile from "./pages/EditProfilePage";
+import QnaPage from "./pages/QnAPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/products" element={<ProductPage />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/mypage/profile" element={<EditProfile />} />
+          <Route path="/qna" element={<QnaPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
