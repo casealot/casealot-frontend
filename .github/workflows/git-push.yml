@@ -21,8 +21,8 @@ jobs:
           API_TOKEN_GITHUB: ${{ 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 }}
         with:
           source-directory: 'output'
-          destination-github-username: test12270
-          destination-repository-name: casealot-front
+          destination-github-username: [test12270]
+          destination-repository-name: [casealot-front]
           user-email: ${{ tykim1227@gmail.com }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: dev
