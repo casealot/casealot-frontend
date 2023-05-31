@@ -11,7 +11,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useRecoilState } from "recoil";
-import { emailState, passwordState } from "../atom/Signup";
+
+import { passwordState } from "../atom/Signup";
 import { useCallback, useState } from "react";
 import { Modal } from "@mui/material";
 import DaumPostcode from "react-daum-postcode";
@@ -19,7 +20,7 @@ import DaumPostcode from "react-daum-postcode";
 const SignUpPage = () => {
   const [openPostcode, setOpenPostcode] = React.useState<boolean>(false);
   const [address, setAddress] = useState("");
-  const [email, setEmail] = useRecoilState(emailState);
+  // const [email, setEmail] = useRecoilState(emailState);
   const [password, setPassword] = useRecoilState(passwordState);
   const [passwordMessage, setPasswordMessage] = useState("");
   const [isPassword, setIsPassword] = useState<boolean>(false);
@@ -46,6 +47,7 @@ const SignUpPage = () => {
         setIsPassword(true);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
   const handle = {
@@ -55,6 +57,7 @@ const SignUpPage = () => {
     },
 
     // 주소 선택 이벤트
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     selectAddress: (data: any) => {
       setAddress(data.address);
       setOpenPostcode(false);

@@ -2,7 +2,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
 import { ProductListAtom, fakeProduct } from "../atom/Product";
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
 import { CartListState } from "../atom/Cart";
@@ -11,8 +11,10 @@ import { cartItems } from "../atom/Cart";
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const params = Number(id);
-  const [productData, setProductData] =
-    useRecoilState<fakeProduct[]>(ProductListAtom);
+  // const [productData, setProductData] =
+  //   useRecoilState<fakeProduct[]>(ProductListAtom);
+
+  const productData = useRecoilValue<fakeProduct[]>(ProductListAtom);
 
   const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
 

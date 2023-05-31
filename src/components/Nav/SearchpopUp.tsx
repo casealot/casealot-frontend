@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { fakeProduct, ProductListAtom } from "../../atom/Product";
 import { ChangeEvent } from "react";
@@ -96,8 +96,9 @@ const ProductListli = styled.li`
 `;
 
 const SearchpopUp = () => {
-  const [productData, setProductData] =
-    useRecoilState<fakeProduct[]>(ProductListAtom);
+  // const [productData, setProductData] =
+  //   useRecoilState<fakeProduct[]>(ProductListAtom);
+  const productData = useRecoilValue<fakeProduct[]>(ProductListAtom);
   const [filteredData, setFilteredData] = useState<fakeProduct[]>([]);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;

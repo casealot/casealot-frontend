@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import {
   TextField,
   Button,
@@ -14,22 +14,25 @@ import { styled } from "styled-components";
 import DaumPostcode from "react-daum-postcode";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const EditProfile = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [email, setEmail] = useState("");
+  const firstName = "";
+  const lastName = "";
+  const email = "";
   const [openPostcode, setOpenPostcode] = React.useState<boolean>(false);
   const [address, setAddress] = useState("");
-  const handleFirstNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFirstName(event.target.value);
-  };
+  // const handleFirstNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setFirstName(event.target.value);
+  // };
 
-  const handleLastNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setLastName(event.target.value);
-  };
+  // const handleLastNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setLastName(event.target.value);
+  // };
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
+  // const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setEmail(event.target.value);
+  // };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -45,6 +48,7 @@ const EditProfile = () => {
     },
 
     // 주소 선택 이벤트
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     selectAddress: (data: any) => {
       setAddress(data.address);
       setOpenPostcode(false);

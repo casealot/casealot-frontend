@@ -8,14 +8,16 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { fakeProduct, ProductListAtom } from "../atom/Product";
-import styled from "styled-components";
+
 import { Link } from "react-router-dom";
 
 const ProductPage = () => {
-  const [productList, setProductList] =
-    useRecoilState<fakeProduct[]>(ProductListAtom);
+  // const [productList, setProductList] =
+  //   useRecoilState<fakeProduct[]>(ProductListAtom);
+
+  const productList = useRecoilValue<fakeProduct[]>(ProductListAtom);
 
   return (
     <>

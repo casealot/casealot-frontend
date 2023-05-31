@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { CartListState, ConfirmButtonState } from "../atom/Cart";
 import Typography from "@mui/material/Typography";

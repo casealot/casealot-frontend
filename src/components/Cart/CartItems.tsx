@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 // import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { CartListState, ConfirmButtonState } from "../../atom/Cart";
 
 import {
@@ -21,8 +21,7 @@ import {
 const CartItems = () => {
   const cartItems = useRecoilValue(CartListState);
   const setCartItems = useSetRecoilState(CartListState);
-  const [confirmRemoveProductId, setConfirmRemoveProductId] =
-    useRecoilState(ConfirmButtonState);
+  const setConfirmRemoveProductId = useSetRecoilState(ConfirmButtonState);
 
   // 상품 삭제버튼 이벤트 //
   const handleRemoveFromCart = (productId: number) => {

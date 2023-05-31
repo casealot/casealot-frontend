@@ -2,7 +2,7 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { ChangeEvent, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { ProductListAtom, fakeProduct } from "../../atom/Product";
 import SearchpopUp from "./SearchpopUp";
 
@@ -49,8 +49,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isHovered, setIsHovered] = useState(false);
-  const [productData, setProductData] =
-    useRecoilState<fakeProduct[]>(ProductListAtom);
+  // const [productData, setProductData] =
+  //   useRecoilState<fakeProduct[]>(ProductListAtom);
+  const productData = useRecoilValue<fakeProduct[]>(ProductListAtom);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
