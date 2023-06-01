@@ -12,7 +12,7 @@ import Mypage from "./pages/Mypage";
 import EditProfile from "./pages/EditProfilePage";
 import QnaPage from "./pages/QnAPage";
 import AdminLogin from "./pages/AdminLogin";
-import QNAPost from "./components/QNA/QNAPost";
+import QNAPost from "./pages/QNAPost";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
           <Route path="/mypage/profile" element={<EditProfile />} />
           <Route path="/qna" element={<QnaPage />} />
           <Route path="/admin/signin" element={<AdminLogin />} />
-          <Route path="/qna/post" element={<QNAPost />} />
+          <Route path="/qna/new" element={<QNAPost />} />
         </Routes>
         <Footer />
       </BrowserRouter>

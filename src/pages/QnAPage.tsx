@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+
 import { Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -82,7 +82,13 @@ const QnaPage = () => {
             문의하기
           </Button>
         </div>
-        <TableContainer component={Paper} sx={{ marginBottom: "50px" }}>
+        <TableContainer
+          sx={{
+            marginBottom: "50px",
+            borderTop: "1px solid",
+            borderTopColor: "#d3d3d3",
+          }}
+        >
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
