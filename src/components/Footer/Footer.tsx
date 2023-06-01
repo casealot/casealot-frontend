@@ -21,13 +21,12 @@ const Footer = () => {
   return (
     <Sheet
       variant="solid"
-      invertedColors
       sx={{
         flexGrow: 1,
         p: 2,
         mx: 0,
         my: 0,
-        backgroundColor: "#000",
+        backgroundColor: "#fff",
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
