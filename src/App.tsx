@@ -11,6 +11,8 @@ import ProductPage from "./pages/ProductPage";
 import Mypage from "./pages/Mypage";
 import EditProfile from "./pages/EditProfilePage";
 import QnaPage from "./pages/QnAPage";
+import AdminLogin from "./pages/AdminLogin";
+import QNAPost from "./components/QNA/QNAPost";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/mypage/profile" element={<EditProfile />} />
           <Route path="/qna" element={<QnaPage />} />
+          <Route path="/admin/signin" element={<AdminLogin />} />
+          <Route path="/qna/post" element={<QNAPost />} />
         </Routes>
         <Footer />
       </BrowserRouter>

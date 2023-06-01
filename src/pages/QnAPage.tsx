@@ -6,7 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function createData(
   name: string,
@@ -54,6 +55,8 @@ const QnaPage = () => {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
+
+  const navigate = useNavigate();
   return (
     <>
       <Container maxWidth="xl" sx={{ minHeight: "880px" }}>
@@ -68,6 +71,17 @@ const QnaPage = () => {
         >
           Q&A
         </Typography>
+        <div style={{ display: "flex" }}>
+          <Button
+            variant="contained"
+            sx={{ marginLeft: "auto", marginBottom: "5px" }}
+            onClick={() => {
+              navigate("/qna/new");
+            }}
+          >
+            문의하기
+          </Button>
+        </div>
         <TableContainer component={Paper} sx={{ marginBottom: "50px" }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -97,26 +111,27 @@ const QnaPage = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-            marginBottom: "50px",
-          }}
-        >
-          {pageNumbers.map((pageNumber) => (
-            <button
-              key={pageNumber}
-              onClick={() => setCurrentPage(pageNumber)}
-              disabled={currentPage === pageNumber}
-              style={{ marginRight: "5px" }}
-            >
-              {pageNumber}
-            </button>
-          ))}
-        </div>
       </Container>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "20px",
+          marginBottom: "50px",
+        }}
+      >
+        {pageNumbers.map((pageNumber) => (
+          <Button
+            key={pageNumber}
+            onClick={() => setCurrentPage(pageNumber)}
+            disabled={currentPage === pageNumber}
+            style={{ marginRight: "5px" }}
+            sx={{ minWidth: "fit-content" }}
+          >
+            {pageNumber}
+          </Button>
+        ))}
+      </div>
     </>
   );
 };
