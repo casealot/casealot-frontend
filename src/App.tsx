@@ -13,7 +13,7 @@ import EditProfile from "./pages/EditProfilePage";
 import QnaPage from "./pages/QnAPage";
 import AdminLogin from "./pages/AdminLogin";
 import QNAPost from "./pages/QNAPost";
-import ProductForm from "./components/Admin/AddProduct";
+import ProductForm from "./components/Admin/ProductEditor";
 import ProductRegistrationPage from "./pages/ProductRegistPage";
 
 function App() {

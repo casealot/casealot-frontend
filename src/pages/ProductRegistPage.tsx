@@ -1,7 +1,14 @@
-import { Container, Typography } from "@mui/material";
-import ProdcutEditor from "../components/Admin/AddProduct";
+import { Container, TextField, Typography } from "@mui/material";
+import ProdcutEditor from "../components/Admin/ProductEditor";
+import { useState } from "react";
 
 const ProductRegistPage = () => {
+  const [title, setTitle] = useState("");
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+
   return (
     <>
       <Container
@@ -19,6 +26,7 @@ const ProductRegistPage = () => {
         >
           ProductEditor
         </Typography>
+
         <ProdcutEditor />
       </Container>
     </>
