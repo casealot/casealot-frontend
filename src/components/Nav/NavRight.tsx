@@ -7,6 +7,7 @@ import Badge from "@mui/material/Badge";
 import { useRecoilValue } from "recoil";
 import { CartListState } from "../../atom/Cart";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../../atom/apiCall";
 
 const NavRight = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -23,11 +24,23 @@ const NavRight = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = async () => {
+    try {
+      await api.delete("/cal/v1/customer/logout");
+
+      localStorage.removeItem("accessToken");
+
+      navigate("/");
+    } catch (error) {
+      console.error("Logout Failed", error);
+    }
+  };
   const Count = cartCount.length;
 
   const navigate = useNavigate();
 
-  return accessToken !== "undefined" ? (
+  // eslint-disable-next-line no-constant-condition
+  return accessToken ? (
     <>
       <Button
         id="fade-button"
@@ -81,6 +94,9 @@ const NavRight = () => {
           </Badge>
         </Button>
       </Link>
+      <Button sx={{ color: "#fff" }} onClick={handleLogout}>
+        Logout
+      </Button>
     </>
   ) : (
     <>
