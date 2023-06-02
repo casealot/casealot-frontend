@@ -12,6 +12,9 @@ const NavRight = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const cartCount = useRecoilValue(CartListState);
   const open = Boolean(anchorEl);
+  const accessToken = localStorage.getItem("accessToken");
+
+  console.log(accessToken);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -23,7 +26,8 @@ const NavRight = () => {
   const Count = cartCount.length;
 
   const navigate = useNavigate();
-  return (
+
+  return accessToken !== "undefined" ? (
     <>
       <Button
         id="fade-button"
@@ -77,6 +81,15 @@ const NavRight = () => {
           </Badge>
         </Button>
       </Link>
+    </>
+  ) : (
+    <>
+      <Button sx={{ color: "#fff" }} onClick={() => navigate("/products")}>
+        Product
+      </Button>
+      <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>
+        Login
+      </Button>
     </>
   );
 };
