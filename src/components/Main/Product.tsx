@@ -40,15 +40,19 @@ const StyledLink = styled(Link)`
 `;
 
 const getProduct = async () => {
-  const response = await axios.get("https://fakestoreapi.com/products");
+  const response = await axios.get(
+    "http://ec2-15-164-214-39.ap-northeast-2.compute.amazonaws.com:8000/cal/v1/product"
+  );
   return response.data;
 };
+
 const Product = () => {
   const {
     data: products,
     isLoading,
     isError,
   } = useQuery(["products"], getProduct);
+
   const [productList, setProductList] = useRecoilState(ProductListAtom);
 
   useEffect(() => {
@@ -105,11 +109,8 @@ const Product = () => {
             ))}
           </ProductGrid>
         )}
-       
       </ProductArea>
-      <ProductArea>
-      
-      </ProductArea>
+      <ProductArea></ProductArea>
     </>
   );
 };

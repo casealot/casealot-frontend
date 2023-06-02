@@ -13,6 +13,7 @@ import EditProfile from "./pages/EditProfilePage";
 import QnaPage from "./pages/QnAPage";
 import AdminLogin from "./pages/AdminLogin";
 import QNAPost from "./pages/QNAPost";
+import ProductForm from "./components/Admin/AddProduct";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/qna" element={<QnaPage />} />
           <Route path="/admin/signin" element={<AdminLogin />} />
           <Route path="/qna/new" element={<QNAPost />} />
+          <Route path="/admin/addproduct" element={<ProductForm />} />
         </Routes>
         <Footer />
       </BrowserRouter>

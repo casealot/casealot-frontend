@@ -16,22 +16,95 @@ import { passwordState } from "../atom/Signup";
 import { useCallback, useState } from "react";
 import { Modal } from "@mui/material";
 import DaumPostcode from "react-daum-postcode";
+import axios, { AxiosError } from "axios";
 
 const SignUpPage = () => {
   const [openPostcode, setOpenPostcode] = React.useState<boolean>(false);
   const [address, setAddress] = useState("");
+  const [address2, setAddress2] = useState("");
   // const [email, setEmail] = useRecoilState(emailState);
   const [password, setPassword] = useRecoilState(passwordState);
   const [passwordMessage, setPasswordMessage] = useState("");
-  const [isPassword, setIsPassword] = useState<boolean>(false);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  const [username, setUsername] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumberMessage, setPhoneNumberMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [name, setName] = useState("");
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    try {
+      const response = await axios.post(
+        `http://43.201.170.8:8000/cal/v1/customer/join`,
+        {
+          address: address,
+          addressDetail: address2,
+          email: email,
+          id: username,
+          name: name,
+          password: password,
+          profileImageUrl: "",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:5173",
+          },
+        }
+      );
+    } catch (err: any) {
+      console.log(err);
+    }
   };
+
+  const onChangeUsername = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const username = e.target.value;
+      setUsername(username);
+
+      if (username.length < 5) {
+        setUsernameMessage("아이디는 최소 5글자 이상이어야 합니다.");
+      } else {
+        setUsernameMessage("");
+      }
+    },
+    []
+  );
+
+  const onChangeEmail = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const emailValue = e.target.value;
+      setEmail(emailValue);
+
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+      if (!emailRegex.test(emailValue)) {
+        setEmailMessage("올바른 이메일 주소 형식이 아닙니다.");
+      } else {
+        setEmailMessage("");
+      }
+    },
+    []
+  );
+
+  const onChangePhoneNumber = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const phoneNumberValue = e.target.value;
+      setPhoneNumber(phoneNumberValue);
+
+      const phoneNumberRegex = /^\d{10,}$/;
+      if (!phoneNumberRegex.test(phoneNumberValue)) {
+        setPhoneNumberMessage(
+          "올바른 핸드폰 번호 형식이 아닙니다. - 없이 입력해주세요"
+        );
+      } else {
+        setPhoneNumberMessage("");
+      }
+    },
+    []
+  );
 
   const onChangePassword = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,15 +114,14 @@ const SignUpPage = () => {
 
       if (!passwordRegex.test(passwordCurrent)) {
         setPasswordMessage("영문 + 숫자 조합으로 8자리 이상 입력해주세요 😅");
-        setIsPassword(false);
       } else {
-        setPasswordMessage("안전한 비밀번호에요 😄");
-        setIsPassword(true);
+        setPasswordMessage("");
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
   const handle = {
     // 버튼 클릭 이벤트
     clickButton: () => {
@@ -100,6 +172,11 @@ const SignUpPage = () => {
                 id="userId"
                 label="아이디"
                 name="id"
+                type="id"
+                value={username}
+                onChange={onChangeUsername}
+                error={Boolean(usernameMessage)}
+                helperText={usernameMessage}
               />
             </Grid>
             <Grid item xs={12}>
@@ -112,7 +189,7 @@ const SignUpPage = () => {
                 type="password"
                 value={password}
                 onChange={onChangePassword}
-                error={!isPassword}
+                error={Boolean(passwordMessage)}
                 helperText={passwordMessage}
               />
             </Grid>
@@ -123,6 +200,10 @@ const SignUpPage = () => {
                 id="email"
                 label="이메일 주소"
                 name="email"
+                value={email}
+                onChange={onChangeEmail}
+                error={Boolean(emailMessage)}
+                helperText={emailMessage}
               />
             </Grid>
             <Grid item xs={12}>
@@ -132,33 +213,33 @@ const SignUpPage = () => {
                 id="username"
                 label="이름"
                 name="username"
+                value={name}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setName(e.target.value)
+                }
               />
             </Grid>
+
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
-                name="nickname"
-                label="닉네임"
-                type="nickname"
-                id="nickname"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="nickname"
+                name="phoneNumber"
                 label="휴대전화 번호"
-                type="nickname"
-                id="nickname"
+                type="text"
+                id="phoneNumber"
+                placeholder="01012341234"
+                value={phoneNumber}
+                onChange={onChangePhoneNumber}
+                error={Boolean(phoneNumberMessage)}
+                helperText={phoneNumberMessage}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
-                name="nickname"
+                name="address"
                 label="주소1"
                 defaultValue="경기 성남시 분당구 판교역로 166"
                 value={address}
@@ -186,10 +267,14 @@ const SignUpPage = () => {
               <TextField
                 required
                 fullWidth
-                name="nickname"
+                name="address2"
                 label="주소2"
-                type="nickname"
-                id="nickname"
+                type="address2"
+                id="address2"
+                value={address2}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setAddress2(e.target.value)
+                }
               />
             </Grid>
           </Grid>

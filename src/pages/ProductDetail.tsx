@@ -21,6 +21,7 @@ const ProductDetail = () => {
   const filter: fakeProduct[] = productData.filter(
     (item) => item.id === params
   );
+
   //카트 담기 이벤트//
   const handleAddToCart = () => {
     const selectedProduct = filter[0];

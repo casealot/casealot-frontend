@@ -12,17 +12,39 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { api } from "../atom/apiCall";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const defaultTheme = createTheme();
 
 const SigninPage = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    try {
+      const response = await api.post(`/cal/v1/customer/login`, {
+        id: userId,
+        password: password,
+      });
+
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
+      // navigate("/");
+
+      // if (response.data.moduleCode === true) {
+      //   navigate("/");
+      // } else {
+      //   navigate("/select-widget");
+      // }
+      // location.reload();
+      navigate("/");
+    } catch (err: any) {
+      setError(err.response.data.msg);
+    }
   };
 
   return (
@@ -62,6 +84,10 @@ const SigninPage = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              value={userId}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setUserId(e.target.value)
+              }
             />
             <TextField
               margin="normal"
@@ -72,6 +98,10 @@ const SigninPage = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
