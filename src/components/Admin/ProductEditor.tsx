@@ -19,7 +19,6 @@ const ProductEditor = () => {
     event.preventDefault();
     const data = {
       title: title,
-
       content: contentValue,
     };
     console.log(data); // 예시로 콘솔에 출력합니다.

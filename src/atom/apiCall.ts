@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from "axios";
+import { useCookies } from "react-cookie";
 
 const accessToken = localStorage.getItem("accessToken") as string;
-const refreshToken = localStorage.getItem("refreshToken") as string;
 
+console.log(accessToken);
 export const api = axios.create({
   baseURL: "http://43.201.170.8:8000/",
   headers: {
@@ -21,6 +22,8 @@ api.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error) => {
     const originalRequest = error.config;
+    const [cookies, setCookies] = useCookies(["refreshToken"]);
+    const refreshToken = cookies.refreshToken;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -32,8 +35,10 @@ api.interceptors.response.use(
           },
         });
 
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("accessToken", res.data.accessToken);
+        setCookies("refreshToken", `${res.data.refreshToken}`, {
+          path: "/",
+        });
 
         axios.defaults.headers.common[
           "Authorization"

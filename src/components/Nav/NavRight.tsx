@@ -29,7 +29,8 @@ const NavRight = () => {
       await api.delete("/cal/v1/customer/logout");
 
       localStorage.removeItem("accessToken");
-
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("role");
       navigate("/");
     } catch (error) {
       console.error("Logout Failed", error);

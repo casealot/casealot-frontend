@@ -13,8 +13,9 @@ import EditProfile from "./pages/EditProfilePage";
 import QnaPage from "./pages/QnAPage";
 import AdminLogin from "./pages/AdminLogin";
 import QNAPost from "./pages/QNAPost";
-import ProductForm from "./components/Admin/ProductEditor";
 import ProductRegistrationPage from "./pages/ProductRegistPage";
+
+const role = localStorage.getItem("role");
 
 function App() {
   return (
@@ -33,9 +34,12 @@ function App() {
           <Route path="/qna" element={<QnaPage />} />
           <Route path="/admin/signin" element={<AdminLogin />} />
           <Route path="/qna/new" element={<QNAPost />} />
+          {/* <Route element={<ProductRegistrationPage />} />/ */}
           <Route
             path="/admin/addproduct"
-            element={<ProductRegistrationPage />}
+            element={
+              role === "USER" ? <ProductRegistrationPage /> : <h1>No access</h1>
+            }
           />
         </Routes>
         <Footer />

@@ -15,14 +15,17 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { api } from "../atom/apiCall";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import { useCookies } from "react-cookie";
 const defaultTheme = createTheme();
 
 const SigninPage = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const [cookies, setCookies] = useCookies(["refreshToken"]);
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -31,8 +34,14 @@ const SigninPage = () => {
         password: password,
       });
 
-      localStorage.setItem("accessToken", response.data.jwtToken);
+      localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
+      console.log(response.data);
+      setCookies("refreshToken", `${response.data.refreshToken}`, {
+        path: "/",
+      });
+      localStorage.setItem("role", response.data.roleType);
+
       // navigate("/");
 
       // if (response.data.moduleCode === true) {
