@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Container, Typography, TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { api } from "../atom/apiCall";
 
 const QNAPost = () => {
   const [title, setTitle] = useState("");
@@ -14,9 +15,15 @@ const QNAPost = () => {
     setContent(event.target.value);
   };
 
-  const handleSubmit = () => {
-    // Handle the submission of the Q&A post
-    // For now, we can just log the title and content
+  const handleSubmit = async () => {
+    try {
+      const response = api.post("cal/v1/qna", {
+        content: content,
+        title: title,
+      });
+    } catch (error) {
+      console.error("Error creating the QNA:", error);
+    }
     console.log("Title:", title);
     console.log("Content:", content);
   };

@@ -69,7 +69,7 @@ const ProductPage = () => {
                       sx={{
                         pt: "100%",
                       }}
-                      image={card.images}
+                      image={card.thumbnail.url}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography

@@ -13,7 +13,7 @@ import Button from "@mui/material/Button";
 import { CartListState } from "../atom/Cart";
 import { cartItems } from "../atom/Cart";
 import { api } from "../atom/apiCall";
-import { Rating, TextField } from "@mui/material";
+import { Container, Rating, TextField } from "@mui/material";
 import { useState } from "react";
 import ReviewForm from "../components/Product/Review";
 
@@ -78,6 +78,14 @@ const ProductDetail = () => {
     width: 1180px;
     margin: 0 auto;
     margin-top: 80px;
+    display: flex;
+    border-bottom: 1px solid;
+    border-color: #d3d3d3;
+    margin-bottom: 50px;
+  `;
+  const DetailBottom = styled.div`
+    width: 1180px;
+    margin: 0 auto;
     display: flex;
   `;
   const ThumbNail = styled.img`
@@ -188,7 +196,21 @@ const ProductDetail = () => {
           </div>
         </DetailTop>
       ))}
-      <ReviewForm onSubmit={handleReviewSubmit} />
+      <DetailBottom>
+        <Container>
+          {productData.map((item) => (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {item.content}
+            </div>
+          ))}
+          <ReviewForm onSubmit={handleReviewSubmit} />
+        </Container>
+      </DetailBottom>
     </>
   );
 };

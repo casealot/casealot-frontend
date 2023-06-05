@@ -60,14 +60,14 @@ const CartItems = () => {
             <TableRow key={item.id}>
               <TableCell>
                 <img
-                  src={item.image}
+                  src={item.thumbnail.url}
                   width="100%"
                   height="100%"
                   style={{ maxWidth: "200px", maxHeight: "200px" }}
                 />
               </TableCell>
-              <TableCell>{item.title}</TableCell>
-              <TableCell>${item.price}</TableCell>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.price}원</TableCell>
               <TableCell>
                 <div
                   style={{
@@ -95,7 +95,7 @@ const CartItems = () => {
               </TableCell>
               <TableCell>
                 <Typography variant="body1">
-                  {item.quantity * Number(item.price)}
+                  {item.quantity * Number(item.price)}원
                 </Typography>
               </TableCell>
               <TableCell>
