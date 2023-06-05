@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { useCookies } from "react-cookie";
 
-const accessToken = localStorage.getItem("accessToken") as string;
+const accessToken = localStorage.getItem("accessToken");
 
-console.log(accessToken);
 export const api = axios.create({
   baseURL: "http://43.201.170.8:8000/",
   headers: {
@@ -24,21 +23,29 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     const [cookies, setCookies] = useCookies(["refreshToken"]);
     const refreshToken = cookies.refreshToken;
+    const accessToken = localStorage.getItem("accessToken");
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        const res = await api.post<AuthResponse>("/user/reissue", {
+        const res = await api.post("/cal/v1/auth/refresh", {
           headers: {
             RefreshToken: `Bearer ${refreshToken}`,
           },
         });
 
-        localStorage.setItem("accessToken", res.data.accessToken);
-        setCookies("refreshToken", `${res.data.refreshToken}`, {
-          path: "/",
-        });
+        localStorage.setItem(
+          "accessToken",
+          res.data.body.customerToken.accessToken
+        );
+        setCookies(
+          "refreshToken",
+          `${res.data.body.customerToken.refreshToken}`,
+          {
+            path: "/",
+          }
+        );
 
         axios.defaults.headers.common[
           "Authorization"

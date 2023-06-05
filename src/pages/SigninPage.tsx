@@ -34,13 +34,19 @@ const SigninPage = () => {
         password: password,
       });
 
-      localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
+      localStorage.setItem(
+        "accessToken",
+        response.data.body.customerToken.accessToken
+      );
       console.log(response.data);
-      setCookies("refreshToken", `${response.data.refreshToken}`, {
-        path: "/",
-      });
-      localStorage.setItem("role", response.data.roleType);
+      setCookies(
+        "refreshToken",
+        `${response.data.body.customerToken.refreshToken}`,
+        {
+          path: "/",
+        }
+      );
+      localStorage.setItem("role", response.data.body.customerToken.roleType);
 
       // navigate("/");
 
@@ -51,6 +57,7 @@ const SigninPage = () => {
       // }
       // location.reload();
       navigate("/");
+      location.reload();
     } catch (err: any) {
       setError(err.response.data.msg);
     }

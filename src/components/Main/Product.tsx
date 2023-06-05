@@ -3,15 +3,18 @@ import styled from "styled-components";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
-import { ProductListAtom, fakeProduct } from "../../atom/Product";
+import { ProductListAtom, ProductType } from "../../atom/Product";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { api } from "../../atom/apiCall";
+
 const ProductArea = styled.div`
   margin: 70px 0 0;
   padding: 30px 0 40px;
   display: flex;
   justify-content: center;
 `;
+
 const ProductGrid = styled.ul`
   padding: 10px 0 0;
   display: flex;
@@ -20,6 +23,7 @@ const ProductGrid = styled.ul`
   gap: 10px;
   color: #000;
 `;
+
 const ProductList = styled.li`
   position: relative;
   vertical-align: top;
@@ -34,36 +38,45 @@ const ProductList = styled.li`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
 `;
 
 const getProduct = async () => {
-  const response = await axios.get(
-    "http://ec2-15-164-214-39.ap-northeast-2.compute.amazonaws.com:8000/cal/v1/product"
-  );
-  return response.data;
+  const response = await api.post("/cal/v1/product", {
+    filter: [] as any,
+    page: 0,
+    query: "",
+    size: 12,
+    sort: [],
+  });
+  console.log(response.data.body.product.items);
+  return {
+    data: response.data.body.product.items, // Assuming the array of products is in the `data` property of the response
+  };
 };
 
 const Product = () => {
+  const [productList, setProductList] =
+    useRecoilState<ProductType[]>(ProductListAtom);
+
   const {
     data: products,
     isLoading,
     isError,
   } = useQuery(["products"], getProduct);
 
-  const [productList, setProductList] = useRecoilState(ProductListAtom);
-
   useEffect(() => {
     if (!isLoading && products) {
-      setProductList(products);
+      setProductList(products.data);
     }
   }, [isLoading, products, setProductList]);
 
   useEffect(() => {
     if (isError) {
-      console.error("error");
+      console.error("Error fetching products");
     }
   }, [isError]);
 
@@ -74,17 +87,18 @@ const Product = () => {
           <p>Loading...</p>
         ) : (
           <ProductGrid>
-            {productList.map((item: fakeProduct) => (
+            {productList.map((item: ProductType) => (
               <ProductList key={item.id}>
                 <StyledLink to={`/products/${item.id}`}>
                   <img
-                    src={item.image}
+                    src={item.thumbnail.url}
                     style={{
                       maxHeight: 300,
                       maxWidth: 300,
                       width: "100%",
                       height: "100%",
                     }}
+                    alt={item.name}
                   />
                 </StyledLink>
                 <StyledLink to={`/products/${item.id}`}>
@@ -93,12 +107,11 @@ const Product = () => {
                       marginTop: "20px",
                       textAlign: "left",
                       marginLeft: "15px",
-                      // Add this line
                       whiteSpace: "nowrap",
                       maxWidth: "200px",
                     }}
                   >
-                    {item.title}
+                    {item.name}
                   </span>
                 </StyledLink>
                 <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
@@ -110,7 +123,6 @@ const Product = () => {
           </ProductGrid>
         )}
       </ProductArea>
-      <ProductArea></ProductArea>
     </>
   );
 };

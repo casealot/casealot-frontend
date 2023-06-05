@@ -1,24 +1,38 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
-import { ProductListAtom, fakeProduct } from "../atom/Product";
+import {
+  ProductListAtom,
+  Review,
+  ReviewListAtom,
+  ProductType,
+} from "../atom/Product";
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
 import { CartListState } from "../atom/Cart";
 import { cartItems } from "../atom/Cart";
+import { api } from "../atom/apiCall";
+import { Rating, TextField } from "@mui/material";
+import { useState } from "react";
+import ReviewForm from "../components/Product/Review";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const params = Number(id);
+  const [review, setReview] = useState({
+    rating: 0,
+    comment: "",
+  });
+  const [reviewList, setReviewList] = useRecoilState<Review[]>(ReviewListAtom);
   // const [productData, setProductData] =
   //   useRecoilState<fakeProduct[]>(ProductListAtom);
 
-  const productData = useRecoilValue<fakeProduct[]>(ProductListAtom);
+  const productData = useRecoilValue<ProductType[]>(ProductListAtom);
 
   const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
 
-  const filter: fakeProduct[] = productData.filter(
+  const filter: ProductType[] = productData.filter(
     (item) => item.id === params
   );
 
@@ -43,6 +57,22 @@ const ProductDetail = () => {
       setCartItems(updatedCartItems);
     }
   };
+
+  //Review 등록 이벤트//
+  const handleReviewSubmit = async (rating: number, comment: string) => {
+    try {
+      const response = await api.post(`/cal/v1/product/${id}/review/create`, {
+        rating: rating,
+        reviewText: comment,
+      });
+      const newReview = response.data; // Assuming the API returns the created review object
+
+      setReviewList((prevReviewList) => [...prevReviewList, newReview]); // Update the review list in Recoil state
+    } catch (error) {
+      console.error("Error creating the review:", error);
+    }
+  };
+
   // console.log(cartItems);
   const DetailTop = styled.div`
     width: 1180px;
@@ -82,15 +112,15 @@ const ProductDetail = () => {
     <>
       <CssBaseline />
 
-      {filter.map((item) => (
-        <DetailTop>
-          <ThumbNail src={item.image} />
+      {filter.map((item, index) => (
+        <DetailTop key={index}>
+          <ThumbNail src={item.thumbnail.url} />
 
           <div
             style={{ width: "470px", textAlign: "left", paddingTop: "20px" }}
           >
             <DetailRightTop>
-              <DetailTitle>{item.title}</DetailTitle>
+              <DetailTitle>{item.content}</DetailTitle>
               <div
                 style={{
                   marginTop: "27px",
@@ -158,6 +188,7 @@ const ProductDetail = () => {
           </div>
         </DetailTop>
       ))}
+      <ReviewForm onSubmit={handleReviewSubmit} />
     </>
   );
 };

@@ -8,12 +8,14 @@ import { useRecoilValue } from "recoil";
 import { CartListState } from "../../atom/Cart";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
+import { useCookies } from "react-cookie";
 
 const NavRight = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const cartCount = useRecoilValue(CartListState);
   const open = Boolean(anchorEl);
   const accessToken = localStorage.getItem("accessToken");
+  const [, , removeCookie] = useCookies(["refreshToken"]);
 
   console.log(accessToken);
 
@@ -29,9 +31,10 @@ const NavRight = () => {
       await api.delete("/cal/v1/customer/logout");
 
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
       localStorage.removeItem("role");
+      removeCookie("refreshToken");
       navigate("/");
+      location.reload();
     } catch (error) {
       console.error("Logout Failed", error);
     }

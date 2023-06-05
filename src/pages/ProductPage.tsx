@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 import { useRecoilValue } from "recoil";
-import { fakeProduct, ProductListAtom } from "../atom/Product";
+import { ProductType, ProductListAtom } from "../atom/Product";
 
 import { Link } from "react-router-dom";
 
@@ -17,7 +17,7 @@ const ProductPage = () => {
   // const [productList, setProductList] =
   //   useRecoilState<fakeProduct[]>(ProductListAtom);
 
-  const productList = useRecoilValue<fakeProduct[]>(ProductListAtom);
+  const productList = useRecoilValue<ProductType[]>(ProductListAtom);
 
   return (
     <>
@@ -69,7 +69,7 @@ const ProductPage = () => {
                       sx={{
                         pt: "100%",
                       }}
-                      image={card.image}
+                      image={card.images}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography
@@ -82,7 +82,7 @@ const ProductPage = () => {
                           textOverflow: "ellipsis",
                         }}
                       >
-                        {card.title}
+                        {card.name}
                       </Typography>
                       <Typography
                         sx={{
@@ -91,7 +91,7 @@ const ProductPage = () => {
                           overflow: "hidden",
                         }}
                       >
-                        {card.description}
+                        {card.content}
                       </Typography>
                     </CardContent>
                     <CardActions sx={{ justifyContent: "end" }}></CardActions>
