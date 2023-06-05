@@ -33,10 +33,16 @@ const SigninPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await api.post(`/cal/v1/customer/login`, {
-        id: userId,
-        password: password,
-      });
+      const response = await api.post(
+        `/cal/v1/customer/login`,
+        {
+          id: userId,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       localStorage.setItem(
         "accessToken",

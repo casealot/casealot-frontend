@@ -20,7 +20,7 @@ const role = localStorage.getItem("role");
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename="/">
         <Nav />
         <Routes>
           <Route path="/" element={<MainPage />} />

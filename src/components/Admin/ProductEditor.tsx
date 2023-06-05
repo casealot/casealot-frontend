@@ -94,18 +94,22 @@ const ProductEditor = () => {
     <div style={{ width: "100%", height: "600px" }}>
       <form onSubmit={handleSave}>
         <ContentText style={{ display: "flex", alignItems: "center" }}>
+          <span style={{ color: "red", marginRight: "5px" }}>*</span>
           <span style={{ marginRight: "10px" }}>상품이름 : </span>
           <TextField
             label="상품이름"
             value={name}
             onChange={handleTitleChange}
             margin="normal"
+            sx={{ width: "220px" }}
           />
         </ContentText>
         <ContentText style={{ display: "flex" }}>
+          <span style={{ color: "red", marginRight: "5px" }}>*</span>
+          <span style={{ marginRight: "10px" }}>상품색상 : </span>
           <FormControl
             margin="normal"
-            sx={{ minWidth: "150px", marginRight: " auto" }}
+            sx={{ width: "220px", marginRight: " auto" }}
           >
             <InputLabel id="demo-simple-select-label">Color</InputLabel>
             <Select
@@ -123,44 +127,57 @@ const ProductEditor = () => {
               <MenuItem value="보라">보라</MenuItem>
               <MenuItem value="검정">검정</MenuItem>
               <MenuItem value="흰색">흰색</MenuItem>
+              <MenuItem value="기타">기타</MenuItem>
             </Select>
           </FormControl>
+        </ContentText>
+        <ContentText>
+          <span style={{ color: "red", marginRight: "5px" }}>*</span>
+          <span style={{ marginRight: "10px" }}>가격정보 : </span>
           <TextField
             label="가격"
             value={price}
             onChange={handlePriceChange}
             margin="normal"
-            sx={{ marginLeft: "10px", width: "130px" }}
+            sx={{ width: "130px" }}
           />
           <TextField
             label="SALE %"
             value={sale}
             onChange={handleSaleChange}
             margin="normal"
+            sx={{ marginX: "10px", width: "130px" }}
+          />
+          <span style={{ color: "blue" }}>
+            {price && sale
+              ? `할인적용가 : ${
+                  (Number(price) / 100) * (100 - Number(sale))
+                } 원`
+              : ""}
+          </span>
+        </ContentText>
+        <ContentText style={{ marginBottom: "20px" }}>
+          <span style={{ marginRight: "10px", marginLeft: "12px" }}>
+            부가정보 :{" "}
+          </span>
+          <TextField
+            label="SEASON"
+            value={season}
+            onChange={handleSeasonChange}
+            margin="normal"
+            placeholder="ex) 2022 F/W"
+            sx={{ width: "130px" }}
+          />
+          <TextField
+            label="TYPE"
+            value={type}
+            onChange={handleTypeChange}
+            margin="normal"
+            placeholder="ex) NEW"
             sx={{ marginLeft: "10px", width: "130px" }}
           />
         </ContentText>
-        <TextField
-          label="SEASON"
-          value={season}
-          onChange={handleSeasonChange}
-          margin="normal"
-          sx={{ marginLeft: "10px", width: "130px" }}
-        />
-        <FormControl component="fieldset" fullWidth margin="normal">
-          <FormLabel>Type</FormLabel>
-          <RadioGroup value={type} onChange={handleTypeChange}>
-            <div>
-              <FormControlLabel value="의류" control={<Radio />} label="의류" />
-              <FormControlLabel value="신발" control={<Radio />} label="신발" />
-              <FormControlLabel
-                value="액세서리"
-                control={<Radio />}
-                label="액세서리"
-              />
-            </div>
-          </RadioGroup>
-        </FormControl>
+
         <div ref={quillRef} style={{ height: "600px" }} />
         <Button variant="contained" type="submit" sx={{ marginTop: "20px" }}>
           등록하기
