@@ -7,6 +7,7 @@ import { ProductListAtom, ProductType } from "../../atom/Product";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../atom/apiCall";
+import { Container } from "@mui/joy";
 
 const ProductArea = styled.div`
   margin: 70px 0 0;
@@ -30,7 +31,7 @@ const ProductList = styled.li`
   margin: 0 5px 30px !important;
   margin-left: 10px;
   text-align: center;
-  width: 20%;
+  width: 25%;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
@@ -66,7 +67,9 @@ const Product = () => {
     data: products,
     isLoading,
     isError,
-  } = useQuery(["products"], getProduct);
+  } = useQuery(["products"], getProduct, {
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     if (!isLoading && products) {
@@ -82,7 +85,7 @@ const Product = () => {
 
   return (
     <>
-      <ProductArea>
+      <Container maxWidth="xl">
         {isLoading ? (
           <p>Loading...</p>
         ) : (
@@ -95,8 +98,7 @@ const Product = () => {
                     style={{
                       maxHeight: 300,
                       maxWidth: 300,
-                      width: "100%",
-                      height: "100%",
+                      minWidth: 300,
                     }}
                     alt={item.name}
                   />
@@ -122,7 +124,7 @@ const Product = () => {
             ))}
           </ProductGrid>
         )}
-      </ProductArea>
+      </Container>
     </>
   );
 };

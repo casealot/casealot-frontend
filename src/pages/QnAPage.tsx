@@ -42,7 +42,9 @@ const QnaPage = () => {
     data: qnaList,
     isLoading,
     isError,
-  } = useQuery(["qnaList"], getQnaList);
+  } = useQuery(["qnaList"], getQnaList, {
+    refetchOnWindowFocus: false,
+  });
 
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = 10;
@@ -58,10 +60,6 @@ const QnaPage = () => {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
-
-  useEffect(() => {
-    getQnaList();
-  }, []);
 
   const navigate = useNavigate();
 
@@ -122,7 +120,7 @@ const QnaPage = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell scope="row">{row.id}</TableCell>
-                  <TableCell align="right">{row.content}</TableCell>
+                  <TableCell align="right">{row.title}</TableCell>
                   <TableCell align="right">{row.createdDt}</TableCell>
                   <TableCell align="right">{row.customerId}</TableCell>
                   <TableCell align="right">{row.views}</TableCell>

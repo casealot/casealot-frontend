@@ -15,19 +15,21 @@ const QNAPost = () => {
     setContent(event.target.value);
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async () => {
     try {
       const response = api.post("cal/v1/qna", {
         content: content,
         title: title,
       });
+      navigate("/qna");
     } catch (error) {
       console.error("Error creating the QNA:", error);
     }
     console.log("Title:", title);
     console.log("Content:", content);
   };
-  const navigate = useNavigate();
 
   return (
     <>
