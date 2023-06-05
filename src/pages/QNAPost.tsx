@@ -24,10 +24,11 @@ const QNAPost = () => {
         title: title,
       });
       navigate("/qna");
+      console.log(response);
     } catch (error) {
       console.error("Error creating the QNA:", error);
     }
-    console.log("Title:", title);
+
     console.log("Content:", content);
   };
 

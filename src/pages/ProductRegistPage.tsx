@@ -1,19 +1,15 @@
-import { Container, TextField, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import ProdcutEditor from "../components/Admin/ProductEditor";
-import { useState } from "react";
 
 const ProductRegistPage = () => {
-  const [title, setTitle] = useState("");
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
-
   return (
     <>
       <Container
         maxWidth="lg"
-        sx={{ minHeight: "800px", marginBottom: "200px" }}
+        sx={{
+          minHeight: "1200px",
+          marginBottom: "200px",
+        }}
       >
         <Typography
           component="h2"

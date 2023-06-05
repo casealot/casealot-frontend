@@ -13,18 +13,16 @@ import Button from "@mui/material/Button";
 import { CartListState } from "../atom/Cart";
 import { cartItems } from "../atom/Cart";
 import { api } from "../atom/apiCall";
-import { Container, Rating, TextField } from "@mui/material";
-import { useState } from "react";
+import { Container } from "@mui/material";
+
 import ReviewForm from "../components/Product/Review";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const params = Number(id);
-  const [review, setReview] = useState({
-    rating: 0,
-    comment: "",
-  });
-  const [reviewList, setReviewList] = useRecoilState<Review[]>(ReviewListAtom);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [, setReviewList] = useRecoilState<Review[]>(ReviewListAtom);
   // const [productData, setProductData] =
   //   useRecoilState<fakeProduct[]>(ProductListAtom);
 

@@ -38,7 +38,11 @@ function App() {
           <Route
             path="/admin/addproduct"
             element={
-              role === "USER" ? <ProductRegistrationPage /> : <h1>No access</h1>
+              role === "ADMIN" ? (
+                <ProductRegistrationPage />
+              ) : (
+                <h1>No access</h1>
+              )
             }
           />
         </Routes>

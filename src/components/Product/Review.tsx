@@ -43,7 +43,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
           name="half-rating"
           precision={0.5}
           value={review.rating}
-          onChange={(event, value) =>
+          onChange={(_event, value) =>
             setReview((prevReview) => ({
               ...prevReview,
               rating: value as number,

@@ -10,7 +10,6 @@ import { Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 
 interface QNA {
   content: string;

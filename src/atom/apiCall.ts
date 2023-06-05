@@ -12,10 +12,10 @@ export const api = axios.create({
   timeout: 10000,
 });
 
-interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-}
+// interface AuthResponse {
+//   accessToken: string;
+//   refreshToken: string;
+// }
 
 api.interceptors.response.use(
   (response: AxiosResponse) => response,

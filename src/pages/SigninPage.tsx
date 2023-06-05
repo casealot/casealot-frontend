@@ -16,13 +16,17 @@ import { api } from "../atom/apiCall";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
+import axios from "axios";
+
 const defaultTheme = createTheme();
 
 const SigninPage = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const [cookies, setCookies] = useCookies(["refreshToken"]);
-  const [error, setError] = useState("");
+
+  const [, setCookies] = useCookies(["refreshToken"]);
+
+  const [, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -58,8 +62,8 @@ const SigninPage = () => {
       // location.reload();
       navigate("/");
       location.reload();
-    } catch (err: any) {
-      setError(err.response.data.msg);
+    } catch (error) {
+      if (axios.isAxiosError(error)) setError(error.message);
     }
   };
 

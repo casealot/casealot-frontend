@@ -1,6 +1,5 @@
 import { Divider } from "@mui/material";
 import styled from "styled-components";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import { ProductListAtom, ProductType } from "../../atom/Product";
@@ -9,12 +8,12 @@ import { Link } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { Container } from "@mui/joy";
 
-const ProductArea = styled.div`
-  margin: 70px 0 0;
-  padding: 30px 0 40px;
-  display: flex;
-  justify-content: center;
-`;
+// const ProductArea = styled.div`
+//   margin: 70px 0 0;
+//   padding: 30px 0 40px;
+//   display: flex;
+//   justify-content: center;
+// `;
 
 const ProductGrid = styled.ul`
   padding: 10px 0 0;
@@ -47,7 +46,7 @@ const StyledLink = styled(Link)`
 
 const getProduct = async () => {
   const response = await api.post("/cal/v1/product", {
-    filter: [] as any,
+    filter: [],
     page: 0,
     query: "",
     size: 12,

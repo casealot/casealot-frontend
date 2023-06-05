@@ -16,7 +16,7 @@ import { passwordState } from "../atom/Signup";
 import { useCallback, useState } from "react";
 import { Modal } from "@mui/material";
 import DaumPostcode from "react-daum-postcode";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 const SignUpPage = () => {
   const [openPostcode, setOpenPostcode] = React.useState<boolean>(false);
@@ -55,7 +55,8 @@ const SignUpPage = () => {
           },
         }
       );
-    } catch (err: any) {
+      console.log(response);
+    } catch (err: unknown) {
       console.log(err);
     }
   };

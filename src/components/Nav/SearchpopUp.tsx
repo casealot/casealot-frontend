@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { fakeProduct, ProductListAtom } from "../../atom/Product";
+import { ProductListAtom, ProductType } from "../../atom/Product";
 import { ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 
@@ -98,14 +98,14 @@ const ProductListli = styled.li`
 const SearchpopUp = () => {
   // const [productData, setProductData] =
   //   useRecoilState<fakeProduct[]>(ProductListAtom);
-  const productData = useRecoilValue<fakeProduct[]>(ProductListAtom);
-  const [filteredData, setFilteredData] = useState<fakeProduct[]>([]);
+  const productData = useRecoilValue<ProductType[]>(ProductListAtom);
+  const [filteredData, setFilteredData] = useState<ProductType[]>([]);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setSearchValue(inputValue);
 
     const filteredItems = productData.filter((item) => {
-      return item.title
+      return item.name
         .replace(" ", "")
         .toLocaleLowerCase()
         .includes(inputValue.toLocaleLowerCase().replace(" ", ""));
@@ -144,7 +144,7 @@ const SearchpopUp = () => {
                   <Link
                     to={`products/${item.id}`}
                     dangerouslySetInnerHTML={{
-                      __html: highlightMatchingText(item.title),
+                      __html: highlightMatchingText(item.name),
                     }}
                   />
                 </ProductListli>

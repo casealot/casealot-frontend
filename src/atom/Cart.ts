@@ -33,6 +33,7 @@ export interface cartItems {
   color: string;
   season: string;
   type: string;
+  quantity: number;
 }
 export const CartListState = atom<cartItems[]>({
   key: "CartListState",
