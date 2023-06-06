@@ -49,7 +49,7 @@ const getProduct = async () => {
     filter: [],
     page: 0,
     query: "",
-    size: 12,
+    size: 30,
     sort: [],
   });
   console.log(response.data.body.product.items);
@@ -92,15 +92,19 @@ const Product = () => {
             {productList.map((item: ProductType) => (
               <ProductList key={item.id}>
                 <StyledLink to={`/products/${item.id}`}>
-                  <img
-                    src={item.thumbnail.url}
-                    style={{
-                      maxHeight: 300,
-                      maxWidth: 300,
-                      minWidth: 300,
-                    }}
-                    alt={item.name}
-                  />
+                  {item.thumbnail && item.thumbnail.url ? (
+                    <img
+                      src={item.thumbnail.url}
+                      style={{
+                        maxHeight: 300,
+                        maxWidth: 300,
+                        minWidth: 300,
+                      }}
+                      alt={item.name}
+                    />
+                  ) : (
+                    <span>이미지 준비중...</span>
+                  )}
                 </StyledLink>
                 <StyledLink to={`/products/${item.id}`}>
                   <span

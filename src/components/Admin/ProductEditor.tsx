@@ -24,6 +24,7 @@ const ContentText = styled.div`
   line-height: 39px;
   font-weight: 600;
 `;
+
 const ProductEditor = () => {
   const { quill, quillRef } = useQuill();
   const [name, setName] = useState("");
@@ -32,8 +33,9 @@ const ProductEditor = () => {
   const [season, setSeason] = useState("");
   const [type, setType] = useState("");
   const [color, setColor] = useState("");
-
   const [contentValue, setContentValue] = useState("");
+  const [thumbnail, setThumbnail] = useState<null | File>(null);
+  const [thumbnailpre, setThumbnailpre] = useState("");
 
   useEffect(() => {
     if (quill) {
@@ -45,7 +47,11 @@ const ProductEditor = () => {
   const handleSave = async (event: FormEvent) => {
     event.preventDefault();
 
-    const response = api.post("/cal/v1/admin/product", {
+    const formData = new FormData();
+    if (thumbnail) {
+      formData.append("thumbnail", thumbnail); // 썸네일 이미지 파일 추가
+    }
+    const response = await api.post("/cal/v1/admin/product", {
       name: name,
       content: contentValue,
       color: color,
@@ -55,6 +61,15 @@ const ProductEditor = () => {
       type: type,
     });
 
+    const id = response.data.body.product.id;
+
+    if (id && thumbnail) {
+      api.post(`/cal/v1/file/${id}/image`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
     console.log(response); // 예시로 콘솔에 출력합니다.
     // ... 서버로 데이터 전송하는 로직을 추가해야 합니다.
   };
@@ -62,6 +77,7 @@ const ProductEditor = () => {
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
+
   const handlePriceChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPrice(event.target.value);
   };
@@ -83,6 +99,7 @@ const ProductEditor = () => {
       setSale(value);
     }
   };
+
   const handleSeasonChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSeason(event.target.value);
   };
@@ -90,6 +107,15 @@ const ProductEditor = () => {
   const handleTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
     setType(event.target.value);
   };
+
+  const handleThumbnailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setThumbnail(file);
+      setThumbnailpre(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <div style={{ width: "100%", height: "600px" }}>
       <form onSubmit={handleSave}>
@@ -101,7 +127,7 @@ const ProductEditor = () => {
             value={name}
             onChange={handleTitleChange}
             margin="normal"
-            sx={{ width: "220px" }}
+            sx={{ width: "90%" }}
           />
         </ContentText>
         <ContentText style={{ display: "flex" }}>
@@ -177,7 +203,33 @@ const ProductEditor = () => {
             sx={{ marginLeft: "10px", width: "130px" }}
           />
         </ContentText>
+        <ContentText style={{ marginBottom: "20px", marginLeft: "14px" }}>
+          <span style={{ marginRight: "10px" }}>썸네일</span>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleThumbnailChange}
+            style={{ display: "none" }}
+            id="thumbnail-upload"
+          />
 
+          {thumbnail && (
+            <img
+              src={thumbnailpre}
+              alt="Thumbnail Preview"
+              style={{ marginLeft: "10px", maxHeight: "100px" }}
+            />
+          )}
+          <label htmlFor="thumbnail-upload">
+            <Button
+              variant="contained"
+              component="span"
+              sx={{ marginLeft: "20px" }}
+            >
+              이미지 찾기
+            </Button>
+          </label>
+        </ContentText>
         <div ref={quillRef} style={{ height: "600px" }} />
         <Button variant="contained" type="submit" sx={{ marginTop: "20px" }}>
           등록하기

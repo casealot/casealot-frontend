@@ -13,6 +13,19 @@ import {
 import { styled } from "styled-components";
 import DaumPostcode from "react-daum-postcode";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+const FormFlex = styled.div`
+  display: flex;
+  justify-content: start;
+  border-top: 1px solid #dfdfdf;
+  padding: 10px 0;
+`;
+
+const FormText = styled.span`
+  margin: auto 0;
+  padding: 15px 0 15px 18px;
+  width: 132px;
+`;
+
 const EditProfile = () => {
   // const [firstName, setFirstName] = useState("");
   // const [lastName, setLastName] = useState("");
@@ -64,18 +77,6 @@ const EditProfile = () => {
     alignItems: "center",
     justifyContent: "center",
   }; // 스타일 정의 code
-  const FormFlex = styled.div`
-    display: flex;
-    justify-content: start;
-    border-top: 1px solid #dfdfdf;
-    padding: 10px 0;
-  `;
-
-  const FormText = styled.span`
-    margin: auto 0;
-    padding: 15px 0 15px 18px;
-    width: 132px;
-  `;
 
   return (
     <>

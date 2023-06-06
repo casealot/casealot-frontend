@@ -22,7 +22,11 @@ const ProductRegistPage = () => {
         >
           ProductEditor
         </Typography>
-
+        <div style={{ display: "flex" }}>
+          <span style={{ marginLeft: "auto", color: "red" }}>
+            * 은 필수표기사항 입니다.
+          </span>
+        </div>
         <ProdcutEditor />
       </Container>
     </>
