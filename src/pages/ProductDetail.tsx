@@ -71,6 +71,9 @@ const ProductDetail = () => {
     }
   };
 
+  const handledelete = async () => {
+    api.delete(`cal/v1/admin/product/${id}`);
+  };
   // console.log(cartItems);
   const DetailTop = styled.div`
     width: 1180px;
@@ -192,6 +195,7 @@ const ProductDetail = () => {
               </Button>
             </div>
           </div>
+          <Button onClick={handledelete}>gd</Button>
         </DetailTop>
       ))}
       <DetailBottom>

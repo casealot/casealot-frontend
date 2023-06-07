@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import { ProductListAtom, ProductType } from "../../atom/Product";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { Container } from "@mui/joy";
+import ready from "../../dummy/img/imgready.gif";
 
 // const ProductArea = styled.div`
 //   margin: 70px 0 0;
@@ -44,21 +45,22 @@ const StyledLink = styled(Link)`
   color: inherit;
 `;
 
-const getProduct = async () => {
-  const response = await api.post("/cal/v1/product", {
-    filter: [],
-    page: 0,
-    query: "",
-    size: 30,
-    sort: [],
-  });
-  console.log(response.data.body.product.items);
-  return {
-    data: response.data.body.product.items, // Assuming the array of products is in the `data` property of the response
-  };
-};
-
 const Product = () => {
+  const [page, setPage] = useState(0);
+  const getProduct = async () => {
+    const response = await api.post("/cal/v1/product", {
+      filter: [],
+      page: page,
+      query: "",
+      size: 12,
+      sort: [{ field: "price", option: "desc" }],
+    });
+    console.log(response.data.body.product.items);
+    return {
+      data: response.data.body.product.items, // Assuming the array of products is in the `data` property of the response
+    };
+  };
+
   const [productList, setProductList] =
     useRecoilState<ProductType[]>(ProductListAtom);
 
@@ -82,6 +84,14 @@ const Product = () => {
     }
   }, [isError]);
 
+  const handlePageChange = () => {
+    setPage(page + 1);
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, [page]);
+
   return (
     <>
       <Container maxWidth="xl">
@@ -96,14 +106,22 @@ const Product = () => {
                     <img
                       src={item.thumbnail.url}
                       style={{
-                        maxHeight: 300,
-                        maxWidth: 300,
-                        minWidth: 300,
+                        maxWidth: "250px",
+                        width: "100%",
+                        maxHeight: "250px",
+                        minHeight: "250px",
                       }}
                       alt={item.name}
                     />
                   ) : (
-                    <span>이미지 준비중...</span>
+                    <img
+                      src={ready}
+                      style={{
+                        width: "100%",
+                        maxHeight: "250px",
+                        maxWidth: "250px",
+                      }}
+                    />
                   )}
                 </StyledLink>
                 <StyledLink to={`/products/${item.id}`}>
@@ -111,7 +129,6 @@ const Product = () => {
                     style={{
                       marginTop: "20px",
                       textAlign: "left",
-                      marginLeft: "15px",
                       whiteSpace: "nowrap",
                       maxWidth: "200px",
                     }}
@@ -121,13 +138,15 @@ const Product = () => {
                 </StyledLink>
                 <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
                 <StyledLink to={`/products/${item.id}`}>
-                  <span>{item.price}$</span>
+                  <span>{item.price}원</span>
                 </StyledLink>
               </ProductList>
             ))}
           </ProductGrid>
         )}
       </Container>
+
+      <button onClick={handlePageChange}>page</button>
     </>
   );
 };

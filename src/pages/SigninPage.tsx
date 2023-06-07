@@ -67,6 +67,7 @@ const SigninPage = () => {
       // }
       // location.reload();
       navigate("/");
+      location.reload();
     } catch (error) {
       if (axios.isAxiosError(error)) setError(error.message);
     }
