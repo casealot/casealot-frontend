@@ -15,6 +15,7 @@ import AdminLogin from "./pages/AdminLogin";
 import QNAPost from "./pages/QNAPost";
 import ProductRegistrationPage from "./pages/ProductRegistPage";
 import ProductState from "./components/Admin/ProductState";
+import ProductFix from "./components/Admin/ProductFix";
 
 const role = localStorage.getItem("role");
 
@@ -49,6 +50,10 @@ function App() {
           <Route
             path="/admin/product"
             element={role === "ADMIN" ? <ProductState /> : <h1>No access</h1>}
+          />
+          <Route
+            path="/admin/edit/:id"
+            element={role === "ADMIN" ? <ProductFix /> : <h1>No access</h1>}
           />
         </Routes>
         <Footer />
