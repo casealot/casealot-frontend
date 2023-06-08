@@ -14,6 +14,7 @@ import { CartListState } from "../atom/Cart";
 import { cartItems } from "../atom/Cart";
 import { api } from "../atom/apiCall";
 import { Container } from "@mui/material";
+import ready from "../dummy/img/imgready.gif";
 
 import ReviewForm from "../components/Product/Review";
 
@@ -39,6 +40,7 @@ const ProductDetail = () => {
     const selectedProduct = filter[0];
     const isInCart = cartItems.find((item) => item.id === selectedProduct.id);
 
+    api.post(`cal/v1/cart/items/${id}`);
     if (isInCart) {
       const updatedCartItems = cartItems.map((item) => {
         if (item.id === selectedProduct.id) {
@@ -71,9 +73,6 @@ const ProductDetail = () => {
     }
   };
 
-  const handledelete = async () => {
-    api.delete(`cal/v1/admin/product/${id}`);
-  };
   // console.log(cartItems);
   const DetailTop = styled.div`
     width: 1180px;
@@ -123,7 +122,11 @@ const ProductDetail = () => {
 
       {filter.map((item, index) => (
         <DetailTop key={index}>
-          <ThumbNail src={item.thumbnail.url} />
+          {item.thumbnail ? (
+            <ThumbNail src={item.thumbnail.url} />
+          ) : (
+            <ThumbNail src={ready} />
+          )}
 
           <div
             style={{ width: "470px", textAlign: "left", paddingTop: "20px" }}
@@ -195,7 +198,6 @@ const ProductDetail = () => {
               </Button>
             </div>
           </div>
-          <Button onClick={handledelete}>gd</Button>
         </DetailTop>
       ))}
       <DetailBottom>

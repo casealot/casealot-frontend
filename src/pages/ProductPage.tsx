@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-
+import ready from "../dummy/img/imgready.gif";
 import { useRecoilValue } from "recoil";
 import { ProductType, ProductListAtom } from "../atom/Product";
 
@@ -64,13 +64,22 @@ const ProductPage = () => {
                       flexDirection: "column",
                     }}
                   >
-                    <CardMedia
-                      component="div"
-                      sx={{
-                        pt: "100%",
-                      }}
-                      image={card.thumbnail.url}
-                    />
+                    {card.thumbnail && card.thumbnail.url ? (
+                      <CardMedia
+                        component="div"
+                        sx={{
+                          pt: "100%",
+                        }}
+                        image={card.thumbnail.url}
+                      />
+                    ) : (
+                      <CardMedia
+                        component="div"
+                        sx={{ pt: "100%" }}
+                        image={ready}
+                      />
+                    )}
+
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography
                         gutterBottom

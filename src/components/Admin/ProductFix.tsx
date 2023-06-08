@@ -13,7 +13,7 @@ import {
   Container,
   Typography,
 } from "@mui/material";
-import { ProductType } from "../../atom/Product";
+
 import styled from "styled-components";
 
 const ContentText = styled.div`
@@ -63,7 +63,7 @@ const ProductFix = () => {
       quill.root.innerHTML = contentValue; // 기본값 설정
       quill.on("text-change", handleContentChange); // 내용 변경 시 호출할 함수 등록
     }
-  }, []);
+  }, [quill]);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -105,11 +105,21 @@ const ProductFix = () => {
       setThumbnail(file);
       setThumbnailpre(URL.createObjectURL(file));
     }
-    setThumbnail(thumbnail);
   };
 
   const handleSave = async (event: FormEvent) => {
     event.preventDefault();
+
+    if (thumbnail) {
+      const formData = new FormData();
+      formData.append("thumbnail", thumbnail);
+      api.post(`/cal/v1/file/${productId}/image`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+
     const response = await api.put(`cal/v1/admin/product/${productId}`, {
       name: name,
       content: contentValue,

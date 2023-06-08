@@ -106,10 +106,10 @@ const Product = () => {
                     <img
                       src={item.thumbnail.url}
                       style={{
-                        maxWidth: "250px",
                         width: "100%",
+                        height: "100%",
+                        maxWidth: "250px",
                         maxHeight: "250px",
-                        minHeight: "250px",
                       }}
                       alt={item.name}
                     />
@@ -145,8 +145,6 @@ const Product = () => {
           </ProductGrid>
         )}
       </Container>
-
-      <button onClick={handlePageChange}>page</button>
     </>
   );
 };
