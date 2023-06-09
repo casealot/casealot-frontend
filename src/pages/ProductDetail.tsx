@@ -73,6 +73,17 @@ const ProductDetail = () => {
     }
   };
 
+  const handleWishAdd = async () => {
+    const response = await api.post(`cal/v1/wishlist/add/${id}`);
+  };
+
+  const handleWishDelete = () => {
+    api.delete(`cal/v1/wishlist/delete/${id}`);
+  };
+
+  const handleWishAllDelete = () => {
+    api.delete("cal/v1/wishlist/delete");
+  };
   // console.log(cartItems);
   const DetailTop = styled.div`
     width: 1180px;
@@ -154,11 +165,14 @@ const ProductDetail = () => {
                     fontSize: "23px",
                     verticalAlign: "baseline",
                   }}
+                  onClick={handleWishAdd}
                 >
                   <FavoriteBorderIcon
                     sx={{ marginLeft: "auto", paddingTop: "2px" }}
                   />
                 </span>
+                <Button onClick={handleWishDelete}>gg</Button>
+                <Button onClick={handleWishAllDelete}>realgg</Button>
               </div>
             </DetailRightTop>
             <div

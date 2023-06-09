@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { CartListState } from "../../atom/Cart";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
@@ -12,7 +12,7 @@ import { useCookies } from "react-cookie";
 
 const NavRight = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const cartCount = useRecoilValue(CartListState);
+  const cartCountLoadable = useRecoilValueLoadable(CartListState);
   const open = Boolean(anchorEl);
   const accessToken = localStorage.getItem("accessToken");
   const [, , removeCookie] = useCookies(["refreshToken"]);
@@ -39,7 +39,11 @@ const NavRight = () => {
       console.error("Logout Failed", error);
     }
   };
-  const Count = cartCount.length;
+
+  const cartCount =
+    cartCountLoadable.state === "hasValue"
+      ? cartCountLoadable.contents.length
+      : 0;
 
   const navigate = useNavigate();
 
@@ -93,7 +97,7 @@ const NavRight = () => {
       </Button>
       <Link to="/cart">
         <Button sx={{ color: "#fff" }}>
-          <Badge badgeContent={Count} color="primary">
+          <Badge badgeContent={cartCount} color="primary">
             <ShoppingCartIcon sx={{ marginLeft: "2px" }} />
           </Badge>
         </Button>

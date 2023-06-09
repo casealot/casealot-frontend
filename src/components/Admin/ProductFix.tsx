@@ -110,16 +110,6 @@ const ProductFix = () => {
   const handleSave = async (event: FormEvent) => {
     event.preventDefault();
 
-    if (thumbnail) {
-      const formData = new FormData();
-      formData.append("thumbnail", thumbnail);
-      api.post(`/cal/v1/file/${productId}/image`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-    }
-
     const response = await api.put(`cal/v1/admin/product/${productId}`, {
       name: name,
       content: contentValue,
@@ -132,6 +122,18 @@ const ProductFix = () => {
     });
     console.log(response); // 예시로 콘솔에 출력합니다.
     // ... 저장 후 다른 로직을 처리합니다.
+
+    const id = response.data.body.product.id;
+
+    if (thumbnail && id) {
+      const formData = new FormData();
+      formData.append("thumbnail", thumbnail);
+      api.put(`/cal/v1/file/${id}/image`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
   };
   return (
     <Container

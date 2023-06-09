@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 // import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { CartListState, ConfirmButtonState, cartItems } from "../../atom/Cart";
 import ready from "../../dummy/img/imgready.gif";
 import {
@@ -20,38 +20,23 @@ import {
 } from "@mui/material";
 import { api } from "../../atom/apiCall";
 import { useEffect, useState } from "react";
+import { Container } from "@mui/system";
 
-// interface cart {
-//   id: number;
-//   name: string;
-//   price: number;
-//   quantity: number;
-//   thumbnail: string;
-//   content: string;
-//   color: string;
-//   season: string;
-//   type: string;
-// }
 const CartItems = () => {
-  const cartItems = useRecoilValue<cartItems[]>(CartListState);
-  const setCartItems = useSetRecoilState(CartListState);
+  const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
   const setConfirmRemoveProductId = useSetRecoilState(ConfirmButtonState);
   const [cart, setCart] = useState([]);
 
-  const getCart = async () => {
-    const response = await api.get("cal/v1/cart");
-    if (response) {
-      setCart(response.data.body.cart.products);
-    }
-  };
   // 상품 삭제버튼 이벤트 //
-  const handleRemoveFromCart = (productId: number) => {
-    api.delete(`cal/v1/cart/${productId}`);
+  const handleRemoveFromCart = async (productId: number) => {
+    const response = await api.delete(`cal/v1/cart/${productId}`);
+    setCartItems(response.data.body.cart.products);
   };
 
-  useEffect(() => {
-    getCart();
-  }, []);
+  const handleDeleteAll = async () => {
+    const response = await api.delete("cal/v1/cart/clear");
+    setCartItems([]);
+  };
   //상품 수량 조절 이벤트 //
   // const handleQuantityChange = (productId: number, newQuantity: number) => {
   //   if (newQuantity === 0) {
@@ -67,83 +52,100 @@ const CartItems = () => {
   //   }
   // };
 
-  const handleQuantityAdd = (id: number) => {
-    api.post(`cal/v1/cart/add/${id}`);
+  const handleQuantityAdd = async (id: number) => {
+    const response = await api.post(`cal/v1/cart/add/${id}`);
+    if (response) {
+      setCartItems(response.data.body.cart.products);
+    }
   };
-  const handleQuantityReduce = (id: number) => {
-    api.post(`cal/v1/cart/reduce/${id}`);
+  const handleQuantityReduce = async (id: number) => {
+    const response = await api.post(`cal/v1/cart/reduce/${id}`);
+    if (response) {
+      setCartItems(response.data.body.cart.products);
+    }
   };
 
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Image</TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell>Quantity</TableCell>
-            <TableCell>Total</TableCell>
-            <TableCell>Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {cart.map((item: any) => (
-            <TableRow key={item.id}>
-              <TableCell>
-                {item.thumbnail ? (
-                  <img
-                    src={item.thumbnail}
-                    width="100%"
-                    height="100%"
-                    style={{ maxWidth: "200px", maxHeight: "200px" }}
-                  />
-                ) : (
-                  <img
-                    src={ready}
-                    width="100%"
-                    height="100%"
-                    style={{ maxWidth: "200px", maxHeight: "200px" }}
-                  />
-                )}
-              </TableCell>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.price}원</TableCell>
-              <TableCell>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Button onClick={() => handleQuantityReduce(item.id)}>
-                    <RemoveCircleOutlineIcon />
-                  </Button>
-
-                  <Typography variant="body1">{item.quantity}</Typography>
-                  <Button onClick={() => handleQuantityAdd(item.id)}>
-                    <AddCircleOutlineIcon />
-                  </Button>
-                </div>
-              </TableCell>
-              <TableCell>
-                <Typography variant="body1">
-                  {item.quantity * Number(item.price)}원
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <IconButton
-                  aria-label="Delete"
-                  onClick={() => handleRemoveFromCart(item.id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
+    <Container maxWidth="xl">
+      <div style={{ display: "flex", justifyContent: "end" }}>
+        <Button
+          onClick={handleDeleteAll}
+          variant="contained"
+          sx={{ marginBottom: "20px" }}
+        >
+          장바구니 비우기
+        </Button>
+      </div>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Image</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Total</TableCell>
+              <TableCell>Action</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {cartItems.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>
+                  {item.thumbnail ? (
+                    <img
+                      src={item.thumbnail}
+                      width="100%"
+                      height="100%"
+                      style={{ maxWidth: "200px", maxHeight: "200px" }}
+                    />
+                  ) : (
+                    <img
+                      src={ready}
+                      width="100%"
+                      height="100%"
+                      style={{ maxWidth: "200px", maxHeight: "200px" }}
+                    />
+                  )}
+                </TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.price}원</TableCell>
+                <TableCell>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button onClick={() => handleQuantityReduce(item.id)}>
+                      <RemoveCircleOutlineIcon />
+                    </Button>
+
+                    <Typography variant="body1">{item.quantity}</Typography>
+                    <Button onClick={() => handleQuantityAdd(item.id)}>
+                      <AddCircleOutlineIcon />
+                    </Button>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="body1">
+                    {item.quantity * Number(item.price)}원
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    aria-label="Delete"
+                    onClick={() => handleRemoveFromCart(item.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 };
 

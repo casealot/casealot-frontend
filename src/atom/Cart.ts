@@ -1,43 +1,26 @@
 import { atom } from "recoil";
+import { api } from "./apiCall";
 
 export interface cartItems {
-  createdDt: string;
-  modifiedDt: string;
   id: number;
   name: string;
-  content: string;
-  thumbnail: {
-    createdDt: string;
-    modifiedDt: string;
-    uuid: string;
-    name: string;
-    fileType: string;
-    url: string;
-    fileSize: number;
-  };
-  images: [
-    {
-      createdDt: string;
-      modifiedDt: string;
-      uuid: string;
-      name: string;
-      fileType: string;
-      url: string;
-      fileSize: number;
-    }
-  ];
   price: number;
-  sale: number;
-  views: number;
-  sells: number;
+  quantity: number;
+  thumbnail: string;
+  content: string;
   color: string;
   season: string;
   type: string;
-  quantity: number;
 }
+
+const getCart = async () => {
+  const response = await api.get(`cal/v1/cart`);
+  console.log(response.data.body);
+  return response.data.body.cart.products;
+};
 export const CartListState = atom<cartItems[]>({
   key: "CartListState",
-  default: [],
+  default: getCart(),
 });
 
 export const ConfirmButtonState = atom<number | null>({

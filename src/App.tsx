@@ -16,6 +16,7 @@ import QNAPost from "./pages/QNAPost";
 import ProductRegistrationPage from "./pages/ProductRegistPage";
 import ProductState from "./components/Admin/ProductState";
 import ProductFix from "./components/Admin/ProductFix";
+import WishListPage from "./pages/WishListPage";
 
 const role = localStorage.getItem("role");
 
@@ -47,6 +48,7 @@ function App() {
               )
             }
           />
+          <Route path="/wishlist" element={<WishListPage />} />
           <Route
             path="/admin/product"
             element={role === "ADMIN" ? <ProductState /> : <h1>No access</h1>}
