@@ -24,8 +24,6 @@ const SigninPage = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
-  const [, setCookies] = useCookies(["refreshToken"]);
-
   const [, setError] = useState("");
 
   const navigate = useNavigate();
@@ -44,11 +42,15 @@ const SigninPage = () => {
         }
       );
 
-      localStorage.setItem("accessToken", response.data.body.accessToken);
-      console.log(response.data);
-      setCookies("refreshToken", `${response.data.body.refreshToken}`, {
-        path: "/",
-      });
+      localStorage.setItem(
+        "accessToken",
+        response.data.body.customerToken.accessToken
+      );
+      localStorage.setItem(
+        "refreshToken",
+        response.data.body.customerToken.refreshToken
+      );
+
       localStorage.setItem("role", response.data.body.customerToken.roleType);
 
       // navigate("/");
@@ -60,6 +62,7 @@ const SigninPage = () => {
       // }
       // location.reload();
       navigate("/");
+      location.reload();
     } catch (error) {
       if (axios.isAxiosError(error)) setError(error.message);
     }

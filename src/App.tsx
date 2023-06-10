@@ -18,56 +18,12 @@ import ProductState from "./components/Admin/ProductState";
 import ProductFix from "./components/Admin/ProductFix";
 import WishListPage from "./pages/WishListPage";
 import "./atom/Recoilenv";
-import { Refresh, api } from "./atom/apiCall";
-import { useEffect } from "react";
-import axios from "axios";
-import { useCookies } from "react-cookie";
+
 const role = localStorage.getItem("role");
 
 function App() {
-  const [cookies, setCookie] = useCookies(["refreshToken"]);
+  // 나머지 앱 컴포넌트의 내용
 
-  useEffect(() => {
-    api.interceptors.response.use(
-      (response) => response,
-      async (error) => {
-        const originalRequest = error.config;
-
-        if (error.response.status === 401 && !originalRequest._retry) {
-          originalRequest._retry = true;
-
-          try {
-            const refreshToken = cookies.refreshToken;
-
-            const res = await axios.get(
-              "http://43.201.170.8:8000/cal/v1/auth/refresh",
-              {
-                headers: {
-                  RefreshToken: `Bearer ${refreshToken}`,
-                },
-              }
-            );
-
-            const newAccessToken = res.data.body.token;
-            const newRefreshToken = res.data.refreshToken;
-
-            localStorage.setItem("accessToken", newAccessToken);
-            setCookie("refreshToken", newRefreshToken, { path: "/" });
-
-            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
-            return axios(originalRequest);
-          } catch (e) {
-            // 에러 처리
-          }
-        }
-
-        return Promise.reject(error);
-      }
-    );
-
-    // 나머지 앱 컴포넌트의 내용
-  }, [cookies.refreshToken, setCookie]);
   return (
     <>
       <BrowserRouter basename="/">

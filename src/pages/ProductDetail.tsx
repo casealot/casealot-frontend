@@ -77,8 +77,6 @@ const ProductDetail = () => {
     const response = await api.post(`cal/v1/wishlist/add/${id}`);
   };
 
-  
-  
   // console.log(cartItems);
   const DetailTop = styled.div`
     width: 1180px;
@@ -126,8 +124,8 @@ const ProductDetail = () => {
     <>
       <CssBaseline />
 
-      {filter.map((item, index) => (
-        <DetailTop key={index}>
+      {filter.map((item) => (
+        <DetailTop key={item.id}>
           {item.thumbnail ? (
             <ThumbNail src={item.thumbnail.url} />
           ) : (
@@ -166,7 +164,6 @@ const ProductDetail = () => {
                     sx={{ marginLeft: "auto", paddingTop: "2px" }}
                   />
                 </span>
-                
               </div>
             </DetailRightTop>
             <div
@@ -212,6 +209,7 @@ const ProductDetail = () => {
         <Container>
           {productData.map((item) => (
             <div
+              key={item.id}
               style={{
                 display: "flex",
                 justifyContent: "center",
