@@ -1,4 +1,4 @@
-import { Container, Grid } from "@mui/material";
+import { Button, Container, Grid } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
@@ -6,12 +6,11 @@ import Typography from "@mui/joy/Typography";
 import Link from "@mui/joy/Link";
 import Chip from "@mui/joy/Chip";
 import { api } from "../atom/apiCall";
-import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { WishType, wishListState } from "../atom/Wish";
 import IconButton from "@mui/joy/IconButton";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import DeleteIcon from "@mui/icons-material/Delete";
 const WishListPage = () => {
   const [wishState, setWishState] = useRecoilState<WishType[]>(wishListState);
 
@@ -33,6 +32,11 @@ const WishListPage = () => {
       >
         위시리스트
       </Typography>
+      <div style={{ display: "flex", justifyContent: "end" }}>
+        <Button>
+          <DeleteIcon />
+        </Button>
+      </div>
       {wishState.length === 0 ? (
         <div>none wish</div>
       ) : (

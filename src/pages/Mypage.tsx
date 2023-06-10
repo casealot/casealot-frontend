@@ -141,12 +141,20 @@ const Mypage = () => {
               </span>
             </StyledLink>
           </Grid>
+
           <Grid item xs={4} paddingY="0px" sx={{ padding: "24px" }}>
-            <FavoriteBorderOutlinedIcon sx={{ width: "2em", height: "2em" }} />
-            <br />
-            <span style={{ fontSize: "24px", margin: "0 auto" }}>
-              위시리스트
-            </span>
+            <Link
+              to="/wishlist"
+              style={{ color: "inherit", textDecoration: "none" }}
+            >
+              <FavoriteBorderOutlinedIcon
+                sx={{ width: "2em", height: "2em" }}
+              />
+              <br />
+              <span style={{ fontSize: "24px", margin: "0 auto" }}>
+                위시리스트
+              </span>
+            </Link>
           </Grid>
         </Grid>
       </Container>

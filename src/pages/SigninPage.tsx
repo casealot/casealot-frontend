@@ -44,18 +44,11 @@ const SigninPage = () => {
         }
       );
 
-      localStorage.setItem(
-        "accessToken",
-        response.data.body.customerToken.accessToken
-      );
+      localStorage.setItem("accessToken", response.data.body.accessToken);
       console.log(response.data);
-      setCookies(
-        "refreshToken",
-        `${response.data.body.customerToken.refreshToken}`,
-        {
-          path: "/",
-        }
-      );
+      setCookies("refreshToken", `${response.data.body.refreshToken}`, {
+        path: "/",
+      });
       localStorage.setItem("role", response.data.body.customerToken.roleType);
 
       // navigate("/");
@@ -67,7 +60,6 @@ const SigninPage = () => {
       // }
       // location.reload();
       navigate("/");
-      location.reload();
     } catch (error) {
       if (axios.isAxiosError(error)) setError(error.message);
     }

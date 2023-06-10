@@ -77,6 +77,13 @@ const NavRight = () => {
           <MenuItem onClick={handleClose}>MYPAGE</MenuItem>{" "}
         </Link>
         <MenuItem onClick={handleClose}>ORDER</MenuItem>
+        <Link
+          to="/wishlist"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          {" "}
+          <MenuItem onClick={handleClose}>WISHLIST</MenuItem>{" "}
+        </Link>
       </Menu>
 
       <Button
