@@ -10,6 +10,9 @@ import { Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import axios from "axios";
+import ErrorModal from "../components/Modal/ErrorHandleModal";
 
 interface QNA {
   content: string;
@@ -30,13 +33,30 @@ interface QnaListResponseType {
     qna: QNA[];
   };
 }
-const getQnaList = async () => {
-  const response = await api.get<QnaListResponseType>("/cal/v1/qna/list");
-  console.log(response);
-  return response.data;
-};
 
 const QnaPage = () => {
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const getQnaList = async () => {
+    try {
+      const response = await api.get<QnaListResponseType>("/cal/v1/qna/list");
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error))
+        handleOpenErrorModal(error.response?.data.message);
+    }
+  };
+
+  const handleOpenErrorModal = (errorMessage: string) => {
+    setErrorMessage(errorMessage);
+    setIsErrorModalOpen(true);
+  };
+
+  const handleCloseErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
   const {
     data: qnaList,
     isLoading,
@@ -149,6 +169,11 @@ const QnaPage = () => {
           </Button>
         ))}
       </div>
+      <ErrorModal
+        open={isErrorModalOpen}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
     </>
   );
 };

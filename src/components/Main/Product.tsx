@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { Container } from "@mui/joy";
 import ready from "../../dummy/img/imgready.gif";
+import { NoneStyledLink } from "../Styled/Link";
 
 // const ProductArea = styled.div`
 //   margin: 70px 0 0;
@@ -38,11 +39,6 @@ const ProductList = styled.li`
   flex-direction: column;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
 `;
 
 const Product = () => {
@@ -101,7 +97,7 @@ const Product = () => {
           <ProductGrid>
             {productList.map((item: ProductType) => (
               <ProductList key={item.id}>
-                <StyledLink to={`/products/${item.id}`}>
+                <NoneStyledLink to={`/products/${item.id}`}>
                   {item.thumbnail && item.thumbnail.url ? (
                     <img
                       src={item.thumbnail.url}
@@ -123,8 +119,8 @@ const Product = () => {
                       }}
                     />
                   )}
-                </StyledLink>
-                <StyledLink to={`/products/${item.id}`}>
+                </NoneStyledLink>
+                <NoneStyledLink to={`/products/${item.id}`}>
                   <span
                     style={{
                       marginTop: "20px",
@@ -135,11 +131,11 @@ const Product = () => {
                   >
                     {item.name}
                   </span>
-                </StyledLink>
+                </NoneStyledLink>
                 <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-                <StyledLink to={`/products/${item.id}`}>
+                <NoneStyledLink to={`/products/${item.id}`}>
                   <span>{item.price}원</span>
-                </StyledLink>
+                </NoneStyledLink>
               </ProductList>
             ))}
           </ProductGrid>

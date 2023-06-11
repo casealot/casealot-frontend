@@ -2,10 +2,14 @@ import { useState } from "react";
 import { Container, Typography, TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../atom/apiCall";
+import ErrorModal from "../components/Modal/ErrorHandleModal";
+import axios from "axios";
 
 const QNAPost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -17,6 +21,15 @@ const QNAPost = () => {
 
   const navigate = useNavigate();
 
+  const handleOpenErrorModal = (errorMessage: string) => {
+    setErrorMessage(errorMessage);
+    setIsErrorModalOpen(true);
+  };
+
+  const handleCloseErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
   const handleSubmit = async () => {
     try {
       const response = api.post("cal/v1/qna", {
@@ -26,10 +39,9 @@ const QNAPost = () => {
       navigate("/qna");
       console.log(response);
     } catch (error) {
-      console.error("Error creating the QNA:", error);
+      if (axios.isAxiosError(error))
+        handleOpenErrorModal(error.response?.data.message);
     }
-
-    console.log("Content:", content);
   };
 
   return (
@@ -81,6 +93,11 @@ const QNAPost = () => {
           </Button>
         </div>
       </Container>
+      <ErrorModal
+        open={isErrorModalOpen}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
     </>
   );
 };

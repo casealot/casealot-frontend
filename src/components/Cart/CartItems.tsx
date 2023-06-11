@@ -21,50 +21,72 @@ import {
 import { api } from "../../atom/apiCall";
 import { useEffect, useState } from "react";
 import { Container } from "@mui/system";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import ErrorModal from "../Modal/ErrorHandleModal";
 
 const CartItems = () => {
   const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
   const setConfirmRemoveProductId = useSetRecoilState(ConfirmButtonState);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [cart, setCart] = useState([]);
 
   // 상품 삭제버튼 이벤트 //
   const handleRemoveFromCart = async (productId: number) => {
-    const response = await api.delete(`cal/v1/cart/${productId}`);
-    setCartItems(response.data.body.cart.products);
+    try {
+      const response = await api.delete(`cal/v1/cart/${productId}`);
+      setCartItems(response.data.body.cart.products);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleOpenErrorModal(error.response?.data.message);
+      }
+    }
   };
 
   const handleDeleteAll = async () => {
-    const response = await api.delete("cal/v1/cart/clear");
-    setCartItems([]);
+    try {
+      const response = await api.delete("cal/v1/cart/clear");
+      setCartItems([]);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleOpenErrorModal(error.response?.data.message);
+      }
+    }
   };
-  //상품 수량 조절 이벤트 //
-  // const handleQuantityChange = (productId: number, newQuantity: number) => {
-  //   if (newQuantity === 0) {
-  //     setConfirmRemoveProductId(productId);
-  //   } else {
-  //     const updatedCartItems = cartItems.map((item) => {
-  //       if (item.id === productId) {
-  //         return { ...item, quantity: newQuantity };
-  //       }
-  //       return item;
-  //     });
-  //     setCartItems(updatedCartItems);
-  //   }
-  // };
 
   const handleQuantityAdd = async (id: number) => {
-    const response = await api.post(`cal/v1/cart/add/${id}`);
-    if (response) {
-      setCartItems(response.data.body.cart.products);
+    try {
+      const response = await api.post(`cal/v1/cart/add/${id}`);
+      if (response) {
+        setCartItems(response.data.body.cart.products);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleOpenErrorModal(error.response?.data.message);
+      }
     }
   };
   const handleQuantityReduce = async (id: number) => {
-    const response = await api.post(`cal/v1/cart/reduce/${id}`);
-    if (response) {
-      setCartItems(response.data.body.cart.products);
+    try {
+      const response = await api.post(`cal/v1/cart/reduce/${id}`);
+      if (response) {
+        setCartItems(response.data.body.cart.products);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleOpenErrorModal(error.response?.data.message);
+      }
     }
   };
 
+  const handleOpenErrorModal = (errorMessage: string) => {
+    setErrorMessage(errorMessage);
+    setIsErrorModalOpen(true);
+  };
+
+  const handleCloseErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
   return (
     <Container maxWidth="xl">
       <div style={{ display: "flex", justifyContent: "end" }}>
@@ -145,6 +167,11 @@ const CartItems = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <ErrorModal
+        open={isErrorModalOpen}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
     </Container>
   );
 };

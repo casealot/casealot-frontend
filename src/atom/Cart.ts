@@ -1,5 +1,6 @@
 import { atom, selector } from "recoil";
 import { api } from "./apiCall";
+import { accessTokenState } from "./User";
 
 export interface cartItems {
   id: number;
@@ -13,8 +14,6 @@ export interface cartItems {
   type: string;
 }
 
-const accessToken = localStorage.getItem("accessToken");
-
 const getCart = async () => {
   const response = await api.get(`cal/v1/cart`);
   console.log(response.data.body);
@@ -24,6 +23,7 @@ const getCart = async () => {
 export const CartList = selector<cartItems[]>({
   key: "CartList",
   get: async ({ get }) => {
+    const accessToken = get(accessTokenState);
     if (accessToken) {
       const cartItems = await getCart();
       return cartItems;
@@ -33,9 +33,20 @@ export const CartList = selector<cartItems[]>({
   },
 });
 
-export const CartListState = atom({
+export const CartListState = atom<cartItems[]>({
   key: "CartListState",
-  default: CartList,
+  default: selector<cartItems[]>({
+    key: "CartListDefault",
+    get: async ({ get }) => {
+      const accessToken = get(accessTokenState);
+      if (accessToken) {
+        const cartItems = await getCart();
+        return cartItems;
+      } else {
+        return [];
+      }
+    },
+  }),
 });
 
 export const ConfirmButtonState = atom<number | null>({

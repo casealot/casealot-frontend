@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 
 import styled from "styled-components";
+import axios from "axios";
 
 const ContentText = styled.div`
   display: flex;
@@ -37,22 +38,29 @@ const ProductFix = () => {
   const [thumbnail, setThumbnail] = useState<null | File>(null);
   const [thumbnailpre, setThumbnailpre] = useState("");
   const [products, setProducts] = useState(null);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const productId = params.id;
 
   const getProduct = async () => {
-    const response = await api.get(`cal/v1/product/${productId}`);
+    try {
+      const response = await api.get(`cal/v1/product/${productId}`);
 
-    const res = response.data.body.product;
+      const res = response.data.body.product;
 
-    setName(res.name);
-    setPrice(res.price);
-    setSale(res.sale);
-    setSeason(res.season);
-    setType(res.type);
-    setColor(res.color);
-    setContentValue(res.content);
-    setThumbnail(res.thumbnail.url);
-    setThumbnailpre(res.thumbnail.url);
+      setName(res.name);
+      setPrice(res.price);
+      setSale(res.sale);
+      setSeason(res.season);
+      setType(res.type);
+      setColor(res.color);
+      setContentValue(res.content);
+      setThumbnail(res.thumbnail.url);
+      setThumbnailpre(res.thumbnail.url);
+    } catch (error) {
+      if (axios.isAxiosError(error))
+        handleOpenErrorModal(error.response?.data.message);
+    }
   };
 
   useEffect(() => {
@@ -108,176 +116,202 @@ const ProductFix = () => {
   };
 
   const handleSave = async (event: FormEvent) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    const response = await api.put(`cal/v1/admin/product/${productId}`, {
-      name: name,
-      content: contentValue,
-      color: color,
-      price: price,
-      sale: sale,
-      season: season,
-      type: type,
-      // Add other fields to update
-    });
-    console.log(response); // 예시로 콘솔에 출력합니다.
-    // ... 저장 후 다른 로직을 처리합니다.
-
-    const id = response.data.body.product.id;
-
-    if (thumbnail && id) {
-      const formData = new FormData();
-      formData.append("thumbnail", thumbnail);
-      api.put(`/cal/v1/file/${id}/image`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const response = await api.put(`cal/v1/admin/product/${productId}`, {
+        name: name,
+        content: contentValue,
+        color: color,
+        price: price,
+        sale: sale,
+        season: season,
+        type: type,
+        // Add other fields to update
       });
+      console.log(response); // 예시로 콘솔에 출력합니다.
+      // ... 저장 후 다른 로직을 처리합니다.
+
+      const id = response.data.body.product.id;
+
+      if (thumbnail && id) {
+        const formData = new FormData();
+        formData.append("thumbnail", thumbnail);
+        api.put(`/cal/v1/file/${id}/image`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error))
+        handleOpenErrorModal(error.response?.data.message);
     }
   };
-  return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        minHeight: "1200px",
-        marginBottom: "200px",
-      }}
-    >
-      <Typography
-        component="h2"
-        variant="h3"
-        align="center"
-        color="blue"
-        gutterBottom
-        paddingTop={10}
-        sx={{ margin: "50px 0" }}
-      >
-        ProductFix
-      </Typography>
-      <div style={{ width: "100%", height: "600px" }}>
-        <form onSubmit={handleSave}>
-          <ContentText style={{ display: "flex", alignItems: "center" }}>
-            <span style={{ color: "red", marginRight: "5px" }}>*</span>
-            <span style={{ marginRight: "10px" }}>상품이름 : </span>
-            <TextField
-              label="상품이름"
-              value={name}
-              onChange={handleTitleChange}
-              margin="normal"
-              sx={{ width: "90%" }}
-            />
-          </ContentText>
-          <ContentText style={{ display: "flex" }}>
-            <span style={{ color: "red", marginRight: "5px" }}>*</span>
-            <span style={{ marginRight: "10px" }}>상품색상 : </span>
-            <FormControl
-              margin="normal"
-              sx={{ width: "220px", marginRight: " auto" }}
-            >
-              <InputLabel id="demo-simple-select-label">Color</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Color"
-                value={color}
-                onChange={handleColorChange}
-              >
-                <MenuItem value="빨강">빨강</MenuItem>
-                <MenuItem value="주황">주황</MenuItem>
-                <MenuItem value="노랑">노랑</MenuItem>
-                <MenuItem value="파랑">파랑</MenuItem>
-                <MenuItem value="핑크">핑크</MenuItem>
-                <MenuItem value="보라">보라</MenuItem>
-                <MenuItem value="검정">검정</MenuItem>
-                <MenuItem value="흰색">흰색</MenuItem>
-                <MenuItem value="기타">기타</MenuItem>
-              </Select>
-            </FormControl>
-          </ContentText>
-          <ContentText>
-            <span style={{ color: "red", marginRight: "5px" }}>*</span>
-            <span style={{ marginRight: "10px" }}>가격정보 : </span>
-            <TextField
-              label="가격"
-              value={price}
-              onChange={handlePriceChange}
-              margin="normal"
-              sx={{ width: "130px" }}
-            />
-            <TextField
-              label="SALE %"
-              value={sale}
-              onChange={handleSaleChange}
-              margin="normal"
-              sx={{ marginX: "10px", width: "130px" }}
-            />
-            <span style={{ color: "blue" }}>
-              {price && sale
-                ? `할인적용가 : ${
-                    (Number(price) / 100) * (100 - Number(sale))
-                  } 원`
-                : ""}
-            </span>
-          </ContentText>
-          <ContentText style={{ marginBottom: "20px" }}>
-            <span style={{ marginRight: "10px", marginLeft: "12px" }}>
-              부가정보 :{" "}
-            </span>
-            <TextField
-              label="SEASON"
-              value={season}
-              onChange={handleSeasonChange}
-              margin="normal"
-              placeholder="ex) 2022 F/W"
-              sx={{ width: "130px" }}
-            />
-            <TextField
-              label="TYPE"
-              value={type}
-              onChange={handleTypeChange}
-              margin="normal"
-              placeholder="ex) NEW"
-              sx={{ marginLeft: "10px", width: "130px" }}
-            />
-          </ContentText>
-          <ContentText style={{ marginBottom: "20px", marginLeft: "14px" }}>
-            <span style={{ marginRight: "10px" }}>썸네일</span>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleThumbnailChange}
-              style={{ display: "none" }}
-              id="thumbnail-upload"
-            />
 
-            {thumbnail && (
-              <img
-                src={thumbnailpre}
-                alt="Thumbnail Preview"
-                style={{ marginLeft: "10px", maxHeight: "100px" }}
+  const handleOpenErrorModal = (errorMessage: string) => {
+    setErrorMessage(errorMessage);
+    setIsErrorModalOpen(true);
+  };
+
+  const handleCloseErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  return (
+    <>
+      <Container
+        maxWidth="lg"
+        sx={{
+          minHeight: "1200px",
+          marginBottom: "200px",
+        }}
+      >
+        <Typography
+          component="h2"
+          variant="h3"
+          align="center"
+          color="blue"
+          gutterBottom
+          paddingTop={10}
+          sx={{ margin: "50px 0" }}
+        >
+          ProductFix
+        </Typography>
+        <div style={{ width: "100%", height: "600px" }}>
+          <form onSubmit={handleSave}>
+            <ContentText style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ color: "red", marginRight: "5px" }}>*</span>
+              <span style={{ marginRight: "10px" }}>상품이름 : </span>
+              <TextField
+                label="상품이름"
+                value={name}
+                onChange={handleTitleChange}
+                margin="normal"
+                sx={{ width: "90%" }}
               />
-            )}
-            <label htmlFor="thumbnail-upload">
-              <Button
-                variant="contained"
-                component="span"
-                sx={{ marginLeft: "20px" }}
+            </ContentText>
+            <ContentText style={{ display: "flex" }}>
+              <span style={{ color: "red", marginRight: "5px" }}>*</span>
+              <span style={{ marginRight: "10px" }}>상품색상 : </span>
+              <FormControl
+                margin="normal"
+                sx={{ width: "220px", marginRight: " auto" }}
               >
-                이미지 찾기
-              </Button>
-            </label>
-          </ContentText>
-          <div
-            ref={quillRef}
-            style={{ height: "600px" }}
-            defaultValue={contentValue}
-          />
-          <Button variant="contained" type="submit" sx={{ marginTop: "20px" }}>
-            등록하기
-          </Button>
-        </form>
-      </div>
-    </Container>
+                <InputLabel id="demo-simple-select-label">Color</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Color"
+                  value={color}
+                  onChange={handleColorChange}
+                >
+                  <MenuItem value="빨강">빨강</MenuItem>
+                  <MenuItem value="주황">주황</MenuItem>
+                  <MenuItem value="노랑">노랑</MenuItem>
+                  <MenuItem value="파랑">파랑</MenuItem>
+                  <MenuItem value="핑크">핑크</MenuItem>
+                  <MenuItem value="보라">보라</MenuItem>
+                  <MenuItem value="검정">검정</MenuItem>
+                  <MenuItem value="흰색">흰색</MenuItem>
+                  <MenuItem value="기타">기타</MenuItem>
+                </Select>
+              </FormControl>
+            </ContentText>
+            <ContentText>
+              <span style={{ color: "red", marginRight: "5px" }}>*</span>
+              <span style={{ marginRight: "10px" }}>가격정보 : </span>
+              <TextField
+                label="가격"
+                value={price}
+                onChange={handlePriceChange}
+                margin="normal"
+                sx={{ width: "130px" }}
+              />
+              <TextField
+                label="SALE %"
+                value={sale}
+                onChange={handleSaleChange}
+                margin="normal"
+                sx={{ marginX: "10px", width: "130px" }}
+              />
+              <span style={{ color: "blue" }}>
+                {price && sale
+                  ? `할인적용가 : ${
+                      (Number(price) / 100) * (100 - Number(sale))
+                    } 원`
+                  : ""}
+              </span>
+            </ContentText>
+            <ContentText style={{ marginBottom: "20px" }}>
+              <span style={{ marginRight: "10px", marginLeft: "12px" }}>
+                부가정보 :{" "}
+              </span>
+              <TextField
+                label="SEASON"
+                value={season}
+                onChange={handleSeasonChange}
+                margin="normal"
+                placeholder="ex) 2022 F/W"
+                sx={{ width: "130px" }}
+              />
+              <TextField
+                label="TYPE"
+                value={type}
+                onChange={handleTypeChange}
+                margin="normal"
+                placeholder="ex) NEW"
+                sx={{ marginLeft: "10px", width: "130px" }}
+              />
+            </ContentText>
+            <ContentText style={{ marginBottom: "20px", marginLeft: "14px" }}>
+              <span style={{ marginRight: "10px" }}>썸네일</span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleThumbnailChange}
+                style={{ display: "none" }}
+                id="thumbnail-upload"
+              />
+
+              {thumbnail && (
+                <img
+                  src={thumbnailpre}
+                  alt="Thumbnail Preview"
+                  style={{ marginLeft: "10px", maxHeight: "100px" }}
+                />
+              )}
+              <label htmlFor="thumbnail-upload">
+                <Button
+                  variant="contained"
+                  component="span"
+                  sx={{ marginLeft: "20px" }}
+                >
+                  이미지 찾기
+                </Button>
+              </label>
+            </ContentText>
+            <div
+              ref={quillRef}
+              style={{ height: "600px" }}
+              defaultValue={contentValue}
+            />
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ marginTop: "20px" }}
+            >
+              등록하기
+            </Button>
+          </form>
+        </div>
+      </Container>
+      <ErrorModal
+        open={isErrorModalOpen}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
+    </>
   );
 };
 

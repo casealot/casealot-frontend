@@ -5,12 +5,8 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { NoneStyledLink } from "../components/Styled/Link";
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-`;
 const Mypage = () => {
   return (
     <>
@@ -112,13 +108,13 @@ const Mypage = () => {
             paddingY="0px"
             sx={{ padding: "24px", borderRight: "1px solid" }}
           >
-            <StyledLink to="/mypage/profile">
+            <NoneStyledLink to="/mypage/profile">
               <ManageAccountsIcon sx={{ width: "2em", height: "2em" }} />
               <br />
               <span style={{ fontSize: "24px", margin: "0 auto" }}>
                 회원정보
               </span>
-            </StyledLink>
+            </NoneStyledLink>
           </Grid>
 
           <Grid
@@ -127,7 +123,7 @@ const Mypage = () => {
             paddingY="0px"
             sx={{ padding: "24px", borderRight: "1px solid" }}
           >
-            <StyledLink to="/cart">
+            <NoneStyledLink to="/cart">
               <ShoppingBagIcon sx={{ width: "2em", height: "2em" }} />
               <br />
               <span
@@ -139,14 +135,11 @@ const Mypage = () => {
               >
                 장바구니
               </span>
-            </StyledLink>
+            </NoneStyledLink>
           </Grid>
 
           <Grid item xs={4} paddingY="0px" sx={{ padding: "24px" }}>
-            <Link
-              to="/wishlist"
-              style={{ color: "inherit", textDecoration: "none" }}
-            >
+            <NoneStyledLink to="/wishlist">
               <FavoriteBorderOutlinedIcon
                 sx={{ width: "2em", height: "2em" }}
               />
@@ -154,7 +147,7 @@ const Mypage = () => {
               <span style={{ fontSize: "24px", margin: "0 auto" }}>
                 위시리스트
               </span>
-            </Link>
+            </NoneStyledLink>
           </Grid>
         </Grid>
       </Container>

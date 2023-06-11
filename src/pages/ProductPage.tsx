@@ -12,11 +12,9 @@ import { useRecoilValue } from "recoil";
 import { ProductType, ProductListAtom } from "../atom/Product";
 
 import { Link } from "react-router-dom";
+import { NoneStyledLink } from "../components/Styled/Link";
 
 const ProductPage = () => {
-  // const [productList, setProductList] =
-  //   useRecoilState<fakeProduct[]>(ProductListAtom);
-
   const productList = useRecoilValue<ProductType[]>(ProductListAtom);
 
   return (
@@ -53,10 +51,7 @@ const ProductPage = () => {
           <Grid container spacing={4} gap={2} rowGap={4}>
             {productList.map((card) => (
               <Grid key={card.id} xs={12} sm={6} md={2.9}>
-                <Link
-                  to={`/products/${card.id}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
+                <NoneStyledLink to={`/products/${card.id}`}>
                   <Card
                     sx={{
                       height: "100%",
@@ -105,7 +100,7 @@ const ProductPage = () => {
                     </CardContent>
                     <CardActions sx={{ justifyContent: "end" }}></CardActions>
                   </Card>
-                </Link>
+                </NoneStyledLink>
               </Grid>
             ))}
           </Grid>

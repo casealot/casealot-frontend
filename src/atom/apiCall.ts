@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export interface ValidationError {
+  message: string;
+  errors: Record<string, string[]>;
+}
+
 const accessToken = localStorage.getItem("accessToken");
 
 export const api = axios.create({

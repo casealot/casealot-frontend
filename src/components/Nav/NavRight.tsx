@@ -8,14 +8,12 @@ import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { CartListState } from "../../atom/Cart";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
-import { useCookies } from "react-cookie";
 
 const NavRight = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const cartCountLoadable = useRecoilValueLoadable(CartListState);
   const open = Boolean(anchorEl);
   const accessToken = localStorage.getItem("accessToken");
-  const [, , removeCookie] = useCookies(["refreshToken"]);
 
   console.log(accessToken);
 
@@ -32,7 +30,7 @@ const NavRight = () => {
 
       localStorage.removeItem("accessToken");
       localStorage.removeItem("role");
-      removeCookie("refreshToken");
+      localStorage.removeItem("refreshToken");
       navigate("/");
       location.reload();
     } catch (error) {
