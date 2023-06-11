@@ -17,44 +17,30 @@ import { Container } from "@mui/material";
 import ready from "../dummy/img/imgready.gif";
 
 import ReviewForm from "../components/Product/Review";
+import axios from "axios";
+import { useState } from "react";
+import ErrorModal from "../components/Modal/ErrorHandleModal";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const params = Number(id);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [, setReviewList] = useRecoilState<Review[]>(ReviewListAtom);
-  // const [productData, setProductData] =
-  //   useRecoilState<fakeProduct[]>(ProductListAtom);
-
   const productData = useRecoilValue<ProductType[]>(ProductListAtom);
-
   const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
-
   const filter: ProductType[] = productData.filter(
     (item) => item.id === params
   );
 
   //카트 담기 이벤트//
-  const handleAddToCart = () => {
-    const selectedProduct = filter[0];
-    const isInCart = cartItems.find((item) => item.id === selectedProduct.id);
-
-    api.post(`cal/v1/cart/items/${id}`);
-    if (isInCart) {
-      const updatedCartItems = cartItems.map((item) => {
-        if (item.id === selectedProduct.id) {
-          return { ...item, quantity: item.quantity + 1 };
-        }
-        return item;
-      });
-      setCartItems(updatedCartItems);
-    } else {
-      const updatedCartItems = [
-        ...cartItems,
-        { ...selectedProduct, quantity: 1 },
-      ];
-      setCartItems(updatedCartItems);
+  const handleAddToCart = async () => {
+    try {
+      const response = await api.post(`cal/v1/cart/items/${id}`);
+      setCartItems(response.data.body.cart.products);
+    } catch (error) {
+      if (axios.isAxiosError(error))
+        handleOpenErrorModal(error.response?.data.message);
     }
   };
 
@@ -69,12 +55,27 @@ const ProductDetail = () => {
 
       setReviewList((prevReviewList) => [...prevReviewList, newReview]); // Update the review list in Recoil state
     } catch (error) {
-      console.error("Error creating the review:", error);
+      if (axios.isAxiosError(error))
+        handleOpenErrorModal(error.response?.data.message);
     }
   };
 
   const handleWishAdd = async () => {
-    const response = await api.post(`cal/v1/wishlist/add/${id}`);
+    try {
+      const response = await api.post(`cal/v1/wishlist/add/${id}`);
+    } catch (error) {
+      if (axios.isAxiosError(error))
+        handleOpenErrorModal(error.response?.data.message);
+    }
+  };
+
+  const handleOpenErrorModal = (errorMessage: string) => {
+    setErrorMessage(errorMessage);
+    setIsErrorModalOpen(true);
+  };
+
+  const handleCloseErrorModal = () => {
+    setIsErrorModalOpen(false);
   };
 
   // console.log(cartItems);
@@ -221,6 +222,11 @@ const ProductDetail = () => {
           <ReviewForm onSubmit={handleReviewSubmit} />
         </Container>
       </DetailBottom>
+      <ErrorModal
+        open={isErrorModalOpen}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
     </>
   );
 };

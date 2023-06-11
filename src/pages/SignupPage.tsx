@@ -62,6 +62,9 @@ const SignUpPage = () => {
         handleOpenErrorModal(error.response?.data.message);
     }
   };
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const phoneNumberRegex = /^\d{10,}$/;
 
   const onChangeUsername = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +85,6 @@ const SignUpPage = () => {
       const emailValue = e.target.value;
       setEmail(emailValue);
 
-      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
       if (!emailRegex.test(emailValue)) {
         setEmailMessage("올바른 이메일 주소 형식이 아닙니다.");
       } else {
@@ -97,7 +99,6 @@ const SignUpPage = () => {
       const phoneNumberValue = e.target.value;
       setPhoneNumber(phoneNumberValue);
 
-      const phoneNumberRegex = /^\d{10,}$/;
       if (!phoneNumberRegex.test(phoneNumberValue)) {
         setPhoneNumberMessage(
           "올바른 핸드폰 번호 형식이 아닙니다. - 없이 입력해주세요"
@@ -111,7 +112,6 @@ const SignUpPage = () => {
 
   const onChangePassword = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
       const passwordCurrent = e.target.value;
       setPassword(passwordCurrent);
 
@@ -300,6 +300,11 @@ const SignUpPage = () => {
               type="submit"
               fullWidth
               variant="contained"
+              disabled={
+                !passwordRegex.test(password) ||
+                !emailRegex.test(email) ||
+                !phoneNumberRegex.test(phoneNumber)
+              }
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up

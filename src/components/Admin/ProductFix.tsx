@@ -16,6 +16,7 @@ import {
 
 import styled from "styled-components";
 import axios from "axios";
+import ErrorModal from "../Modal/ErrorHandleModal";
 
 const ContentText = styled.div`
   display: flex;
