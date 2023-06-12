@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { NoneStyledLink } from "../components/Useable/Link";
 import { getWish } from "../atom/Wish";
 import { useEffect } from "react";
+import ready from "../dummy/img/noimage.gif";
 
 const WishListPage = () => {
   const [wishState, setWishState] = useRecoilState<WishType[]>(wishListState);
@@ -79,7 +80,7 @@ const WishListPage = () => {
                 <NoneStyledLink to={`/products/${item.id}`}>
                   <AspectRatio ratio="1" sx={{ width: 90 }}>
                     <img
-                      src="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90"
+                      src={item.thumbnail ? item.thumbnail : ready}
                       loading="lazy"
                       alt=""
                     />

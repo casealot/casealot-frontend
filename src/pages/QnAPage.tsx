@@ -5,14 +5,18 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
+import { styled, alpha } from "@mui/material/styles";
 import { Button, Container, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
 import ErrorModal from "../components/Modal/ErrorHandleModal";
+import Loading from "../components/Useable/Loading";
+import { NoneStyledLink } from "../components/Useable/Link";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
 
 interface QNA {
   content: string;
@@ -34,9 +38,55 @@ interface QnaListResponseType {
   };
 }
 
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.black, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.black, 0.25),
+  },
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
+      },
+    },
+  },
+}));
 const QnaPage = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
   const getQnaList = async () => {
     try {
@@ -57,11 +107,7 @@ const QnaPage = () => {
     setIsErrorModalOpen(false);
   };
 
-  const {
-    data: qnaList,
-    isLoading,
-    isError,
-  } = useQuery(["qnaList"], getQnaList, {
+  const { data: qnaList, isLoading } = useQuery(["qnaList"], getQnaList, {
     refetchOnWindowFocus: false,
   });
 
@@ -80,17 +126,16 @@ const QnaPage = () => {
     pageNumbers.push(i);
   }
 
+  const filteredItems = currentItems.filter((item: QNA) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return item.title.toLowerCase().includes(lowerCaseSearchTerm);
+  });
+
   const navigate = useNavigate();
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>Error fetching Q&A list</p>;
-  }
-
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <Container maxWidth="xl" sx={{ minHeight: "880px" }}>
         <Typography
@@ -105,6 +150,17 @@ const QnaPage = () => {
           Q&A
         </Typography>
         <div style={{ display: "flex" }}>
+          <Search sx={{ marginBottom: "5px" }}>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search ..."
+              inputProps={{ "aria-label": "search" }}
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </Search>
           <Button
             variant="contained"
             sx={{ marginLeft: "auto", marginBottom: "5px" }}
@@ -126,20 +182,26 @@ const QnaPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell>No</TableCell>
-                <TableCell align="right">CONTENT</TableCell>
-                <TableCell align="right">CREATED DATE</TableCell>
-                <TableCell align="right">CUSTOMER ID</TableCell>
-                <TableCell align="right">VIEWS</TableCell>
+                <TableCell align="right">제목</TableCell>
+                <TableCell align="right">작성일자</TableCell>
+                <TableCell align="right">사용자 ID</TableCell>
+                <TableCell align="right">조회수</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentItems.map((row: QNA, index: number) => (
+              {filteredItems.map((row: QNA, index: number) => (
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell scope="row">{row.id}</TableCell>
-                  <TableCell align="right">{row.title}</TableCell>
+
+                  <TableCell align="right">
+                    <NoneStyledLink to={`/qna/${row.id}`}>
+                      {row.title}
+                    </NoneStyledLink>
+                  </TableCell>
+
                   <TableCell align="right">{row.createdDt}</TableCell>
                   <TableCell align="right">{row.customerId}</TableCell>
                   <TableCell align="right">{row.views}</TableCell>

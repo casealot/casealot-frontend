@@ -35,7 +35,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ onSubmit }) => {
         display: "flex",
         marginTop: "50px",
         paddingTop: "50px",
-        borderTop: "1px solid #d3d3d3",
       }}
     >
       <form onSubmit={handleReviewSubmit} style={{ width: "100%" }}>

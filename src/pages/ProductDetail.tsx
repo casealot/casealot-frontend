@@ -1,62 +1,108 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
-import {
-  ProductListAtom,
-  Review,
-  ReviewListAtom,
-  ProductType,
-} from "../atom/Product";
+import { Review, ReviewListAtom } from "../atom/Product";
 import styled from "styled-components";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
 import { CartListState } from "../atom/Cart";
 import { cartItems } from "../atom/Cart";
 import { api } from "../atom/apiCall";
-import { Container, IconButton } from "@mui/material";
+import {
+  Box,
+  Container,
+  FormControl,
+  OutlinedInput,
+  Rating,
+  Typography,
+} from "@mui/material";
 import ready from "../dummy/img/imgready.gif";
-
 import ReviewForm from "../components/Product/Review";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ErrorModal from "../components/Modal/ErrorHandleModal";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../components/Useable/Loading";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+
+const DetailTop = styled.div`
+  width: 1180px;
+  margin: 0 auto;
+  margin-top: 80px;
+  display: flex;
+
+  margin-bottom: 50px;
+`;
+const DetailBottom = styled.div`
+  width: 1180px;
+  margin: 0 auto;
+  display: flex;
+`;
+const ThumbNail = styled.img`
+  position: relative;
+  width: 600px;
+  height: 600px;
+  padding-left: 50px;
+  margin-right: auto;
+  transform: scale(0.8);
+`;
+
+const DetailTitle = styled.h1`
+  margin: 19px 0 9px;
+  font-size: 27px;
+  font-weight: 500;
+  font-family: "ssgBan", sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: keep-all;
+  word-wrap: break-word;
+  white-space: normal;
+`;
+const DetailRightTop = styled.div`
+  position: relative;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #222;
+`;
+
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const params = Number(id);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [, setReviewList] = useRecoilState<Review[]>(ReviewListAtom);
-  const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
+  const setCartItems = useSetRecoilState<cartItems[]>(CartListState);
   const [wishboolean, setWishboolean] = useState("");
   const [wishCountState, setWishCountState] = useState("");
-  const getProductDetail = async () => {
+  const [comment, setComment] = useState("");
+
+  const getProductDetail = useCallback(async () => {
     try {
       const response = await api.get(`cal/v1/product/${id}`);
-      setWishboolean(response.data.body.product.wishYn);
-      setWishCountState(response.data.body.product.wishCount);
-      return response.data.body;
+      const productDetail = response.data.body;
+      setWishboolean(productDetail.product.wishYn);
+      setWishCountState(productDetail.product.wishCount);
+      return productDetail;
     } catch (error: any) {
       console.log(error);
     }
-  };
-  const { data, isLoading } = useQuery(["productdetail"], getProductDetail, {});
-  const { name, price, color, content, thumbnail, wishCount, wishYn } =
-    data.product;
-  useEffect(() => {
-    if (data) {
-      setWishboolean(wishYn);
-      setWishCountState(wishCount);
-    }
-  }, [data]);
-  if (isLoading) {
-    return <Loading />;
-  }
+  }, [id]);
 
-  //카트 담기 이벤트//
-  const handleAddToCart = async () => {
+  const { data, isLoading } = useQuery(["productdetail"], getProductDetail, {});
+  const product = useMemo(() => data?.product || {}, [data]);
+  const { name, price, color, content, thumbnail, wishCount, wishYn } = product;
+
+  useEffect(() => {
+    getProductDetail();
+  }, []);
+  useEffect(() => {
+    setWishboolean(wishYn);
+    setWishCountState(wishCount);
+  }, [wishYn, wishCount]);
+
+  const handleAddToCart = useCallback(async () => {
     try {
       const response = await api.post(`cal/v1/cart/items/${id}`);
       setCartItems(response.data.body.cart.products);
@@ -64,43 +110,46 @@ const ProductDetail = () => {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
     }
-  };
+  }, [id, setCartItems]);
 
-  //Review 등록 이벤트//
-  const handleReviewSubmit = async (rating: number, comment: string) => {
+  const handleReviewSubmit = useCallback(
+    async (rating: number, comment: string) => {
+      try {
+        const response = await api.post(`/cal/v1/review/${id}`, {
+          rating: rating,
+          reviewText: comment,
+        });
+        const newReview = response.data; // Assuming the API returns the created review object
+
+        setReviewList((prevReviewList) => [...prevReviewList, newReview]); // Update the review list in Recoil state
+      } catch (error) {
+        if (axios.isAxiosError(error))
+          handleOpenErrorModal(error.response?.data.message);
+      }
+    },
+    [id, setReviewList]
+  );
+
+  const handleWishAdd = useCallback(async () => {
     try {
-      const response = await api.post(`/cal/v1/review/${id}`, {
-        rating: rating,
-        reviewText: comment,
-      });
-      const newReview = response.data; // Assuming the API returns the created review object
-
-      setReviewList((prevReviewList) => [...prevReviewList, newReview]); // Update the review list in Recoil state
-    } catch (error) {
-      if (axios.isAxiosError(error))
-        handleOpenErrorModal(error.response?.data.message);
-    }
-  };
-
-  const handleWishAdd = async () => {
-    try {
-      const response = await api.post(`cal/v1/wishlist/${id}`);
+      await api.post(`cal/v1/wishlist/${id}`);
       await getProductDetail();
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
     }
-  };
+  }, [id, getProductDetail]);
 
-  const handleWishDelete = async () => {
+  const handleWishRemove = useCallback(async () => {
     try {
-      const response = await api.delete(`cal/v1/wishlist/${id}`);
+      await api.delete(`cal/v1/wishlist/${id}`);
       await getProductDetail();
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
     }
-  };
+  }, [id, getProductDetail]);
+
   const handleOpenErrorModal = (errorMessage: string) => {
     setErrorMessage(errorMessage);
     setIsErrorModalOpen(true);
@@ -110,50 +159,21 @@ const ProductDetail = () => {
     setIsErrorModalOpen(false);
   };
 
-  // console.log(cartItems);
-  const DetailTop = styled.div`
-    width: 1180px;
-    margin: 0 auto;
-    margin-top: 80px;
-    display: flex;
-    border-bottom: 1px solid;
-    border-color: #d3d3d3;
-    margin-bottom: 50px;
-  `;
-  const DetailBottom = styled.div`
-    width: 1180px;
-    margin: 0 auto;
-    display: flex;
-  `;
-  const ThumbNail = styled.img`
-    position: relative;
-    width: 600px;
-    height: 600px;
-    padding-left: 50px;
-    margin-right: auto;
-    transform: scale(0.8);
-  `;
+  const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(event.target.value);
+  };
 
-  const DetailTitle = styled.h1`
-    margin: 19px 0 9px;
-    font-size: 27px;
-    font-weight: 500;
-    font-family: "ssgBan", sans-serif;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    word-break: keep-all;
-    word-wrap: break-word;
-    white-space: normal;
-  `;
-  const DetailRightTop = styled.div`
-    position: relative;
-    padding-bottom: 17px;
-    border-bottom: 1px solid #222;
-  `;
-  return (
+  const handleCommentSubmit = async (id: number) => {
+    // 댓글 등록 처리
+    await api.post(`/cal/v1/review/comment/${id}`, {
+      reviewCommentText: comment,
+    });
+  };
+  // console.log(cartItems);
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <CssBaseline />
 
@@ -205,12 +225,12 @@ const ProductDetail = () => {
                     fontSize: "23px",
                     verticalAlign: "baseline",
                   }}
-                  onClick={handleWishDelete}
+                  onClick={handleWishRemove}
                 >
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <FavoriteIcon sx={{ paddingTop: "2px" }} />
                     <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
-                      {wishCount}
+                      {wishCountState}
                     </span>
                   </div>
                 </Button>
@@ -262,18 +282,79 @@ const ProductDetail = () => {
             style={{
               display: "flex",
               justifyContent: "center",
+              borderBottom: "1px solid #d3d3d3",
+              borderTop: "1px solid #d3d3d3",
+              minHeight: "500px",
+              padding: "50px",
             }}
             dangerouslySetInnerHTML={{ __html: content }}
           ></div>
-
-          <ReviewForm onSubmit={handleReviewSubmit} />
-          <div>
+          <Box
+            sx={{
+              width: "100%",
+              border: "1px solid #d3d3d3",
+              textAlign: "left",
+              marginTop: "80px",
+            }}
+          >
             {data.reviewList.map((item: any) => {
-              return <span style={{ margin: "20px" }}>{item.reviewText}</span>;
+              return (
+                <>
+                  <div
+                    key={item.id}
+                    style={{
+                      borderBottom: "1px solid #d3d3d3",
+                      padding: "10px",
+                    }}
+                  >
+                    <div style={{ display: "flex", padding: "10px" }}>
+                      <Typography variant="h5" sx={{ marginRight: "auto" }}>
+                        {item.customerName}
+                      </Typography>
+                      <Typography sx={{ fontSize: "12px" }}>
+                        작성시간 : {item.createdDt}
+                      </Typography>
+                    </div>
+                    <div style={{ display: "flex", paddingBottom: "10px" }}>
+                      <Rating name="read-only" value={item.rating} readOnly />
+                      <Typography
+                        sx={{
+                          marginLeft: "20px",
+                          fontWeight: "500",
+                          marginTop: "2px",
+                        }}
+                      >
+                        {item.reviewText}
+                      </Typography>
+                    </div>
+                    <div>
+                      <FormControl sx={{ width: "80%", marginBottom: "10px" }}>
+                        <OutlinedInput
+                          value={comment}
+                          onChange={handleCommentChange}
+                          placeholder="댓글을 입력하세요"
+                        />
+                      </FormControl>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          marginLeft: "10px",
+                          height: "fit-content",
+                        }}
+                        onClick={() => handleCommentSubmit(item.id)}
+                      >
+                        등록
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              );
             })}
-          </div>
+          </Box>
+          <ReviewForm onSubmit={handleReviewSubmit} />
         </Container>
       </DetailBottom>
+
       <ErrorModal
         open={isErrorModalOpen}
         onClose={handleCloseErrorModal}

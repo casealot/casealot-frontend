@@ -18,6 +18,7 @@ import ProductState from "./components/Admin/ProductState";
 import ProductFix from "./components/Admin/ProductFix";
 import WishListPage from "./pages/WishListPage";
 import "./atom/Recoilenv";
+import QnaDetail from "./pages/QnaDetail";
 
 const role = localStorage.getItem("role");
 
@@ -29,6 +30,11 @@ function App() {
       <BrowserRouter basename="/">
         <Nav />
         <Routes>
+          <Route
+            path="/admin/signin"
+            element={role ? <div>No Access</div> : <AdminLogin />}
+          />
+
           <Route path="/" element={<MainPage />} />
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/signup" element={<SignUpPage />} />
@@ -38,8 +44,9 @@ function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/mypage/profile" element={<EditProfile />} />
           <Route path="/qna" element={<QnaPage />} />
-          <Route path="/admin/signin" element={<AdminLogin />} />
+
           <Route path="/qna/new" element={<QNAPost />} />
+          <Route path="/qna/:id" element={<QnaDetail />} />
           {/* <Route element={<ProductRegistrationPage />} />/ */}
           <Route
             path="/admin/addproduct"
