@@ -15,6 +15,9 @@ import {
   OutlinedInput,
   Rating,
   Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import ready from "../dummy/img/imgready.gif";
 import ReviewForm from "../components/Product/Review";
@@ -161,10 +164,12 @@ const ProductDetail = () => {
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
+    console.log(event.target.value);
   };
 
   const handleCommentSubmit = async (id: number) => {
     // 댓글 등록 처리
+    console.log(comment);
     await api.post(`/cal/v1/review/comment/${id}`, {
       reviewCommentText: comment,
     });
@@ -300,53 +305,91 @@ const ProductDetail = () => {
             {data.reviewList.map((item: any) => {
               return (
                 <>
-                  <div
-                    key={item.id}
-                    style={{
-                      borderBottom: "1px solid #d3d3d3",
-                      padding: "10px",
-                    }}
-                  >
-                    <div style={{ display: "flex", padding: "10px" }}>
-                      <Typography variant="h5" sx={{ marginRight: "auto" }}>
-                        {item.customerName}
-                      </Typography>
-                      <Typography sx={{ fontSize: "12px" }}>
+                  {/* <-- Accordion 추가 */}
+                  <Accordion key={item.id}>
+                    <AccordionSummary>
+                      <Typography variant="h5">{item.customerName}</Typography>
+                      <Rating
+                        name="read-only"
+                        value={item.rating}
+                        readOnly
+                        sx={{ paddingLeft: "8px", paddingTop: "2px" }}
+                      />
+                      <Typography sx={{ fontSize: "12px", marginLeft: "auto" }}>
                         작성시간 : {item.createdDt}
                       </Typography>
-                    </div>
-                    <div style={{ display: "flex", paddingBottom: "10px" }}>
-                      <Rating name="read-only" value={item.rating} readOnly />
-                      <Typography
-                        sx={{
-                          marginLeft: "20px",
-                          fontWeight: "500",
-                          marginTop: "2px",
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          width: "100%",
                         }}
                       >
-                        {item.reviewText}
-                      </Typography>
-                    </div>
-                    <div>
-                      <FormControl sx={{ width: "80%", marginBottom: "10px" }}>
-                        <OutlinedInput
-                          value={comment}
-                          onChange={handleCommentChange}
-                          placeholder="댓글을 입력하세요"
-                        />
-                      </FormControl>
-                      <Button
-                        variant="contained"
-                        sx={{
-                          marginLeft: "10px",
-                          height: "fit-content",
-                        }}
-                        onClick={() => handleCommentSubmit(item.id)}
-                      >
-                        등록
-                      </Button>
-                    </div>
-                  </div>
+                        <Typography
+                          sx={{
+                            marginLeft: "10px",
+                            fontWeight: "500",
+                            marginTop: "2px",
+                          }}
+                        >
+                          COMMENT : {item.reviewText}
+                        </Typography>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          {item.reviewCommentList &&
+                            item.reviewCommentList.map((item: any) => (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  marginBottom: "5px",
+                                  paddingLeft: "10px",
+                                }}
+                              >
+                                <Typography
+                                  sx={{
+                                    marginRight: "3px",
+                                    fontWeight: "600",
+                                  }}
+                                >
+                                  {item.customerName}님
+                                </Typography>
+                                <Typography>
+                                  {" "}
+                                  - {item.reviewCommentText}
+                                </Typography>
+                              </div>
+                            ))}
+                        </div>
+                        <div>
+                          <FormControl
+                            sx={{ width: "80%", marginBottom: "10px" }}
+                          >
+                            <OutlinedInput
+                              onChange={handleCommentChange}
+                              placeholder="댓글을 입력하세요"
+                            />
+                          </FormControl>
+                          <Button
+                            variant="contained"
+                            sx={{
+                              marginLeft: "10px",
+                              height: "fit-content",
+                            }}
+                            onClick={() => handleCommentSubmit(item.id)}
+                          >
+                            등록
+                          </Button>
+                        </div>
+                      </div>
+                    </AccordionDetails>
+                  </Accordion>
                 </>
               );
             })}
