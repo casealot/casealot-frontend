@@ -41,6 +41,9 @@ export const CartListState = atom<cartItems[]>({
       const accessToken = get(accessTokenState);
       if (accessToken) {
         const cartItems = await getCart();
+        if (cartItems.length < 1) {
+          return [];
+        }
         return cartItems;
       } else {
         return [];

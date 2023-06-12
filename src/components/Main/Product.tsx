@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { Container } from "@mui/joy";
 import ready from "../../dummy/img/imgready.gif";
-import { NoneStyledLink } from "../Styled/Link";
+import { NoneStyledLink } from "../Useable/Link";
 
 // const ProductArea = styled.div`
 //   margin: 70px 0 0;

@@ -12,7 +12,7 @@ import { useRecoilValue } from "recoil";
 import { ProductType, ProductListAtom } from "../atom/Product";
 
 import { Link } from "react-router-dom";
-import { NoneStyledLink } from "../components/Styled/Link";
+import { NoneStyledLink } from "../components/Useable/Link";
 
 const ProductPage = () => {
   const productList = useRecoilValue<ProductType[]>(ProductListAtom);

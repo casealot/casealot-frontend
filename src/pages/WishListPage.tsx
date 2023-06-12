@@ -11,12 +11,23 @@ import IconButton from "@mui/joy/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-import { NoneStyledLink } from "../components/Styled/Link";
+import { NoneStyledLink } from "../components/Useable/Link";
+import { getWish } from "../atom/Wish";
+import { useEffect } from "react";
+
 const WishListPage = () => {
   const [wishState, setWishState] = useRecoilState<WishType[]>(wishListState);
 
+  const getWishList = async () => {
+    const response = await api.get("cal/v1/wishlist");
+    setWishState(response.data.body.wishlist.productList);
+  };
+
+  useEffect(() => {
+    getWishList();
+  }, []);
   const handleWishDelete = async (id: number) => {
-    const response = await api.delete(`cal/v1/wishlist/delete/${id}`);
+    const response = await api.delete(`cal/v1/wishlist/${id}`);
     setWishState(response.data.body.wishlist.productList);
   };
 

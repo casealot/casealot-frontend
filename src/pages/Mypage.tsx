@@ -5,12 +5,12 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
-import { NoneStyledLink } from "../components/Styled/Link";
+import { NoneStyledLink } from "../components/Useable/Link";
 
 const Mypage = () => {
   return (
     <>
-      <Container maxWidth="xl" sx={{}}>
+      <Container maxWidth="xl">
         <Typography
           component="h2"
           variant="h3"
