@@ -43,6 +43,7 @@ const ShoppingCartPage = () => {
           장바구니
         </Typography>
       </div>
+
       {cartItems.length === 0 ? <CartEmpty /> : <CartItems />}
       <RemoveConfirmationDialog
         open={confirmRemoveProductId !== null}

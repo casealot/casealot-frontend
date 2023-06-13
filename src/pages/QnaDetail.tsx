@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import Loading from "../components/Useable/Loading";
 import { Container, Typography, Box, Divider, Button } from "@mui/material";
 
@@ -10,15 +9,17 @@ const QnaDetail = () => {
   console.log(id);
 
   const QnaDetail = async () => {
-    const response = await api.get(`cal/v1/qna/${id}`);
+    const response = await api.get(`cal/v1/qna/list/${id}`);
     return response.data.body.qna;
   };
 
   const { data, isLoading } = useQuery(["QnADetail"], QnaDetail);
 
-  const { content, createdDt, customerId, modifiedDt, title } = data || {};
+  const { content, createdDt, customerId, modifiedDt, title, available } =
+    data || {};
 
   const navigate = useNavigate();
+
   return isLoading ? (
     <Loading />
   ) : (
@@ -47,6 +48,16 @@ const QnaDetail = () => {
           </Typography>
         </Box>
         <div style={{ display: "flex", marginTop: "20px" }}>
+          {available === "Y" ? (
+            <>
+              <Button onClick={() => navigate(`/qna/fix/${id}`)}>
+                수정하기
+              </Button>
+              <Button>삭제하기</Button>
+            </>
+          ) : (
+            ""
+          )}
           <Button
             variant="contained"
             sx={{ marginLeft: "auto" }}

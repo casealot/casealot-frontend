@@ -95,7 +95,7 @@ const ProductDetail = () => {
 
   const { data, isLoading } = useQuery(["productdetail"], getProductDetail, {});
   const product = useMemo(() => data?.product || {}, [data]);
-  const { name, price, color, content, thumbnail, wishCount, wishYn } = product;
+  const { name, price, content, thumbnail, wishCount, wishYn } = product;
 
   useEffect(() => {
     getProductDetail();
@@ -302,23 +302,39 @@ const ProductDetail = () => {
               marginTop: "80px",
             }}
           >
-            {data.reviewList.map((item: any) => {
+            {data.reviewList.map((item: any, index: number) => {
               return (
                 <>
                   {/* <-- Accordion 추가 */}
-                  <Accordion key={item.id}>
-                    <AccordionSummary>
-                      <Typography variant="h5">{item.customerName}</Typography>
-                      <Rating
-                        name="read-only"
-                        value={item.rating}
-                        readOnly
-                        sx={{ paddingLeft: "8px", paddingTop: "2px" }}
-                      />
-                      <Typography sx={{ fontSize: "12px", marginLeft: "auto" }}>
-                        작성시간 : {item.createdDt}
-                      </Typography>
-                    </AccordionSummary>
+
+                  <Accordion key={index}>
+                    <div style={{ paddingLeft: "10px" }}>
+                      <AccordionSummary>
+                        <Typography variant="h5">
+                          {item.customerName}
+                        </Typography>
+                        <Rating
+                          name="read-only"
+                          value={item.rating}
+                          readOnly
+                          sx={{ paddingLeft: "8px", paddingTop: "2px" }}
+                        />
+                        <Typography
+                          sx={{
+                            marginLeft: "10px",
+                            fontWeight: "500",
+                            marginTop: "2px",
+                          }}
+                        >
+                          {item.reviewText}
+                        </Typography>
+                        <Typography
+                          sx={{ fontSize: "12px", marginLeft: "auto" }}
+                        >
+                          작성시간 : {item.createdDt}
+                        </Typography>
+                      </AccordionSummary>
+                    </div>
                     <AccordionDetails>
                       <div
                         style={{
@@ -327,49 +343,45 @@ const ProductDetail = () => {
                           width: "100%",
                         }}
                       >
-                        <Typography
-                          sx={{
-                            marginLeft: "10px",
-                            fontWeight: "500",
-                            marginTop: "2px",
-                          }}
-                        >
-                          COMMENT : {item.reviewText}
-                        </Typography>
                         <div
                           style={{
                             display: "flex",
                             flexDirection: "column",
-                            marginLeft: "10px",
                           }}
                         >
                           {item.reviewCommentList &&
-                            item.reviewCommentList.map((item: any) => (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  marginBottom: "5px",
-                                  paddingLeft: "10px",
-                                }}
-                              >
-                                <Typography
-                                  sx={{
-                                    marginRight: "3px",
-                                    fontWeight: "600",
+                            item.reviewCommentList.map(
+                              (item: any, index: number) => (
+                                <div
+                                  key={index}
+                                  style={{
+                                    display: "flex",
+                                    marginBottom: "5px",
+                                    paddingLeft: "10px",
                                   }}
                                 >
-                                  {item.customerName}님
-                                </Typography>
-                                <Typography>
-                                  {" "}
-                                  - {item.reviewCommentText}
-                                </Typography>
-                              </div>
-                            ))}
+                                  <Typography
+                                    sx={{
+                                      marginRight: "3px",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    {item.customerName}님
+                                  </Typography>
+                                  <Typography>
+                                    {" "}
+                                    - {item.reviewCommentText}
+                                  </Typography>
+                                </div>
+                              )
+                            )}
                         </div>
                         <div>
                           <FormControl
-                            sx={{ width: "80%", marginBottom: "10px" }}
+                            sx={{
+                              width: "90%",
+                              marginY: "10px",
+                            }}
                           >
                             <OutlinedInput
                               onChange={handleCommentChange}
@@ -380,6 +392,7 @@ const ProductDetail = () => {
                             variant="contained"
                             sx={{
                               marginLeft: "10px",
+                              marginTop: "20px",
                               height: "fit-content",
                             }}
                             onClick={() => handleCommentSubmit(item.id)}

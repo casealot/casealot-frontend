@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { Container } from "@mui/system";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import ErrorModal from "../Modal/ErrorHandleModal";
+import ConfirmationDialog from "../Useable/ConfirmModal";
 
 const CartItems = () => {
   const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
@@ -30,6 +31,7 @@ const CartItems = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [cart, setCart] = useState([]);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
   // 상품 삭제버튼 이벤트 //
   const handleRemoveFromCart = async (productId: number) => {
@@ -79,6 +81,14 @@ const CartItems = () => {
     }
   };
 
+  const handleOpenConfirmation = () => {
+    setIsConfirmationOpen(true);
+  };
+
+  const handleCloseConfirmation = () => {
+    setIsConfirmationOpen(false);
+  };
+
   const handleOpenErrorModal = (errorMessage: string) => {
     setErrorMessage(errorMessage);
     setIsErrorModalOpen(true);
@@ -91,7 +101,7 @@ const CartItems = () => {
     <Container maxWidth="xl">
       <div style={{ display: "flex", justifyContent: "end" }}>
         <Button
-          onClick={handleDeleteAll}
+          onClick={handleOpenConfirmation}
           variant="contained"
           sx={{ marginBottom: "20px" }}
         >
@@ -167,6 +177,15 @@ const CartItems = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <ConfirmationDialog
+        open={isConfirmationOpen}
+        onClose={handleCloseConfirmation}
+        onConfirm={handleDeleteAll}
+        dialogTitle="삭제 확인"
+        dialogContent="정말 삭제하시겠습니까?"
+        confirmText="삭제"
+        cancelText="닫기"
+      />
       <ErrorModal
         open={isErrorModalOpen}
         onClose={handleCloseErrorModal}
