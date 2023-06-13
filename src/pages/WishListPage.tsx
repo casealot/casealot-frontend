@@ -10,15 +10,14 @@ import { WishType, wishListState } from "../atom/Wish";
 import IconButton from "@mui/joy/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router-dom";
 import { NoneStyledLink } from "../components/Useable/Link";
-import { getWish } from "../atom/Wish";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ready from "../dummy/img/noimage.gif";
+import ConfirmationDialog from "../components/Useable/ConfirmModal";
 
 const WishListPage = () => {
   const [wishState, setWishState] = useRecoilState<WishType[]>(wishListState);
-
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const getWishList = async () => {
     const response = await api.get("cal/v1/wishlist");
     setWishState(response.data.body.wishlist.productList);
@@ -30,6 +29,17 @@ const WishListPage = () => {
   const handleWishDelete = async (id: number) => {
     const response = await api.delete(`cal/v1/wishlist/${id}`);
     setWishState(response.data.body.wishlist.productList);
+  };
+
+  const handleWishDeleteAll = async () => {
+    await api.delete("cal/v1/wishlist");
+  };
+  const handleOpenConfirmation = () => {
+    setIsConfirmationOpen(true);
+  };
+
+  const handleCloseConfirmation = () => {
+    setIsConfirmationOpen(false);
   };
 
   return (
@@ -47,7 +57,7 @@ const WishListPage = () => {
         위시리스트
       </Typography>
       <div style={{ display: "flex", justifyContent: "end" }}>
-        <Button>
+        <Button onClick={handleOpenConfirmation}>
           <DeleteIcon />
         </Button>
       </div>
@@ -132,6 +142,15 @@ const WishListPage = () => {
           ))}
         </Grid>
       )}
+      <ConfirmationDialog
+        open={isConfirmationOpen}
+        onClose={handleCloseConfirmation}
+        onConfirm={handleWishDeleteAll}
+        dialogTitle="삭제 확인"
+        dialogContent="정말 삭제하시겠습니까?"
+        confirmText="삭제"
+        cancelText="닫기"
+      />
     </Container>
   );
 };

@@ -125,6 +125,7 @@ const ProductDetail = () => {
         const newReview = response.data; // Assuming the API returns the created review object
 
         setReviewList((prevReviewList) => [...prevReviewList, newReview]); // Update the review list in Recoil state
+        getProductDetail();
       } catch (error) {
         if (axios.isAxiosError(error))
           handleOpenErrorModal(error.response?.data.message);
@@ -169,10 +170,14 @@ const ProductDetail = () => {
 
   const handleCommentSubmit = async (id: number) => {
     // 댓글 등록 처리
-    console.log(comment);
-    await api.post(`/cal/v1/review/comment/${id}`, {
-      reviewCommentText: comment,
-    });
+    try {
+      await api.post(`/cal/v1/review/comment/${id}`, {
+        reviewCommentText: comment,
+      });
+      getProductDetail();
+    } catch (error: any) {
+      console.log(error);
+    }
   };
   // console.log(cartItems);
 

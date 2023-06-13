@@ -1,10 +1,5 @@
 import axios from "axios";
 
-export interface ValidationError {
-  message: string;
-  errors: Record<string, string[]>;
-}
-
 const accessToken = localStorage.getItem("accessToken");
 
 export const api = axios.create({
@@ -43,7 +38,7 @@ api.interceptors.response.use(
         localStorage.setItem("refreshToken", newRefreshToken);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
+        location.reload();
         return axios(originalRequest);
       } catch (e) {
         // 에러 처리

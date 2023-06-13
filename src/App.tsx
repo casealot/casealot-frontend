@@ -20,6 +20,7 @@ import WishListPage from "./pages/WishListPage";
 import "./atom/Recoilenv";
 import QnaDetail from "./pages/QnaDetail";
 import QnAFix from "./pages/QnAFix";
+import AdminInfo from "../src/pages/AdminInfo";
 
 const role = localStorage.getItem("role");
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/qna/:id" element={<QnaDetail />} />
           <Route path="/qna/fix/:id" element={<QnAFix />} />
           {/* <Route element={<ProductRegistrationPage />} />/ */}
+          <Route path="/admin" element={<AdminInfo />} />
           <Route
             path="/admin/addproduct"
             element={
