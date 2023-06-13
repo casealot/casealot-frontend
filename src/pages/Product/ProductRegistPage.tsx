@@ -1,5 +1,5 @@
 import { Container, Typography } from "@mui/material";
-import ProdcutEditor from "../components/Admin/ProductEditor";
+import ProdcutEditor from "../../components/Admin/ProductEditor";
 
 const ProductRegistPage = () => {
   return (

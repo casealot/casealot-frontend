@@ -1,13 +1,13 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
-import { Review, ReviewListAtom } from "../atom/Product";
+import { Review, ReviewListAtom } from "../../atom/Product";
 import styled from "styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
-import { CartListState } from "../atom/Cart";
-import { cartItems } from "../atom/Cart";
-import { api } from "../atom/apiCall";
+import { CartListState } from "../../atom/Cart";
+import { cartItems } from "../../atom/Cart";
+import { api } from "../../atom/apiCall";
 import {
   Box,
   Container,
@@ -19,13 +19,13 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
-import ready from "../dummy/img/imgready.gif";
-import ReviewForm from "../components/Product/Review";
+import ready from "../../dummy/img/noimage.gif";
+import ReviewForm from "../../components/Product/Review";
 import axios from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import ErrorModal from "../components/Modal/ErrorHandleModal";
+import ErrorModal from "../../components/Modal/ErrorHandleModal";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../components/Useable/Loading";
+import Loading from "../../components/Useable/Loading";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const DetailTop = styled.div`

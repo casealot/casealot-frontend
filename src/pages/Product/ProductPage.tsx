@@ -7,12 +7,12 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import ready from "../dummy/img/imgready.gif";
+import ready from "../../dummy/img/imgready.gif";
 import { useRecoilValue } from "recoil";
-import { ProductType, ProductListAtom } from "../atom/Product";
+import { ProductType, ProductListAtom } from "../../atom/Product";
 
 import { Link } from "react-router-dom";
-import { NoneStyledLink } from "../components/Useable/Link";
+import { NoneStyledLink } from "../../components/Useable/Link";
 
 const ProductPage = () => {
   const productList = useRecoilValue<ProductType[]>(ProductListAtom);

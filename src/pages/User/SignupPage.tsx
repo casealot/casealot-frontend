@@ -12,12 +12,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useRecoilState } from "recoil";
 
-import { passwordState } from "../atom/Signup";
+import { passwordState } from "../../atom/Signup";
 import { useCallback, useState } from "react";
 import { Modal } from "@mui/material";
 import DaumPostcode from "react-daum-postcode";
 import axios from "axios";
-import ErrorModal from "../components/Modal/ErrorHandleModal";
+import ErrorModal from "../../components/Modal/ErrorHandleModal";
 
 const SignUpPage = () => {
   const [openPostcode, setOpenPostcode] = React.useState<boolean>(false);

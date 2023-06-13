@@ -8,13 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import { styled, alpha } from "@mui/material/styles";
 import { Button, Container, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from "../atom/apiCall";
+import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
-import ErrorModal from "../components/Modal/ErrorHandleModal";
-import Loading from "../components/Useable/Loading";
-import { NoneStyledLink } from "../components/Useable/Link";
+import ErrorModal from "../../components/Modal/ErrorHandleModal";
+import Loading from "../../components/Useable/Loading";
+import { NoneStyledLink } from "../../components/Useable/Link";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 

@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { api } from "../atom/apiCall";
+import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../components/Useable/Loading";
+import Loading from "../../components/Useable/Loading";
 import { Container, Typography, Box, Divider, Button } from "@mui/material";
 
 const QnaDetail = () => {

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Container, Typography, TextField, Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import { api } from "../atom/apiCall";
-import ErrorModal from "../components/Modal/ErrorHandleModal";
+import { api } from "../../atom/apiCall";
+import ErrorModal from "../../components/Modal/ErrorHandleModal";
 import axios from "axios";
 import {
   Dialog,
@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import ConfirmationDialog from "../components/Useable/ConfirmModal";
+import ConfirmationDialog from "../../components/Useable/ConfirmModal";
 
 const QnAFix = () => {
   const [title, setTitle] = useState("");

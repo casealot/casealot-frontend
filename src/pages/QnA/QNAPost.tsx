@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Container, Typography, TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { api } from "../atom/apiCall";
-import ErrorModal from "../components/Modal/ErrorHandleModal";
+import { api } from "../../atom/apiCall";
+import ErrorModal from "../../components/Modal/ErrorHandleModal";
 import axios from "axios";
 
 const QNAPost = () => {
