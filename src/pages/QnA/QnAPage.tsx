@@ -10,7 +10,7 @@ import { Button, Container, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import ErrorModal from "../../components/Modal/ErrorHandleModal";
 import Loading from "../../components/Useable/Loading";
@@ -133,6 +133,9 @@ const QnaPage = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    getQnaList();
+  }, []);
   return isLoading ? (
     <Loading />
   ) : (
@@ -189,7 +192,7 @@ const QnaPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredItems.map((row: QNA, index: number) => (
+              {currentItems.map((row: QNA, index: number) => (
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

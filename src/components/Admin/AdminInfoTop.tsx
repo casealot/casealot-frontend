@@ -1,8 +1,22 @@
 import { Typography, Badge } from "@mui/material";
 import { Box } from "@mui/system";
+import { api } from "../../atom/apiCall";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../Useable/Loading";
 
 const AdminInfoTop = () => {
-  return (
+  const getdaily = async () => {
+    const response = await api.get("cal/v1/function/daily");
+    return response.data.body.function;
+  };
+
+  const { data, isLoading } = useQuery(["dailyinfo"], getdaily);
+  const { todayOrder, todayCancel, todayReturn, todayChange, todayQna } =
+    data || {};
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Box
       sx={{
         width: "100%",
@@ -56,24 +70,9 @@ const AdminInfoTop = () => {
             marginLeft: "2px",
           }}
         >
-          0
+          {todayOrder}
         </Typography>
 
-        <Typography
-          sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
-        >
-          취소관리
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "12px",
-            color: "red",
-            fontWeight: "600",
-            marginLeft: "2px",
-          }}
-        >
-          0
-        </Typography>
         <Typography
           sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
         >
@@ -87,7 +86,7 @@ const AdminInfoTop = () => {
             marginLeft: "2px",
           }}
         >
-          0
+          {todayReturn}
         </Typography>
         <Typography
           sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
@@ -102,7 +101,7 @@ const AdminInfoTop = () => {
             marginLeft: "2px",
           }}
         >
-          0
+          {todayChange}
         </Typography>
         <Typography
           sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
@@ -117,7 +116,7 @@ const AdminInfoTop = () => {
             marginLeft: "2px",
           }}
         >
-          0
+          {todayCancel}
         </Typography>
         <Typography
           sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
@@ -132,7 +131,7 @@ const AdminInfoTop = () => {
             marginLeft: "2px",
           }}
         >
-          0
+          {todayQna}
         </Typography>
       </div>
     </Box>
