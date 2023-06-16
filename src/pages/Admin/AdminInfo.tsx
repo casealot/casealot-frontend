@@ -1,17 +1,7 @@
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import {
-  Badge,
-  Container,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import AdminInfoTop from "../../components/Admin/AdminInfoTop";
 import DateTable from "../../components/Admin/DateTable";
@@ -28,6 +18,19 @@ const AdminInfo = () => {
     color: theme.palette.text.secondary,
   }));
 
+  const getQnA = async () => {
+    const response = await api.get("cal/v1/function/qna");
+    console.log(response);
+  };
+  const getReview = async () => {
+    const response = await api.get("cal/v1/function/review");
+    console.log(response);
+  };
+
+  useEffect(() => {
+    getQnA();
+    getReview();
+  }, []);
   return (
     <>
       <Container maxWidth="lg">

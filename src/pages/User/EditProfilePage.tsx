@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import {
   TextField,
   Button,
@@ -9,10 +9,12 @@ import {
   Radio,
   RadioGroup,
   Modal,
+  Avatar,
 } from "@mui/material";
 import { styled } from "styled-components";
 import DaumPostcode from "react-daum-postcode";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
+import { api } from "../../atom/apiCall";
 const FormFlex = styled.div`
   display: flex;
   justify-content: start;
@@ -27,31 +29,67 @@ const FormText = styled.span`
 `;
 
 const EditProfile = () => {
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  // const [email, setEmail] = useState("");
-  const firstName = "";
-  const lastName = "";
-  const email = "";
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [openPostcode, setOpenPostcode] = React.useState<boolean>(false);
   const [address, setAddress] = useState("");
-  // const handleFirstNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setFirstName(event.target.value);
-  // };
+  const [address2, setAddress2] = useState("");
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profilePreview, setProfilePreview] = useState("");
 
-  // const handleLastNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setLastName(event.target.value);
-  // };
+  const handleChangeProfileImage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setProfileImage(file);
+      setProfilePreview(URL.createObjectURL(file));
+    }
+  };
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
 
-  // const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setEmail(event.target.value);
-  // };
+  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPhoneNumber(event.target.value);
+  };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  const handleAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAddress(event.target.value);
+  };
+  const handleAddress2Change = (event: ChangeEvent<HTMLInputElement>) => {
+    setAddress2(event.target.value);
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    // 여기에 회원 정보 수정을 처리하는 로직을 추가하세요.
-    console.log("수정된 회원 정보:", { firstName, lastName, email });
-    // 수정된 회원 정보를 서버에 보내거나 필요한 작업을 수행하세요.
+    const formData = new FormData();
+    if (profileImage) {
+      formData.append("profileImage", profileImage); // 썸네일 이미지 파일 추가
+    }
+    try {
+      const response = await api.put("cal/v1/customer/update", {
+        address: address,
+        addressDetail: address2,
+        email: email,
+        name: name,
+        phoneNumber: phoneNumber,
+      });
+      if (response) {
+        const customerId = response.data.body.customer.id;
+        await api.put(`cal/v1/file/${customerId}/customer/image`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handle = {
@@ -92,14 +130,26 @@ const EditProfile = () => {
         >
           EDIT PROFILE
         </Typography>
-        <AccountCircleIcon
-          sx={{
-            width: "8em",
-            height: "8em",
-            color: "#808080",
-            marginY: "20px",
-          }}
-        />
+        <label htmlFor="profile-image-upload">
+          <input
+            id="profile-image-upload"
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleChangeProfileImage}
+          />
+          {profileImage ? (
+            <Avatar
+              src={profilePreview}
+              sx={{ width: "8em", height: "8em", margin: "0 auto" }}
+            />
+          ) : (
+            <Avatar
+              src="/static/images/avatar/1.jpg"
+              sx={{ width: "8em", height: "8em", margin: "0 auto" }}
+            />
+          )}
+        </label>
         <Typography
           component="h6"
           sx={{ fontWeight: "600", marginLeft: "24px", marginTop: "100px" }}
@@ -135,8 +185,9 @@ const EditProfile = () => {
               required
               id="standard-required"
               label="이메일"
-              defaultValue="jaeyoon1222@gmail.com"
+              value={email}
               sx={{ maxWidth: "fit-content" }}
+              onChange={handleEmailChange}
             />
           </FormFlex>
           <FormFlex>
@@ -154,7 +205,8 @@ const EditProfile = () => {
               required
               id="standard-required"
               label="이름"
-              defaultValue="김재윤"
+              value={name}
+              onChange={handleNameChange}
             />
           </FormFlex>
           <FormFlex>
@@ -163,7 +215,8 @@ const EditProfile = () => {
               required
               id="standard-required"
               label="휴대전화"
-              defaultValue="01012345678"
+              value={phoneNumber}
+              onChange={handlePhoneChange}
             />
           </FormFlex>
           <FormFlex>
@@ -174,6 +227,7 @@ const EditProfile = () => {
               label="주소1"
               defaultValue="경기 성남시 분당구 판교역로 166"
               value={address}
+              onChange={handleAddressChange}
               sx={{ width: "33%" }}
             />
             <Button onClick={handle.clickButton}>주소찾기</Button>
@@ -197,9 +251,10 @@ const EditProfile = () => {
               required
               id="standard-required"
               label="주소2"
-              defaultValue="0동 000호"
+              value={address2}
               placeholder="0동 000호"
               sx={{ width: "33%" }}
+              onChange={handleAddress2Change}
             />
           </FormFlex>
 
@@ -248,12 +303,7 @@ const EditProfile = () => {
             >
               수정하기
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={handleSubmit}
-            >
+            <Button variant="contained" color="primary" size="large">
               취소하기
             </Button>
           </FormFlex>
