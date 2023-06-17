@@ -15,7 +15,9 @@ import { styled } from "styled-components";
 import DaumPostcode from "react-daum-postcode";
 
 import { api } from "../../atom/apiCall";
-import { useQuery } from "react-query";
+
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import axios from "axios";
 const FormFlex = styled.div`
   display: flex;
   justify-content: start;
@@ -39,6 +41,11 @@ const EditProfile = () => {
   const [address2State, setAddress2State] = useState("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profilePreview, setProfilePreview] = useState("");
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const queryClient = useQueryClient();
 
   const handleChangeProfileImage = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -66,31 +73,47 @@ const EditProfile = () => {
   const handleAddress2Change = (event: ChangeEvent<HTMLInputElement>) => {
     setAddress2State(event.target.value);
   };
-  const getUserInfo = async () => {
-    const response = await api.get("cal/v1/customer");
-    const res = response.data.body.customer;
-    setNameState(res.name);
-    setEmailState(res.email);
-    setAddressState(res.address);
-    setAddress2State(res.addressDetail);
-    setIdState(res.id);
-    setPhoneNumberState(res.phoneNumber);
+  const handleOpenErrorModal = (errorMessage: string) => {
+    setErrorMessage(errorMessage);
+    setIsErrorModalOpen(true);
+  };
+  const handleCloseErrorModal = () => {
+    setIsErrorModalOpen(false);
   };
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+  const { data: userInfo } = useQuery(["userInfo"], () =>
+    api.get("cal/v1/customer")
+  );
+
+  useEffect(() => {
+    if (userInfo) {
+      const res = userInfo.data.body.customer;
+      setNameState(res.name);
+      setEmailState(res.email);
+      setAddressState(res.address);
+      setAddress2State(res.addressDetail);
+      setIdState(res.id);
+      setPhoneNumberState(res.phoneNumber);
+      setProfilePreview(res.profileImageUrl);
+    }
+  }, [userInfo]);
+
+  const updateUserInfo = async () => {
     const formData = new FormData();
     if (profileImage) {
       formData.append("profile", profileImage); // 썸네일 이미지 파일 추가
     }
+
+    const updatedUserInfo = {
+      address: addressState,
+      addressDetail: address2State,
+      email: emailState,
+      name: nameState,
+      phoneNumber: phoneNumberState,
+    };
+
     try {
-      const response = await api.put("cal/v1/customer/update", {
-        address: addressState,
-        addressDetail: address2State,
-        email: emailState,
-        name: nameState,
-        phoneNumber: phoneNumberState,
-      });
+      const response = await api.put("cal/v1/customer/update", updatedUserInfo);
       if (response) {
         const customerId = response.data.body.customer.id;
         await api.put(`cal/v1/file/${customerId}/customer/image`, formData, {
@@ -99,9 +122,18 @@ const EditProfile = () => {
           },
         });
       }
+      queryClient.invalidateQueries(["userInfo"]);
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error))
+        handleOpenErrorModal(error.response?.data.message);
     }
+  };
+
+  const mutation = useMutation(updateUserInfo);
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    mutation.mutate();
   };
 
   const handle = {
@@ -118,9 +150,6 @@ const EditProfile = () => {
     },
   };
 
-  useEffect(() => {
-    getUserInfo();
-  }, []);
   const postCodeStyle = {
     width: "500px",
     height: "500px",
@@ -153,7 +182,7 @@ const EditProfile = () => {
             style={{ display: "none" }}
             onChange={handleChangeProfileImage}
           />
-          {profileImage ? (
+          {profilePreview ? (
             <Avatar
               src={profilePreview}
               sx={{ width: "8em", height: "8em", margin: "0 auto" }}
