@@ -52,15 +52,6 @@ const SigninPage = () => {
       );
 
       localStorage.setItem("role", response.data.body.customerToken.roleType);
-
-      // navigate("/");
-
-      // if (response.data.moduleCode === true) {
-      //   navigate("/");
-      // } else {
-      //   navigate("/select-widget");
-      // }
-      // location.reload();
       navigate("/");
       location.reload();
     } catch (error) {
@@ -78,6 +69,7 @@ const SigninPage = () => {
   const handleCloseErrorModal = () => {
     setIsErrorModalOpen(false);
   };
+
   return (
     <>
       <ThemeProvider theme={defaultTheme}>

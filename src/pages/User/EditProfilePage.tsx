@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -15,6 +15,7 @@ import { styled } from "styled-components";
 import DaumPostcode from "react-daum-postcode";
 
 import { api } from "../../atom/apiCall";
+import { useQuery } from "react-query";
 const FormFlex = styled.div`
   display: flex;
   justify-content: start;
@@ -29,12 +30,13 @@ const FormText = styled.span`
 `;
 
 const EditProfile = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [idState, setIdState] = useState("");
+  const [nameState, setNameState] = useState("");
+  const [emailState, setEmailState] = useState("");
+  const [phoneNumberState, setPhoneNumberState] = useState("");
   const [openPostcode, setOpenPostcode] = React.useState<boolean>(false);
-  const [address, setAddress] = useState("");
-  const [address2, setAddress2] = useState("");
+  const [addressState, setAddressState] = useState("");
+  const [address2State, setAddress2State] = useState("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profilePreview, setProfilePreview] = useState("");
 
@@ -48,36 +50,46 @@ const EditProfile = () => {
     }
   };
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
+    setNameState(event.target.value);
   };
 
   const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(event.target.value);
+    setPhoneNumberState(event.target.value);
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+    setEmailState(event.target.value);
   };
   const handleAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setAddress(event.target.value);
+    setAddressState(event.target.value);
   };
   const handleAddress2Change = (event: ChangeEvent<HTMLInputElement>) => {
-    setAddress2(event.target.value);
+    setAddress2State(event.target.value);
+  };
+  const getUserInfo = async () => {
+    const response = await api.get("cal/v1/customer");
+    const res = response.data.body.customer;
+    setNameState(res.name);
+    setEmailState(res.email);
+    setAddressState(res.address);
+    setAddress2State(res.addressDetail);
+    setIdState(res.id);
+    setPhoneNumberState(res.phoneNumber);
   };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const formData = new FormData();
     if (profileImage) {
-      formData.append("profileImage", profileImage); // 썸네일 이미지 파일 추가
+      formData.append("profile", profileImage); // 썸네일 이미지 파일 추가
     }
     try {
       const response = await api.put("cal/v1/customer/update", {
-        address: address,
-        addressDetail: address2,
-        email: email,
-        name: name,
-        phoneNumber: phoneNumber,
+        address: addressState,
+        addressDetail: address2State,
+        email: emailState,
+        name: nameState,
+        phoneNumber: phoneNumberState,
       });
       if (response) {
         const customerId = response.data.body.customer.id;
@@ -101,11 +113,14 @@ const EditProfile = () => {
     // 주소 선택 이벤트
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     selectAddress: (data: any) => {
-      setAddress(data.address);
+      setAddressState(data.address);
       setOpenPostcode(false);
     },
   };
 
+  useEffect(() => {
+    getUserInfo();
+  }, []);
   const postCodeStyle = {
     width: "500px",
     height: "500px",
@@ -174,7 +189,8 @@ const EditProfile = () => {
             <FormText>아이디</FormText>
             <TextField
               required
-              id="standard-required"
+              id="standard-disabled"
+              value={idState}
               label="ID"
               defaultValue="Hello World"
             />
@@ -185,7 +201,7 @@ const EditProfile = () => {
               required
               id="standard-required"
               label="이메일"
-              value={email}
+              value={emailState}
               sx={{ maxWidth: "fit-content" }}
               onChange={handleEmailChange}
             />
@@ -195,7 +211,7 @@ const EditProfile = () => {
             <TextField
               disabled
               id="standard-disabled"
-              label="Disabled"
+              label="비밀번호"
               defaultValue="********"
             />
           </FormFlex>
@@ -205,7 +221,7 @@ const EditProfile = () => {
               required
               id="standard-required"
               label="이름"
-              value={name}
+              value={nameState}
               onChange={handleNameChange}
             />
           </FormFlex>
@@ -215,7 +231,7 @@ const EditProfile = () => {
               required
               id="standard-required"
               label="휴대전화"
-              value={phoneNumber}
+              value={phoneNumberState}
               onChange={handlePhoneChange}
             />
           </FormFlex>
@@ -226,7 +242,7 @@ const EditProfile = () => {
               id="standard-required"
               label="주소1"
               defaultValue="경기 성남시 분당구 판교역로 166"
-              value={address}
+              value={addressState}
               onChange={handleAddressChange}
               sx={{ width: "33%" }}
             />
@@ -251,7 +267,7 @@ const EditProfile = () => {
               required
               id="standard-required"
               label="주소2"
-              value={address2}
+              value={address2State}
               placeholder="0동 000호"
               sx={{ width: "33%" }}
               onChange={handleAddress2Change}

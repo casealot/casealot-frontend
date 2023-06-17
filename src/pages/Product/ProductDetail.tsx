@@ -24,7 +24,7 @@ import ReviewForm from "../../components/Product/Review";
 import axios from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ErrorModal from "../../components/Modal/ErrorHandleModal";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../components/Useable/Loading";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
@@ -72,7 +72,6 @@ const DetailRightTop = styled.div`
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const params = Number(id);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [, setReviewList] = useRecoilState<Review[]>(ReviewListAtom);
@@ -80,6 +79,8 @@ const ProductDetail = () => {
   const [wishboolean, setWishboolean] = useState("");
   const [wishCountState, setWishCountState] = useState("");
   const [comment, setComment] = useState("");
+
+  const queryClient = useQueryClient();
 
   const getProductDetail = useCallback(async () => {
     try {
@@ -115,23 +116,28 @@ const ProductDetail = () => {
     }
   }, [id, setCartItems]);
 
-  const handleReviewSubmit = useCallback(
-    async (rating: number, comment: string) => {
-      try {
-        const response = await api.post(`/cal/v1/review/${id}`, {
-          rating: rating,
-          reviewText: comment,
-        });
-        const newReview = response.data; // Assuming the API returns the created review object
+  const addReviewMutation = useMutation(
+    async (reviewData: { rating: number; reviewText: string }) => {
+      const response = await api.post(`/cal/v1/review/${id}`, reviewData);
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["productdetail"]);
+      },
+    }
+  );
 
-        setReviewList((prevReviewList) => [...prevReviewList, newReview]); // Update the review list in Recoil state
-        getProductDetail();
+  const handleReviewSubmit = useCallback(
+    async (rating: number, comment: string): Promise<void> => {
+      try {
+        await addReviewMutation.mutateAsync({ rating, reviewText: comment });
       } catch (error) {
         if (axios.isAxiosError(error))
           handleOpenErrorModal(error.response?.data.message);
       }
     },
-    [id, setReviewList]
+    []
   );
 
   const handleWishAdd = useCallback(async () => {
@@ -165,20 +171,37 @@ const ProductDetail = () => {
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
-    console.log(event.target.value);
   };
 
-  const handleCommentSubmit = async (id: number) => {
-    // 댓글 등록 처리
-    try {
-      await api.post(`/cal/v1/review/comment/${id}`, {
-        reviewCommentText: comment,
-      });
-      getProductDetail();
-    } catch (error: any) {
-      console.log(error);
+  const addReviewCommentMutation = useMutation(
+    async (commentData: { reviewCommentText: string; commentId: number }) => {
+      const response = await api.post(
+        `/cal/v1/review/comment/${commentData.commentId}`,
+        commentData
+      );
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["productdetail"]);
+      },
     }
-  };
+  );
+
+  const handleCommentSubmit = useCallback(
+    async (commentId: number) => {
+      try {
+        await addReviewCommentMutation.mutateAsync({
+          reviewCommentText: comment,
+          commentId: commentId,
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error))
+          handleOpenErrorModal(error.response?.data.message);
+      }
+    },
+    [comment]
+  );
   // console.log(cartItems);
 
   return isLoading ? (
@@ -356,7 +379,7 @@ const ProductDetail = () => {
                         >
                           {item.reviewCommentList &&
                             item.reviewCommentList.map(
-                              (item: any, index: number) => (
+                              (reviewComment: any, index: number) => (
                                 <div
                                   key={index}
                                   style={{
@@ -371,11 +394,11 @@ const ProductDetail = () => {
                                       fontWeight: "600",
                                     }}
                                   >
-                                    {item.customerName}님
+                                    {reviewComment.customerName}님
                                   </Typography>
                                   <Typography>
                                     {" "}
-                                    - {item.reviewCommentText}
+                                    - {reviewComment.reviewCommentText}
                                   </Typography>
                                 </div>
                               )
