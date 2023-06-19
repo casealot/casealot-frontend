@@ -94,7 +94,9 @@ const ProductDetail = () => {
     }
   }, [id]);
 
-  const { data, isLoading } = useQuery(["productdetail"], getProductDetail, {});
+  const { data, isLoading } = useQuery(["productdetail"], () =>
+    api.get(`cal/v1/product/${id}`).then((response) => response.data.body)
+  );
   const product = useMemo(() => data?.product || {}, [data]);
   const { name, price, content, thumbnail, wishCount, wishYn } = product;
 

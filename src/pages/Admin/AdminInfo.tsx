@@ -7,6 +7,7 @@ import AdminInfoTop from "../../components/Admin/AdminInfoTop";
 import DateTable from "../../components/Admin/DateTable";
 import { api } from "../../atom/apiCall";
 import { useEffect } from "react";
+import QnABoard from "../../components/Admin/QnABoard";
 
 const AdminInfo = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -18,17 +19,35 @@ const AdminInfo = () => {
     color: theme.palette.text.secondary,
   }));
 
-  const getQnA = async () => {
-    const response = await api.get("cal/v1/function/qna");
-    console.log(response);
-  };
   const getReview = async () => {
     const response = await api.get("cal/v1/function/review");
     console.log(response);
   };
 
+  const TitleTypography = styled(Typography)`
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 15px;
+    border-bottom: 1px solid #d3d3d3;
+    font-weight: 600;
+  `;
+  const ScrollableContainer = styled(Item)`
+    overflow: auto;
+
+    ::-webkit-scrollbar {
+      width: 0.8em;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: #f5f5f5;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #888;
+    }
+  `;
   useEffect(() => {
-    getQnA();
     getReview();
   }, []);
   return (
@@ -55,17 +74,15 @@ const AdminInfo = () => {
             </Item>
           </Grid>
           <Grid item xs={6}>
-            <Item>
-              <Typography
-                sx={{
-                  borderBottom: "1px solid #d3d3d3",
-                  padding: "15px",
-                  fontWeight: "600",
-                }}
-              >
-                문의내역
-              </Typography>
-            </Item>
+            <ScrollableContainer
+              sx={{
+                position: "relative",
+              }}
+            >
+              <TitleTypography sx={{ width: "100%" }}>문의내역</TitleTypography>
+
+              <QnABoard />
+            </ScrollableContainer>
           </Grid>
           <Grid item xs={6}>
             <Item>

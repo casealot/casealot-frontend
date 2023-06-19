@@ -4,12 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import ErrorModal from "../../components/Modal/ErrorHandleModal";
 import axios from "axios";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
 import ConfirmationDialog from "../../components/Useable/ConfirmModal";
 
 const QnAFix = () => {
