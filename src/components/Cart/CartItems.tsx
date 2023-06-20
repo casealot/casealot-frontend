@@ -24,6 +24,7 @@ import { Container } from "@mui/system";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import ErrorModal from "../Modal/ErrorHandleModal";
 import ConfirmationDialog from "../Useable/ConfirmModal";
+import { RequestPayParams, RequestPayResponse } from "../../atom/PortOne";
 
 const CartItems = () => {
   const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
@@ -97,15 +98,65 @@ const CartItems = () => {
   const handleCloseErrorModal = () => {
     setIsErrorModalOpen(false);
   };
+
+  const callback = (response: RequestPayResponse) => {
+    const { success, error_msg } = response;
+
+    if (success) {
+      alert("결제 성공");
+    } else {
+      alert(`결제 실패: ${error_msg}`);
+    }
+  };
+
+  const onSubmitOrder = async () => {
+    try {
+      const response = await api.post("cal/v1/order", {
+        orderProducts: cartItems.map((cart) => {
+          return {
+            productId: cart.id,
+            quantity: cart.quantity,
+          };
+        }),
+      });
+      if (response && response.data.body.order) {
+        if (!window.IMP) {
+          console.log("안돼");
+        } else {
+          const { IMP } = window;
+          IMP.init("imp48116556");
+
+          const data: RequestPayParams = {
+            pg: "html5_inicis.INIBillTst", // PG사 : https://portone.gitbook.io/docs/sdk/javascript-sdk/payrq#undefined-1 참고
+            pay_method: "card", // 결제수단
+            merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+            amount: 1000, // 결제금액
+            buyer_name: "홍길동", // 구매자 이름
+            buyer_tel: "01012341234", // 구매자 전화번호
+            buyer_email: "example@example", // 구매자 이메일
+            buyer_addr: "신사동 661-16", // 구매자 주소
+          };
+          IMP.request_pay(data, callback);
+        }
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        handleOpenErrorModal(error.response?.data.message);
+      }
+    }
+  };
   return (
     <Container maxWidth="xl">
       <div style={{ display: "flex", justifyContent: "end" }}>
         <Button
-          onClick={handleOpenConfirmation}
+          onClick={onSubmitOrder}
           variant="contained"
-          sx={{ marginBottom: "20px" }}
+          sx={{ marginBottom: "20px", marginRight: "20px" }}
         >
-          장바구니 비우기
+          구매하기
+        </Button>
+        <Button onClick={handleOpenConfirmation} sx={{ marginBottom: "20px" }}>
+          <DeleteIcon />
         </Button>
       </div>
       <TableContainer>
@@ -177,6 +228,7 @@ const CartItems = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
       <ConfirmationDialog
         open={isConfirmationOpen}
         onClose={handleCloseConfirmation}
