@@ -126,15 +126,31 @@ const CartItems = () => {
           const { IMP } = window;
           IMP.init("imp48116556");
 
+          const responseData = response.data.body.order;
+
+          const ProductsLength = responseData.orderProducts.length;
+          let OtherProducts = "";
+
+          if (ProductsLength > 1) {
+            OtherProducts = `${responseData.orderProducts[0].name} 외${
+              ProductsLength - 1
+            } 개`;
+          } else if (ProductsLength == 1) {
+            OtherProducts = responseData.orderProducts[0].name;
+          }
+
           const data: RequestPayParams = {
             pg: "html5_inicis.INIBillTst", // PG사 : https://portone.gitbook.io/docs/sdk/javascript-sdk/payrq#undefined-1 참고
             pay_method: "card", // 결제수단
-            merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-            amount: 1000, // 결제금액
-            buyer_name: "홍길동", // 구매자 이름
-            buyer_tel: "01012341234", // 구매자 전화번호
-            buyer_email: "example@example", // 구매자 이메일
-            buyer_addr: "신사동 661-16", // 구매자 주소
+            merchant_uid: `${responseData.orderNumber}`, // 주문번호
+            amount: Number(`${responseData.totalAmount}`),
+            name: OtherProducts,
+            // 결제금액
+            // 구매자 주소
+            buyer_name: `${responseData.name}`, // 구매자 이름
+            buyer_tel: `${responseData.phoneNumber}`, // 구매자 전화번호
+            buyer_email: `${responseData.email}`, // 구매자 이메일
+            buyer_addr: `${responseData.address} ${responseData.addressDetail}`,
           };
           IMP.request_pay(data, callback);
         }
