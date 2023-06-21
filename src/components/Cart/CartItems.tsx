@@ -104,6 +104,10 @@ const CartItems = () => {
 
     if (success) {
       alert("결제 성공");
+      api.put(
+        `cal/v1/verifyIamport/${response.merchant_uid}`,
+        response.imp_uid
+      );
       console.log(response);
       console.log(response.imp_uid);
       console.log(response.merchant_uid);
