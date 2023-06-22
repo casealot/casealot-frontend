@@ -104,9 +104,14 @@ const CartItems = () => {
 
     if (success) {
       alert("결제 성공");
-      api.put(
-        `cal/v1/verifyIamport/${response.merchant_uid}`,
-        response.imp_uid
+      axios.put(
+        `http://43.201.170.8:8000/cal/v1/verifyIamport/${response.merchant_uid}`,
+        `${response.imp_uid}`,
+        {
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        }
       );
       console.log(response);
       console.log(response.imp_uid);
