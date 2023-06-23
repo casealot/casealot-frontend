@@ -115,7 +115,7 @@ const CartItems = () => {
         }
       );
       if (res) {
-        await api.post(`cal/v1/order/${response.merchant_uid}/complete`);
+        await api.post(`cal/v1/order/${res.data.body.oid}/complete`);
       }
       console.log(response);
       console.log(response.imp_uid);

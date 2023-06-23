@@ -19,8 +19,8 @@ const AdminInfo = () => {
     color: theme.palette.text.secondary,
   }));
 
-  const getReview = async () => {
-    const response = await api.get("cal/v1/function/review");
+  const getSales = async () => {
+    const response = await api.get("cal/v1/function/sales");
     console.log(response);
   };
 
@@ -48,7 +48,7 @@ const AdminInfo = () => {
     }
   `;
   useEffect(() => {
-    getReview();
+    getSales();
   }, []);
   return (
     <>
