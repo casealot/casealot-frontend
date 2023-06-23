@@ -21,6 +21,7 @@ import "./atom/Recoilenv";
 import QnaDetail from "./pages/QnA/QnaDetail";
 import QnAFix from "./pages/QnA/QnAFix";
 import AdminInfo from "./pages/Admin/AdminInfo";
+import OrderList from "./pages/User/OrderList";
 
 const role = localStorage.getItem("role");
 
@@ -45,12 +46,14 @@ function App() {
           <Route path="/products" element={<ProductPage />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/mypage/profile" element={<EditProfile />} />
+          <Route path="/mypage/orderlist" element={<OrderList />} />
           <Route path="/qna" element={<QnaPage />} />
           <Route path="/qna/new" element={<QNAPost />} />
           <Route path="/qna/:id" element={<QnaDetail />} />
           <Route path="/qna/fix/:id" element={<QnAFix />} />
           {/* <Route element={<ProductRegistrationPage />} />/ */}
           <Route path="/admin" element={<AdminInfo />} />
+
           <Route
             path="/admin/addproduct"
             element={
