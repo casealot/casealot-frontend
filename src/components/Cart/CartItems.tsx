@@ -4,8 +4,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 // import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { CartListState, ConfirmButtonState, cartItems } from "../../atom/Cart";
+import { useRecoilState } from "recoil";
+import { CartListState, cartItems } from "../../atom/Cart";
 import ready from "../../dummy/img/imgready.gif";
 import {
   IconButton,
@@ -19,19 +19,19 @@ import {
   TableRow,
 } from "@mui/material";
 import { api } from "../../atom/apiCall";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container } from "@mui/system";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import ErrorModal from "../Modal/ErrorHandleModal";
 import ConfirmationDialog from "../Useable/ConfirmModal";
 import { RequestPayParams, RequestPayResponse } from "../../atom/PortOne";
 
 const CartItems = () => {
   const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
-  const setConfirmRemoveProductId = useSetRecoilState(ConfirmButtonState);
+  // const setConfirmRemoveProductId = useSetRecoilState(ConfirmButtonState);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [cart, setCart] = useState([]);
+  // const [cart, setCart] = useState([]);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
   // 상품 삭제버튼 이벤트 //
@@ -48,7 +48,7 @@ const CartItems = () => {
 
   const handleDeleteAll = async () => {
     try {
-      const response = await api.delete("cal/v1/cart/clear");
+      await api.delete("cal/v1/cart/clear");
       setCartItems([]);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -99,12 +99,13 @@ const CartItems = () => {
     setIsErrorModalOpen(false);
   };
 
-  const callback = (response: RequestPayResponse) => {
+  const callback = async (response: RequestPayResponse) => {
     const { success, error_msg } = response;
 
     if (success) {
       alert("결제 성공");
-      axios.put(
+
+      const res = await api.put(
         `http://43.201.170.8:8000/cal/v1/verifyIamport/${response.merchant_uid}`,
         `${response.imp_uid}`,
         {
@@ -113,6 +114,9 @@ const CartItems = () => {
           },
         }
       );
+      if (res) {
+        await api.post(`cal/v1/order/${response.merchant_uid}/complete`);
+      }
       console.log(response);
       console.log(response.imp_uid);
       console.log(response.merchant_uid);

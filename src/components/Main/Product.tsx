@@ -4,11 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import { ProductListAtom, ProductType } from "../../atom/Product";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import { api } from "../../atom/apiCall";
 import { Container } from "@mui/joy";
 import ready from "../../dummy/img/imgready.gif";
 import { NoneStyledLink } from "../Useable/Link";
+import Loading from "../Useable/Loading";
 
 // const ProductArea = styled.div`
 //   margin: 70px 0 0;
@@ -42,7 +43,7 @@ const ProductList = styled.li`
 `;
 
 const Product = () => {
-  const [page, setPage] = useState(0);
+  const [page] = useState(0);
   const getProduct = async () => {
     const response = await api.post("/cal/v1/product", {
       filter: [],
@@ -80,9 +81,9 @@ const Product = () => {
     }
   }, [isError]);
 
-  const handlePageChange = () => {
-    setPage(page + 1);
-  };
+  // const handlePageChange = () => {
+  //   setPage(page + 1);
+  // };
 
   useEffect(() => {
     getProduct();
@@ -92,7 +93,7 @@ const Product = () => {
     <>
       <Container maxWidth="xl">
         {isLoading ? (
-          <p>Loading...</p>
+          <Loading />
         ) : (
           <ProductGrid>
             {productList.map((item: ProductType) => (

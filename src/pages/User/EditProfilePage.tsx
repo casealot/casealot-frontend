@@ -41,9 +41,9 @@ const EditProfile = () => {
   const [address2State, setAddress2State] = useState("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profilePreview, setProfilePreview] = useState("");
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [, setIsErrorModalOpen] = useState(false);
+  // const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [, setErrorMessage] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -77,9 +77,9 @@ const EditProfile = () => {
     setErrorMessage(errorMessage);
     setIsErrorModalOpen(true);
   };
-  const handleCloseErrorModal = () => {
-    setIsErrorModalOpen(false);
-  };
+  // const handleCloseErrorModal = () => {
+  //   setIsErrorModalOpen(false);
+  // };
 
   const { data: userInfo } = useQuery(["userInfo"], () =>
     api.get("cal/v1/customer")

@@ -59,7 +59,7 @@ const QnAFix = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await api.put(`cal/v1/qna/${id}`, {
+      await api.put(`cal/v1/qna/${id}`, {
         content: content,
         title: title,
       });

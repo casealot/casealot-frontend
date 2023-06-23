@@ -2,12 +2,12 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { Container, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
 import AdminInfoTop from "../../components/Admin/AdminInfoTop";
 import DateTable from "../../components/Admin/DateTable";
 import { api } from "../../atom/apiCall";
 import { useEffect } from "react";
 import QnABoard from "../../components/Admin/QnABoard";
+import ReviewBoard from "../../components/Admin/ReviewBoard";
 
 const AdminInfo = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -85,17 +85,15 @@ const AdminInfo = () => {
             </ScrollableContainer>
           </Grid>
           <Grid item xs={6}>
-            <Item>
-              <Typography
-                sx={{
-                  borderBottom: "1px solid #d3d3d3",
-                  padding: "15px",
-                  fontWeight: "600",
-                }}
-              >
-                리뷰현황
-              </Typography>
-            </Item>
+            <ScrollableContainer
+              sx={{
+                position: "relative",
+              }}
+            >
+              <TitleTypography sx={{ width: "100%" }}>리뷰현황</TitleTypography>
+
+              <ReviewBoard />
+            </ScrollableContainer>
           </Grid>
         </Grid>
       </Container>

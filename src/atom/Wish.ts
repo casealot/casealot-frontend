@@ -1,6 +1,5 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 import { api } from "./apiCall";
-import { accessTokenState } from "./User";
 
 export interface WishType {
   color: string;

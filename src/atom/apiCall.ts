@@ -23,7 +23,7 @@ api.interceptors.response.use(
         const refreshToken = localStorage.getItem("refreshToken");
 
         const res = await axios.get(
-          "http://43.201.170.8:8000/cal/v1/auth/refresh",
+          "https://43.201.170.8:8000/cal/v1/auth/refresh",
           {
             headers: {
               RefreshToken: `Bearer ${refreshToken}`,

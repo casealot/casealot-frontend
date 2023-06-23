@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled, alpha } from "@mui/material/styles";
 import { Button, Container, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -126,10 +126,10 @@ const QnaPage = () => {
     pageNumbers.push(i);
   }
 
-  const filteredItems = currentItems.filter((item: QNA) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return item.title.toLowerCase().includes(lowerCaseSearchTerm);
-  });
+  // const filteredItems = currentItems.filter((item: QNA) => {
+  //   const lowerCaseSearchTerm = searchTerm.toLowerCase();
+  //   return item.title.toLowerCase().includes(lowerCaseSearchTerm);
+  // });
 
   const navigate = useNavigate();
 

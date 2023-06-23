@@ -1,8 +1,8 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
-import { Review, ReviewListAtom } from "../../atom/Product";
+
 import styled from "styled-components";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
 import { CartListState } from "../../atom/Cart";
@@ -74,7 +74,7 @@ const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [, setReviewList] = useRecoilState<Review[]>(ReviewListAtom);
+  // const [, setReviewList] = useRecoilState<Review[]>(ReviewListAtom);
   const setCartItems = useSetRecoilState<cartItems[]>(CartListState);
   const [wishboolean, setWishboolean] = useState("");
   const [wishCountState, setWishCountState] = useState("");

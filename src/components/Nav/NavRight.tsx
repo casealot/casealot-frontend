@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
-import { useRecoilValue, useRecoilValueLoadable } from "recoil";
+import { useRecoilValueLoadable } from "recoil";
 import { CartListState } from "../../atom/Cart";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";

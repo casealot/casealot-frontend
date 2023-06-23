@@ -38,7 +38,6 @@ const ProductFix = () => {
   const [contentValue, setContentValue] = useState("");
   const [thumbnail, setThumbnail] = useState<null | File>(null);
   const [thumbnailpre, setThumbnailpre] = useState("");
-  const [products, setProducts] = useState(null);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const productId = params.id;
@@ -72,6 +71,7 @@ const ProductFix = () => {
       quill.root.innerHTML = contentValue; // 기본값 설정
       quill.on("text-change", handleContentChange); // 내용 변경 시 호출할 함수 등록
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quill]);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {

@@ -11,7 +11,7 @@ import ready from "../../dummy/img/imgready.gif";
 import { useRecoilValue } from "recoil";
 import { ProductType, ProductListAtom } from "../../atom/Product";
 
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { NoneStyledLink } from "../../components/Useable/Link";
 
 const ProductPage = () => {

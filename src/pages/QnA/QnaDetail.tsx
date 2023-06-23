@@ -15,8 +15,7 @@ const QnaDetail = () => {
 
   const { data, isLoading } = useQuery(["QnADetail"], QnaDetail);
 
-  const { content, createdDt, customerId, modifiedDt, title, available } =
-    data || {};
+  const { content, createdDt, customerId, title, available } = data || {};
 
   const navigate = useNavigate();
 

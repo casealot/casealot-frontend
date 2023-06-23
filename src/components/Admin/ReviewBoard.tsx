@@ -5,11 +5,11 @@ import ready from "../../dummy/img/noimage.gif";
 import { Box, Typography } from "@mui/material";
 import { styled } from "styled-components";
 
-type QnAList = {
+type ReviewList = {
   id: number;
-  title: string;
+  reviewText: string;
   modifiedDt: string;
-  profileImg: string | null;
+  productThumbnail: string | null;
   customerId: string;
 };
 
@@ -25,27 +25,27 @@ const StyledImage = styled.img`
   object-fit: cover;
 `;
 
-const QnABoard = () => {
-  const getQnA = async () => {
+const ReviewBoard = () => {
+  const getReview = async () => {
     try {
-      const response = await api.get("cal/v1/function/qna");
+      const response = await api.get("cal/v1/function/review");
       return response.data.body.function;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const { data: QnA, isLoading } = useQuery(["getQnA"], getQnA);
+  const { data: Review, isLoading } = useQuery(["getReivew"], getReview);
 
   return isLoading ? (
     <Loading />
   ) : (
     <Box sx={{ marginTop: "60px" }}>
-      {QnA?.map((qnaList: QnAList, index: number) => (
+      {Review?.map((ReviewList: ReviewList, index: number) => (
         <div key={index} style={{ display: "flex", padding: "8px" }}>
           <ImageContainer style={{ marginRight: "10px" }}>
-            {qnaList.profileImg ? (
-              <StyledImage src={qnaList.profileImg} alt="Profile" />
+            {ReviewList.productThumbnail ? (
+              <StyledImage src={ReviewList.productThumbnail} alt="Profile" />
             ) : (
               <StyledImage src={ready} alt="Placeholder" />
             )}
@@ -58,14 +58,14 @@ const QnABoard = () => {
             }}
           >
             <Typography
-              sx={{ fontSize: "12px", color: "blue", marginBottom: "2px" }}
+              sx={{ fontSize: "12px", marginBottom: "2px", color: "#a0a0a0" }}
             >
-              {qnaList.customerId}님
+              {ReviewList.customerId}님
             </Typography>
-            <Typography>{qnaList.title}</Typography>
+            <Typography>{ReviewList.reviewText}</Typography>
           </div>
           <Typography sx={{ marginLeft: "auto", fontSize: "10px" }}>
-            {qnaList.modifiedDt}
+            {ReviewList.modifiedDt}
           </Typography>
         </div>
       ))}
@@ -73,4 +73,4 @@ const QnABoard = () => {
   );
 };
 
-export default QnABoard;
+export default ReviewBoard;
