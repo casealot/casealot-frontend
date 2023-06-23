@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const accessToken = localStorage.getItem("accessToken");
 
 export const api = axios.create({
@@ -40,8 +40,11 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         location.reload();
         return axios(originalRequest);
-      } catch (e) {
-        // 에러 처리
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 500) {
+          const navigate = useNavigate();
+          navigate("/");
+        }
       }
     }
 
