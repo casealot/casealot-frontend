@@ -3,6 +3,7 @@ import { api } from "../../atom/apiCall";
 
 import ready from "../../dummy/img/noimage.gif";
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -10,6 +11,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
+  styled,
 } from "@mui/material";
 
 interface OrderProduct {
@@ -34,7 +37,9 @@ interface Order {
   phoneNumber: string;
   totalAmount: number;
 }
-
+const CenterAlignedCell = styled(TableCell)`
+  text-align: center;
+`;
 const TotalOrder = () => {
   const { data, isLoading } = useQuery<Order[]>(["getOrderList"], async () => {
     const response = await api.get("cal/v1/order/all");
@@ -46,11 +51,11 @@ const TotalOrder = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Product Information</TableCell>
-              <TableCell>Order Date</TableCell>
-              <TableCell>Order Number</TableCell>
-              <TableCell>Order Amount & Quantity</TableCell>
-              <TableCell>Order Status</TableCell>
+              <TableCell>상품정보</TableCell>
+              <TableCell>주문일자</TableCell>
+              <TableCell>주문번호</TableCell>
+              <CenterAlignedCell>주문금액(수량)</CenterAlignedCell>
+              <CenterAlignedCell>주문상태</CenterAlignedCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -94,12 +99,15 @@ const TotalOrder = () => {
                   </TableCell>
                   <TableCell>{order.orderDt}</TableCell>
                   <TableCell>{order.orderNumber}</TableCell>
-                  <TableCell>
-                    Amount: {order.totalAmount}
-                    <br />
-                    Quantity: {order.orderProducts.length}
-                  </TableCell>
-                  <TableCell>{order.orderStatus}</TableCell>
+                  <CenterAlignedCell>
+                    <Typography sx={{ fontWeight: 600 }}>
+                      {order.totalAmount}원
+                    </Typography>
+                    <Typography>{order.orderProducts.length}개</Typography>
+                  </CenterAlignedCell>
+                  <CenterAlignedCell>
+                    {order.orderStatus} <br /> <Button>배송조회</Button>
+                  </CenterAlignedCell>
                 </TableRow>
               ))
             )}
