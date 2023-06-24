@@ -26,57 +26,48 @@ import OrderList from "./pages/User/OrderList";
 const role = localStorage.getItem("role");
 
 function App() {
-  // 나머지 앱 컴포넌트의 내용
-
   return (
-    <>
-      <BrowserRouter basename="/">
-        <Nav />
-        <Routes>
-          <Route
-            path="/admin/signin"
-            element={role ? <div>No Access</div> : <AdminLogin />}
-          />
+    <BrowserRouter basename="/">
+      <Nav />
+      <Routes>
+        <Route
+          path="/admin/signin"
+          element={role ? <div>No Access</div> : <AdminLogin />}
+        />
+        <Route path="/" element={<MainPage />} />
+        <Route path="/signin" element={<SigninPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/products" element={<ProductPage />} />
+        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mypage/profile" element={<EditProfile />} />
+        <Route path="/mypage/orderlist" element={<OrderList />} />
+        <Route path="/qna" element={<QnaPage />} />
+        <Route path="/qna/new" element={<QNAPost />} />
+        <Route path="/qna/:id" element={<QnaDetail />} />
+        <Route path="/qna/fix/:id" element={<QnAFix />} />
+        {/* <Route element={<ProductRegistrationPage />} />/ */}
+        <Route path="/admin" element={<AdminInfo />} />
 
-          <Route path="/" element={<MainPage />} />
-          <Route path="/signin" element={<SigninPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/products" element={<ProductPage />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/mypage/profile" element={<EditProfile />} />
-          <Route path="/mypage/orderlist" element={<OrderList />} />
-          <Route path="/qna" element={<QnaPage />} />
-          <Route path="/qna/new" element={<QNAPost />} />
-          <Route path="/qna/:id" element={<QnaDetail />} />
-          <Route path="/qna/fix/:id" element={<QnAFix />} />
-          {/* <Route element={<ProductRegistrationPage />} />/ */}
-          <Route path="/admin" element={<AdminInfo />} />
-
-          <Route
-            path="/admin/addproduct"
-            element={
-              role === "ADMIN" ? (
-                <ProductRegistrationPage />
-              ) : (
-                <h1>No access</h1>
-              )
-            }
-          />
-          <Route path="/wishlist" element={<WishListPage />} />
-          <Route
-            path="/admin/product"
-            element={role === "ADMIN" ? <ProductState /> : <h1>No access</h1>}
-          />
-          <Route
-            path="/admin/edit/:id"
-            element={role === "ADMIN" ? <ProductFix /> : <h1>No access</h1>}
-          />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </>
+        <Route
+          path="/admin/addproduct"
+          element={
+            role === "ADMIN" ? <ProductRegistrationPage /> : <h1>No access</h1>
+          }
+        />
+        <Route path="/wishlist" element={<WishListPage />} />
+        <Route
+          path="/admin/product"
+          element={role === "ADMIN" ? <ProductState /> : <h1>No access</h1>}
+        />
+        <Route
+          path="/admin/edit/:id"
+          element={role === "ADMIN" ? <ProductFix /> : <h1>No access</h1>}
+        />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 

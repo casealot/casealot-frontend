@@ -6,7 +6,7 @@ import { ProductListAtom, ProductType } from "../../atom/Product";
 import { useEffect, useState } from "react";
 
 import { api } from "../../atom/apiCall";
-import { Container } from "@mui/joy";
+import { Container } from "@mui/material";
 import ready from "../../dummy/img/imgready.gif";
 import { NoneStyledLink } from "../Useable/Link";
 import Loading from "../Useable/Loading";

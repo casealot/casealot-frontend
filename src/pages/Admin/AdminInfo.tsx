@@ -8,6 +8,7 @@ import { api } from "../../atom/apiCall";
 import { useEffect } from "react";
 import QnABoard from "../../components/Admin/QnABoard";
 import ReviewBoard from "../../components/Admin/ReviewBoard";
+import SalesBoard from "../../components/Admin/SalesBoard";
 
 const AdminInfo = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -66,6 +67,7 @@ const AdminInfo = () => {
               >
                 방문자 현황
               </Typography>
+              <SalesBoard />
             </Item>
           </Grid>
           <Grid item xs={6}>

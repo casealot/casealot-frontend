@@ -1,17 +1,14 @@
-import { Container } from "@mui/joy";
+import { Container } from "@mui/material";
 import { Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../atom/apiCall";
 import Loading from "../../components/Useable/Loading";
 
 const OrderList = () => {
-  const { data: orderList, isLoading } = useQuery(
-    ["getOrderList"],
-    async () => {
-      const response = await api.get("cal/v1/order");
-      return response.data.body;
-    }
-  );
+  const { isLoading } = useQuery(["getOrderList"], async () => {
+    const response = await api.get("cal/v1/order");
+    return response.data.body;
+  });
   return isLoading ? (
     <Loading />
   ) : (
