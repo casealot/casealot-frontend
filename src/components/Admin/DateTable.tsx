@@ -1,5 +1,4 @@
 import {
-  Typography,
   TableContainer,
   Table,
   TableHead,
@@ -61,20 +60,11 @@ const DateTable = () => {
     <Loading />
   ) : (
     <>
-      <Typography
-        sx={{
-          borderBottom: "1px solid #d3d3d3",
-          padding: "15px",
-          fontWeight: "600",
-        }}
-      >
-        일자별 요약
-      </Typography>
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>일자</TableCell>
+              <TableCell>날짜</TableCell>
               <TableCell>주문수</TableCell>
               <TableCell>매출액</TableCell>
               <TableCell>가입</TableCell>
@@ -86,10 +76,10 @@ const DateTable = () => {
               data.function.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.today}</TableCell>
-                  <TableCell>{item.todayOrder}</TableCell>
-                  <TableCell>{item.todayCash}</TableCell>
-                  <TableCell>{item.todaySignIn}</TableCell>
-                  <TableCell>{item.todayQna}</TableCell>
+                  <TableCell>{item.todayOrder}건</TableCell>
+                  <TableCell>{item.todayCash}원</TableCell>
+                  <TableCell>{item.todaySignIn}명</TableCell>
+                  <TableCell>{item.todayQna}건</TableCell>
                 </TableRow>
               ))
             ) : (
@@ -98,10 +88,10 @@ const DateTable = () => {
 
             <TableRow>
               <TableCell>최근 7일 합계</TableCell>
-              <TableCell>{weeklyTotal?.todayOrder}</TableCell>
-              <TableCell>{weeklyTotal?.todayCash}</TableCell>
-              <TableCell>{weeklyTotal?.todaySignIn}</TableCell>
-              <TableCell>{weeklyTotal?.todayQna}</TableCell>
+              <TableCell>{weeklyTotal?.todayOrder}건</TableCell>
+              <TableCell>{weeklyTotal?.todayCash}원</TableCell>
+              <TableCell>{weeklyTotal?.todaySignIn}명</TableCell>
+              <TableCell>{weeklyTotal?.todayQna}건</TableCell>
             </TableRow>
           </TableBody>
         </Table>

@@ -1,19 +1,52 @@
 import { Container } from "@mui/material";
-import { Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../../atom/apiCall";
+import { Typography, Tabs, Tab, Box } from "@mui/material";
 import Loading from "../../components/Useable/Loading";
+import { useState } from "react";
+import TotalOrder from "../../components/OrderList/TotalOrder";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ py: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 const OrderList = () => {
-  const { isLoading } = useQuery(["getOrderList"], async () => {
-    const response = await api.get("cal/v1/order");
-    return response.data.body;
-  });
-  return isLoading ? (
-    <Loading />
-  ) : (
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  return (
     <>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ minHeight: "800px" }}>
         <Typography
           component="h2"
           variant="h3"
@@ -24,7 +57,32 @@ const OrderList = () => {
         >
           ORDER LIST
         </Typography>
-        <div>아아</div>
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="주문내역" {...a11yProps(0)} />
+              <Tab label="완료내역" {...a11yProps(1)} />
+              <Tab label="교환내역" {...a11yProps(2)} />
+              <Tab label="취소내역" {...a11yProps(3)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <TotalOrder />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            Item Two
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            Item Three
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            Item Three
+          </TabPanel>
+        </Box>
       </Container>
     </>
   );

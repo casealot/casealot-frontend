@@ -65,13 +65,23 @@ const AdminInfo = () => {
                   fontWeight: "600",
                 }}
               >
-                방문자 현황
+                매출 현황
               </Typography>
               <SalesBoard />
             </Item>
           </Grid>
           <Grid item xs={6}>
             <Item>
+              <Typography
+                sx={{
+                  borderBottom: "1px solid #d3d3d3",
+                  padding: "15px",
+                  fontWeight: "600",
+                }}
+              >
+                일자별 요약
+              </Typography>
+
               <DateTable />
             </Item>
           </Grid>

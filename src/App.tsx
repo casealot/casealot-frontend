@@ -27,7 +27,7 @@ const role = localStorage.getItem("role");
 
 function App() {
   return (
-    <BrowserRouter basename="/">
+    <BrowserRouter basename="/casealot-frontend/">
       <Nav />
       <Routes>
         <Route

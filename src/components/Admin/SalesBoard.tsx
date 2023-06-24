@@ -17,7 +17,8 @@ const SalesBoard = () => {
     }
   );
 
-  const chartData = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const chartData: any = {
     series: [
       {
         name: "Sales",
@@ -26,23 +27,24 @@ const SalesBoard = () => {
     ],
     options: {
       chart: {
-        zoom: {
-          enabled: false,
-        },
+        type: "area",
+      },
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+      stroke: {
+        curve: "smooth",
+      },
+
+      dataLabels: {
+        enabled: false,
       },
 
       xaxis: {
-        // categories: data?.map((item: any) => item.today),
-        // categories: data?.map((item) => item.today),
-        categories: [
-          "23-06-06",
-          "23-06-06",
-          "23-06-06",
-          "23-06-06",
-          "23-06-06",
-          "23-06-06",
-          "23-06-06",
-        ],
+        categories: data?.map((item) => item.today),
       },
     },
   };
@@ -55,7 +57,7 @@ const SalesBoard = () => {
         series={chartData.series as ApexAxisChartSeries}
         type="area"
         width="100%"
-        height="450px"
+        height={450}
       />
     </>
   );
