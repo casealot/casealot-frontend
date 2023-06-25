@@ -22,6 +22,7 @@ import QnaDetail from "./pages/QnA/QnaDetail";
 import QnAFix from "./pages/QnA/QnAFix";
 import AdminInfo from "./pages/Admin/AdminInfo";
 import OrderList from "./pages/User/OrderList";
+import OrderDetail from "./pages/User/OrderDetail";
 
 const role = localStorage.getItem("role");
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/profile" element={<EditProfile />} />
         <Route path="/mypage/orderlist" element={<OrderList />} />
+        <Route path="/mypage/order/:id" element={<OrderDetail />} />
         <Route path="/qna" element={<QnaPage />} />
         <Route path="/qna/new" element={<QNAPost />} />
         <Route path="/qna/:id" element={<QnaDetail />} />

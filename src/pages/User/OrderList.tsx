@@ -1,8 +1,7 @@
 import { Container } from "@mui/material";
 import { Typography, Tabs, Tab, Box } from "@mui/material";
-import Loading from "../../components/Useable/Loading";
 import { useState } from "react";
-import TotalOrder from "../../components/OrderList/TotalOrder";
+import TotalOrder from "../../components/Order/TotalOrder";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -57,7 +56,7 @@ const OrderList = () => {
         >
           ORDER LIST
         </Typography>
-        <Box sx={{ width: "100%" }}>
+        <Box sx={{ width: "100%", marginY: "90px" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               value={value}

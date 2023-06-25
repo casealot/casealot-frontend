@@ -42,7 +42,7 @@ api.interceptors.response.use(
         location.reload();
         return axios(originalRequest);
       } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.status === 500) {
+        if (axios.isAxiosError(error)) {
           const navigate = useNavigate();
           navigate("/");
         }

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../atom/apiCall";
+import { NoneStyledLink } from "../Useable/Link";
 
 import ready from "../../dummy/img/noimage.gif";
 import {
@@ -45,6 +46,7 @@ const TotalOrder = () => {
     const response = await api.get("cal/v1/order/all");
     return response.data.body.order;
   });
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -68,35 +70,38 @@ const TotalOrder = () => {
                 <TableRow key={order.orderNumber}>
                   <TableCell>
                     {order.orderProducts.length > 0 && (
-                      <div style={{ display: "flex" }}>
-                        {order.orderProducts[0].thumbnail === null ? (
-                          <img
-                            src={ready}
-                            width="100%"
-                            height="100%"
-                            style={{
-                              maxWidth: "100px",
-                              maxHeight: "100px",
-                            }}
-                          />
-                        ) : (
-                          <img
-                            src={order.orderProducts[0].thumbnail}
-                            width="100%"
-                            height="100%"
-                            style={{
-                              maxWidth: "100px",
-                              maxHeight: "100px",
-                              minHeight: "100px",
-                            }}
-                          />
-                        )}
-                        <div style={{ margin: "auto 0", marginLeft: "20px" }}>
-                          {order.orderProducts[0].name}
+                      <NoneStyledLink to={`/mypage/order/${order.id}`}>
+                        <div style={{ display: "flex" }}>
+                          {order.orderProducts[0].thumbnail === null ? (
+                            <img
+                              src={ready}
+                              width="100%"
+                              height="100%"
+                              style={{
+                                maxWidth: "100px",
+                                maxHeight: "100px",
+                              }}
+                            />
+                          ) : (
+                            <img
+                              src={order.orderProducts[0].thumbnail}
+                              width="100%"
+                              height="100%"
+                              style={{
+                                maxWidth: "100px",
+                                maxHeight: "100px",
+                                minHeight: "100px",
+                              }}
+                            />
+                          )}
+                          <div style={{ margin: "auto 0", marginLeft: "20px" }}>
+                            {order.orderProducts[0].name}
+                          </div>
                         </div>
-                      </div>
+                      </NoneStyledLink>
                     )}
                   </TableCell>
+
                   <TableCell>{order.orderDt}</TableCell>
                   <TableCell>{order.orderNumber}</TableCell>
                   <CenterAlignedCell>
