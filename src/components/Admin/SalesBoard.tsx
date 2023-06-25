@@ -2,9 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import Chart from "react-apexcharts";
 import { api } from "../../atom/apiCall";
 import Loading from "../Useable/Loading";
+import ReactApexChart from "react-apexcharts";
+import { ApexOptions } from "apexcharts";
 interface SalesData {
   todaySales: number;
   today: string;
+  orderCounts: number;
 }
 
 const SalesBoard = () => {
@@ -12,55 +15,99 @@ const SalesBoard = () => {
     ["getSalesData"],
     async () => {
       const response = await api.get("cal/v1/function/sales");
-      console.log(response.data);
       return response.data.body.function;
     }
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const chartData: any = {
-    series: [
-      {
-        name: "Sales",
-        data: data?.map((item) => item.todaySales),
-      },
-    ],
-    options: {
-      chart: {
-        type: "area",
-      },
-      zoom: {
-        enabled: false,
-      },
+
+  const orderCountsChartOptions: ApexOptions = {
+    chart: {
+      id: "order-counts",
+      type: "line",
       toolbar: {
         show: false,
       },
-      stroke: {
-        curve: "smooth",
-      },
+    },
+    xaxis: {
+      categories: data?.map((item) => item.today),
+    },
 
-      dataLabels: {
-        enabled: false,
-      },
+    colors: ["#008FFB"],
+  };
 
-      xaxis: {
-        categories: data?.map((item) => item.today),
+  const todaySalesChartOptions: ApexOptions = {
+    chart: {
+      id: "today-sales",
+      type: "line",
+      toolbar: {
+        show: false,
       },
     },
+    xaxis: {
+      categories: data?.map((item) => item.today),
+    },
+
+    colors: ["#00E396"],
   };
-  return isLoading ? (
-    <Loading />
-  ) : (
-    <>
-      <Chart
-        options={chartData.options}
-        series={chartData.series as ApexAxisChartSeries}
-        type="area"
-        width="100%"
-        height={450}
-      />
-    </>
+
+  const orderCountsChartSeries = [
+    {
+      name: "Order Counts",
+      data: data?.map((item) => item.orderCounts),
+    },
+  ];
+
+  const todaySalesChartSeries = [
+    {
+      name: "Today Sales",
+      data: data?.map((item) => item.todaySales),
+    },
+  ];
+
+  return (
+    <div>
+      <div style={{ position: "relative" }}>
+        <Chart
+          options={orderCountsChartOptions}
+          series={orderCountsChartSeries as ApexAxisChartSeries}
+          type="line"
+          height={220}
+        />
+        <span
+          style={{
+            position: "absolute",
+            top: 2,
+            right: 35,
+            fontWeight: 600,
+            color: "#008FFB",
+            padding: "3px",
+          }}
+        >
+          ORDER
+        </span>
+      </div>
+      <div style={{ position: "relative" }}>
+        <Chart
+          options={todaySalesChartOptions}
+          series={todaySalesChartSeries as ApexAxisChartSeries}
+          type="line"
+          height={220}
+        />
+        <span
+          style={{
+            position: "absolute",
+            top: 2,
+            right: 35,
+            fontWeight: 600,
+            color: "#00E396",
+            padding: "3px",
+          }}
+        >
+          SALES
+        </span>
+      </div>
+    </div>
   );
 };
-
 export default SalesBoard;

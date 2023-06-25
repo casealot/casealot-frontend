@@ -11,8 +11,7 @@ const AdminInfoTop = () => {
   };
 
   const { data, isLoading } = useQuery(["dailyinfo"], getdaily);
-  const { todayOrder, todayCancel, todayReturn, todayChange, todayQna } =
-    data || {};
+  const { todayOrder, todayCancel, todayChange, todayQna } = data || {};
 
   return isLoading ? (
     <Loading />
@@ -49,7 +48,9 @@ const AdminInfoTop = () => {
         <Badge
           color="secondary"
           overlap="circular"
-          badgeContent="3"
+          badgeContent={Number(
+            todayCancel + todayOrder + todayQna + todayChange
+          )}
           sx={{ marginTop: "17px", marginLeft: "4px" }}
         />
       </div>
@@ -76,22 +77,7 @@ const AdminInfoTop = () => {
         <Typography
           sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
         >
-          반품관리
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "12px",
-            color: "red",
-            fontWeight: "600",
-            marginLeft: "2px",
-          }}
-        >
-          {todayReturn}
-        </Typography>
-        <Typography
-          sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
-        >
-          교환관리
+          교환문의
         </Typography>
         <Typography
           sx={{

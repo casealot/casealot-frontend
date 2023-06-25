@@ -11,6 +11,7 @@ type ReviewList = {
   modifiedDt: string;
   productThumbnail: string | null;
   customerId: string;
+  productName: string;
 };
 
 const ImageContainer = styled.div`
@@ -57,11 +58,28 @@ const ReviewBoard = () => {
               margin: "auto 0",
             }}
           >
-            <Typography
-              sx={{ fontSize: "12px", marginBottom: "2px", color: "#a0a0a0" }}
-            >
-              {ReviewList.customerId}님
-            </Typography>
+            <div style={{ display: "flex" }}>
+              <Typography
+                sx={{
+                  fontSize: "12px",
+                  marginBottom: "2px",
+                  color: "#000",
+                }}
+              >
+                {ReviewList.customerId}님
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "12px",
+                  marginBottom: "2px",
+                  color: "#000",
+                  fontWeight: 600,
+                  marginLeft: "6px",
+                }}
+              >
+                [ {ReviewList.productName} ]
+              </Typography>
+            </div>
             <Typography>{ReviewList.reviewText}</Typography>
           </div>
           <Typography sx={{ marginLeft: "auto", fontSize: "10px" }}>

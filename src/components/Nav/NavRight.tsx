@@ -8,6 +8,7 @@ import { useRecoilValueLoadable } from "recoil";
 import { CartListState } from "../../atom/Cart";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
+import { NoneStyledLink } from "../Useable/Link";
 
 const NavRight = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -70,18 +71,16 @@ const NavRight = () => {
         sx={{ transition: "ease 0.3s" }}
       >
         {" "}
-        <Link to="/mypage" style={{ textDecoration: "none", color: "inherit" }}>
+        <NoneStyledLink to="/mypage">
           {" "}
           <MenuItem onClick={handleClose}>MYPAGE</MenuItem>{" "}
-        </Link>
-        <MenuItem onClick={handleClose}>ORDER</MenuItem>
-        <Link
-          to="/wishlist"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          {" "}
+        </NoneStyledLink>
+        <NoneStyledLink to="/mypage/orderlist">
+          <MenuItem onClick={handleClose}>ORDER</MenuItem>
+        </NoneStyledLink>
+        <NoneStyledLink to="/wishlist">
           <MenuItem onClick={handleClose}>WISHLIST</MenuItem>{" "}
-        </Link>
+        </NoneStyledLink>
       </Menu>
 
       <Button

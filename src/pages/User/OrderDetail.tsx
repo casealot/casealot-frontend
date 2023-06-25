@@ -32,9 +32,9 @@ const OrderDetail = () => {
       const response = await api.post(`/cal/v1/order/${id}/cancel`);
 
       if (response) {
-        const res = await api.post(`/cal/v1/verifyIamport/cancel`, {
-          orderId: data?.orderNumber,
-        });
+        const res = await api.post(
+          `/cal/v1/verifyIamport/cancel/${data?.orderNumber}`
+        );
         if (res) {
           navigate("/mypage/orderlist");
         }
