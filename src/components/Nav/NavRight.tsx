@@ -115,10 +115,12 @@ const NavRight = () => {
         sx={{ transition: "ease 0.3s" }}
       >
         <NoneStyledLink to="/mypage">
-          <MenuItem onClick={handleMenuClose}>Notice</MenuItem>
+          <MenuItem onClick={handleMenuClose}>NOTICE</MenuItem>
         </NoneStyledLink>
         <NoneStyledLink to="/mypage">
-          <MenuItem onClick={handleMenuClose}>Q&A</MenuItem>
+          <MenuItem onClick={handleMenuClose} sx={{ alignItems: "center" }}>
+            Q&A
+          </MenuItem>
         </NoneStyledLink>
       </Menu>
       <Link to="/cart">

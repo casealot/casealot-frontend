@@ -10,12 +10,60 @@ import Container from "@mui/material/Container";
 import ready from "../../dummy/img/imgready.gif";
 import { useRecoilValue } from "recoil";
 import { ProductType, ProductListAtom } from "../../atom/Product";
-
-// import { Link } from "react-router-dom";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { NoneStyledLink } from "../../components/Useable/Link";
+import { api } from "../../atom/apiCall";
+import { useEffect, useState } from "react";
+import Loading from "../../components/Useable/Loading";
+import { Divider } from "@mui/material";
 
 const ProductPage = () => {
   const productList = useRecoilValue<ProductType[]>(ProductListAtom);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [productItems, setProductItems] = useState<ProductType[]>([]);
+
+  const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    ["getProducts"],
+    async ({ pageParam = page }) => {
+      const response = await api.post("/cal/v1/product", {
+        filter: [],
+        page: pageParam,
+        query: "",
+        size: 12,
+        sort: [{ field: "price", option: "desc" }],
+      });
+
+      return response.data.body.product.items;
+    },
+    {
+      refetchOnWindowFocus: false,
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.length === 0) {
+          return false;
+        }
+        return lastPage.length;
+      },
+    }
+  );
+  console.log(data);
+
+  useEffect(() => {
+    if (data) {
+      setProductItems((prevItems) => [...prevItems, ...data.pages.flat()]);
+      setHasMore(hasNextPage ?? false);
+    }
+  }, [data]);
+
+  const handleLoadMore = () => {
+    if (!isLoading && hasMore) {
+      fetchNextPage().then(({ data }) => {
+        setPage(Number(data?.pageParams));
+        setHasMore(hasNextPage ?? false);
+      });
+    }
+  };
 
   return (
     <>
@@ -47,63 +95,89 @@ const ProductPage = () => {
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="xl">
-          {/* End hero unit */}
-          <Grid container spacing={4} gap={2} rowGap={4}>
-            {productList.map((card) => (
-              <Grid key={card.id} xs={12} sm={6} md={2.9}>
-                <NoneStyledLink to={`/products/${card.id}`}>
-                  <Card
-                    sx={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    {card.thumbnail && card.thumbnail.url ? (
-                      <CardMedia
-                        component="div"
+          {data ? (
+            <InfiniteScroll
+              dataLength={productItems.length}
+              next={handleLoadMore}
+              hasMore={hasMore}
+              loader={<Loading />}
+              endMessage={
+                <>
+                  <p style={{ fontSize: "40px" }}>
+                    <Divider sx={{ marginBottom: "20px" }} />
+                    NO MORE PRODUCTS
+                  </p>
+                </>
+              }
+            >
+              <Grid
+                container
+                spacing={4}
+                gap={2}
+                rowGap={4}
+                sx={{ justifyContent: "center" }}
+              >
+                {productItems.map((card) => (
+                  <Grid key={card.id} xs={12} sm={6} md={2.9}>
+                    <NoneStyledLink to={`/products/${card.id}`}>
+                      <Card
                         sx={{
-                          pt: "100%",
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
                         }}
-                        image={card.thumbnail.url}
-                      />
-                    ) : (
-                      <CardMedia
-                        component="div"
-                        sx={{ pt: "100%" }}
-                        image={ready}
-                      />
-                    )}
+                      >
+                        {card.thumbnail && card.thumbnail.url ? (
+                          <CardMedia
+                            component="div"
+                            sx={{
+                              pt: "100%",
+                            }}
+                            image={card.thumbnail.url}
+                          />
+                        ) : (
+                          <CardMedia
+                            component="div"
+                            sx={{ pt: "100%" }}
+                            image={ready}
+                          />
+                        )}
 
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h3"
-                        sx={{
-                          maxHeight: "33px",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {card.name}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          maxHeight: "50px",
-                          textOverflow: "ellipsis",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {card.content}
-                      </Typography>
-                    </CardContent>
-                    <CardActions sx={{ justifyContent: "end" }}></CardActions>
-                  </Card>
-                </NoneStyledLink>
+                        <CardContent sx={{ flexGrow: 1 }}>
+                          <Typography
+                            gutterBottom
+                            variant="h6"
+                            component="h3"
+                            sx={{
+                              maxHeight: "33px",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {card.name}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              maxHeight: "50px",
+                              textOverflow: "ellipsis",
+                              overflow: "hidden",
+                            }}
+                          >
+                            {card.price}원
+                          </Typography>
+                        </CardContent>
+                        <CardActions
+                          sx={{ justifyContent: "end" }}
+                        ></CardActions>
+                      </Card>
+                    </NoneStyledLink>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
+            </InfiniteScroll>
+          ) : (
+            <Loading />
+          )}
         </Container>
       </main>
     </>
