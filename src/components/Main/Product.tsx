@@ -23,7 +23,7 @@ const ProductGrid = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 30px;
   color: #000;
 `;
 
@@ -33,13 +33,25 @@ const ProductList = styled.li`
   margin: 0 5px 30px !important;
   margin-left: 10px;
   text-align: center;
-  width: 25%;
+  width: 16%;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: 1280px) {
+    width: 33.33%;
+  }
+
+  @media (max-width: 960px) {
+    width: 50%;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const Product = () => {
@@ -49,7 +61,7 @@ const Product = () => {
       filter: [],
       page: page,
       query: "",
-      size: 12,
+      size: 15,
       sort: [{ field: "price", option: "desc" }],
     });
     console.log(response.data.body.product.items);
@@ -99,27 +111,27 @@ const Product = () => {
             {productList.map((item: ProductType) => (
               <ProductList key={item.id}>
                 <NoneStyledLink to={`/products/${item.id}`}>
-                  {item.thumbnail && item.thumbnail.url ? (
-                    <img
-                      src={item.thumbnail.url}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        maxWidth: "250px",
-                        maxHeight: "250px",
-                      }}
-                      alt={item.name}
-                    />
-                  ) : (
-                    <img
-                      src={ready}
-                      style={{
-                        width: "100%",
-                        maxHeight: "250px",
-                        maxWidth: "250px",
-                      }}
-                    />
-                  )}
+                  <div style={{ maxWidth: 300, maxHeight: 300 }}>
+                    {item.thumbnail && item.thumbnail.url ? (
+                      <img
+                        src={item.thumbnail.url}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "contain",
+                          aspectRatio: "1/1",
+                        }}
+                        alt={item.name}
+                      />
+                    ) : (
+                      <img
+                        src={ready}
+                        style={{
+                          width: "100%",
+                        }}
+                      />
+                    )}
+                  </div>
                 </NoneStyledLink>
                 <NoneStyledLink to={`/products/${item.id}`}>
                   <span

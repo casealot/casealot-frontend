@@ -80,7 +80,7 @@ const ProductPage = () => {
               component="h1"
               variant="h3"
               align="center"
-              color="text.primary"
+              color="blue"
               gutterBottom
             >
               PRODUCTS
@@ -113,12 +113,12 @@ const ProductPage = () => {
               <Grid
                 container
                 spacing={4}
-                gap={2}
+                gap={5}
                 rowGap={4}
                 sx={{ justifyContent: "center" }}
               >
                 {productItems.map((card) => (
-                  <Grid key={card.id} xs={12} sm={6} md={2.9}>
+                  <Grid key={card.id} xs={12} sm={6} md={2.5}>
                     <NoneStyledLink to={`/products/${card.id}`}>
                       <Card
                         sx={{
@@ -132,13 +132,18 @@ const ProductPage = () => {
                             component="div"
                             sx={{
                               pt: "100%",
+                              height: "fit-content",
+                              borderBottom: "2px solid #808080",
                             }}
                             image={card.thumbnail.url}
                           />
                         ) : (
                           <CardMedia
                             component="div"
-                            sx={{ pt: "100%" }}
+                            sx={{
+                              pt: "100%",
+                              borderBottom: "2px solid #808080",
+                            }}
                             image={ready}
                           />
                         )}

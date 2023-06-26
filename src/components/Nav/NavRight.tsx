@@ -117,7 +117,7 @@ const NavRight = () => {
         <NoneStyledLink to="/mypage">
           <MenuItem onClick={handleMenuClose}>NOTICE</MenuItem>
         </NoneStyledLink>
-        <NoneStyledLink to="/mypage">
+        <NoneStyledLink to="/qna">
           <MenuItem onClick={handleMenuClose} sx={{ alignItems: "center" }}>
             Q&A
           </MenuItem>

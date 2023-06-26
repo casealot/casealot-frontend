@@ -20,20 +20,6 @@ const FilterItem = styled.li`
 `;
 
 const ProductFilter = () => {
-  return (
-    <>
-      <FilterArea>
-        <FilterItem>ALL</FilterItem>
-        <FilterItem>Fashion</FilterItem>
-        <FilterItem>Digital</FilterItem>
-        <FilterItem>living</FilterItem>
-        <FilterItem>AbcasdL</FilterItem>
-        <FilterItem>ALLawsdaws</FilterItem>
-        <FilterItem>ALdfwefaL</FilterItem>
-        <FilterItem>AdfgdfgrgLL</FilterItem>
-        <FilterItem>AsdLL</FilterItem>
-      </FilterArea>
-    </>
-  );
+  return <></>;
 };
 export default ProductFilter;
