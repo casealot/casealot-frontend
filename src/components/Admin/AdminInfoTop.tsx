@@ -1,8 +1,9 @@
-import { Typography, Badge } from "@mui/material";
+import { Typography, Badge, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../Useable/Loading";
+import { NoneStyledLink } from "../Useable/Link";
 
 const AdminInfoTop = () => {
   const getdaily = async () => {
@@ -57,7 +58,9 @@ const AdminInfoTop = () => {
       <div
         style={{
           display: "flex",
-          padding: "17px",
+          padding: "10px",
+          paddingLeft: "17px",
+          alignItems: "center",
         }}
       >
         <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
@@ -119,6 +122,22 @@ const AdminInfoTop = () => {
         >
           {todayQna}
         </Typography>
+        <div
+          style={{
+            display: "flex",
+            marginLeft: "auto",
+          }}
+        >
+          <NoneStyledLink to="/admin/addproduct">
+            <Button>상품등록</Button>
+          </NoneStyledLink>
+          <NoneStyledLink to="/admin/product">
+            <Button>상품관리</Button>
+          </NoneStyledLink>
+          <NoneStyledLink to="/admin/product">
+            <Button>배너관리</Button>
+          </NoneStyledLink>
+        </div>
       </div>
     </Box>
   );

@@ -65,7 +65,9 @@ const SalesBoard = () => {
     },
   ];
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div>
       <div style={{ position: "relative" }}>
         <Chart

@@ -25,6 +25,13 @@ const StyledImage = styled.img`
   object-fit: cover;
 `;
 
+const TitleTypography = styled(Typography)`
+  max-width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 600;
+`;
 const QnABoard = () => {
   const getQnA = async () => {
     try {
@@ -62,7 +69,7 @@ const QnABoard = () => {
             >
               {qnaList.customerId}님
             </Typography>
-            <Typography>{qnaList.title}</Typography>
+            <TitleTypography>{qnaList.title}</TitleTypography>
           </div>
           <Typography sx={{ marginLeft: "auto", fontSize: "10px" }}>
             {qnaList.modifiedDt}

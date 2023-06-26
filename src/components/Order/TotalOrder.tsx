@@ -15,6 +15,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import Loading from "../Useable/Loading";
 
 interface OrderProduct {
   name: string;
@@ -43,11 +44,13 @@ const CenterAlignedCell = styled(TableCell)`
 `;
 const TotalOrder = () => {
   const { data, isLoading } = useQuery<Order[]>(["getOrderList"], async () => {
-    const response = await api.get("cal/v1/order/all");
+    const response = await api.get("cal/v1/order/list");
     return response.data.body.order;
   });
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <TableContainer component={Paper}>
         <Table>
@@ -61,61 +64,55 @@ const TotalOrder = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {isLoading ? (
-              <TableRow>
-                <TableCell colSpan={5}>Loading...</TableCell>
-              </TableRow>
-            ) : (
-              data?.map((order) => (
-                <TableRow key={order.orderNumber}>
-                  <TableCell>
-                    {order.orderProducts.length > 0 && (
-                      <NoneStyledLink to={`/mypage/order/${order.id}`}>
-                        <div style={{ display: "flex" }}>
-                          {order.orderProducts[0].thumbnail === null ? (
-                            <img
-                              src={ready}
-                              width="100%"
-                              height="100%"
-                              style={{
-                                maxWidth: "100px",
-                                maxHeight: "100px",
-                              }}
-                            />
-                          ) : (
-                            <img
-                              src={order.orderProducts[0].thumbnail}
-                              width="100%"
-                              height="100%"
-                              style={{
-                                maxWidth: "100px",
-                                maxHeight: "100px",
-                                minHeight: "100px",
-                              }}
-                            />
-                          )}
-                          <div style={{ margin: "auto 0", marginLeft: "20px" }}>
-                            {order.orderProducts[0].name}
-                          </div>
+            {data?.map((order) => (
+              <TableRow key={order.orderNumber}>
+                <TableCell>
+                  {order.orderProducts.length > 0 && (
+                    <NoneStyledLink to={`/mypage/order/${order.id}`}>
+                      <div style={{ display: "flex" }}>
+                        {order.orderProducts[0].thumbnail === null ? (
+                          <img
+                            src={ready}
+                            width="100%"
+                            height="100%"
+                            style={{
+                              maxWidth: "100px",
+                              maxHeight: "100px",
+                            }}
+                          />
+                        ) : (
+                          <img
+                            src={order.orderProducts[0].thumbnail}
+                            width="100%"
+                            height="100%"
+                            style={{
+                              maxWidth: "100px",
+                              maxHeight: "100px",
+                              minHeight: "100px",
+                            }}
+                          />
+                        )}
+                        <div style={{ margin: "auto 0", marginLeft: "20px" }}>
+                          {order.orderProducts[0].name}
                         </div>
-                      </NoneStyledLink>
-                    )}
-                  </TableCell>
+                      </div>
+                    </NoneStyledLink>
+                  )}
+                </TableCell>
 
-                  <TableCell>{order.orderDt}</TableCell>
-                  <TableCell>{order.orderNumber}</TableCell>
-                  <CenterAlignedCell>
-                    <Typography sx={{ fontWeight: 600 }}>
-                      {order.totalAmount}원
-                    </Typography>
-                    <Typography>{order.orderProducts.length}개</Typography>
-                  </CenterAlignedCell>
-                  <CenterAlignedCell>
-                    {order.orderStatus} <br /> <Button>배송조회</Button>
-                  </CenterAlignedCell>
-                </TableRow>
-              ))
-            )}
+                <TableCell>{order.orderDt}</TableCell>
+                <TableCell>{order.orderNumber}</TableCell>
+                <CenterAlignedCell>
+                  <Typography sx={{ fontWeight: 600 }}>
+                    {order.totalAmount}원
+                  </Typography>
+                  <Typography>{order.orderProducts.length}개</Typography>
+                </CenterAlignedCell>
+                <CenterAlignedCell>
+                  {order.orderStatus} <br /> <Button>배송조회</Button>
+                </CenterAlignedCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
