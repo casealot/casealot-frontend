@@ -19,51 +19,46 @@ import Loading from "../../components/Useable/Loading";
 import { Divider } from "@mui/material";
 
 const ProductPage = () => {
-  const productList = useRecoilValue<ProductType[]>(ProductListAtom);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [productItems, setProductItems] = useState<ProductType[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalProduct, setTotalProduct] = useState(0);
+  const [size, setSize] = useState(12);
 
-  const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  console.log("hasMore");
+  const { data, isLoading, fetchNextPage } = useInfiniteQuery(
     ["getProducts"],
-    async ({ pageParam = page }) => {
-      const response = await api.post("/cal/v1/product", {
+    async ({ pageParam = page - 1 }) => {
+      const response = await api.post("/cal/v1/product/", {
         filter: [],
         page: pageParam,
         query: "",
-        size: 12,
+        size: size,
         sort: [{ field: "price", option: "desc" }],
       });
-
+      setTotalCount(response.data.body.product.totalPages);
+      setTotalProduct(response.data.body.product.totalCount);
       return response.data.body.product.items;
     },
     {
       refetchOnWindowFocus: false,
-      getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.length === 0) {
-          return false;
-        }
-        return lastPage.length;
-      },
+      getNextPageParam: () => page,
     }
   );
-  console.log(data);
-
-  useEffect(() => {
-    if (data) {
-      setProductItems((prevItems) => [...prevItems, ...data.pages.flat()]);
-      setHasMore(hasNextPage ?? false);
-    }
-  }, [data]);
 
   const handleLoadMore = () => {
-    if (!isLoading && hasMore) {
-      fetchNextPage().then(({ data }) => {
-        setPage(Number(data?.pageParams));
-        setHasMore(hasNextPage ?? false);
-      });
+    if (hasMore && !isLoading) {
+      fetchNextPage();
+      setPage(page + 1);
     }
   };
+
+  useEffect(() => {
+    if (data)
+      setHasMore(
+        data.pages.flatMap((item) => item).length < totalProduct ? true : false
+      );
+  }, [data, totalProduct]);
 
   return (
     <>
@@ -97,7 +92,7 @@ const ProductPage = () => {
         <Container sx={{ py: 8 }} maxWidth="xl">
           {data ? (
             <InfiniteScroll
-              dataLength={productItems.length}
+              dataLength={data?.pages?.flatMap((item) => item).length}
               next={handleLoadMore}
               hasMore={hasMore}
               loader={<Loading />}
@@ -115,69 +110,77 @@ const ProductPage = () => {
                 spacing={4}
                 gap={5}
                 rowGap={4}
-                sx={{ justifyContent: "center" }}
+                sx={{ justifyContent: "center", marginTop: "20px" }}
               >
-                {productItems.map((card) => (
-                  <Grid key={card.id} xs={12} sm={6} md={2.5}>
-                    <NoneStyledLink to={`/products/${card.id}`}>
-                      <Card
-                        sx={{
-                          height: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        {card.thumbnail && card.thumbnail.url ? (
-                          <CardMedia
-                            component="div"
-                            sx={{
-                              pt: "100%",
-                              height: "fit-content",
-                              borderBottom: "2px solid #808080",
-                            }}
-                            image={card.thumbnail.url}
-                          />
-                        ) : (
-                          <CardMedia
-                            component="div"
-                            sx={{
-                              pt: "100%",
-                              borderBottom: "2px solid #808080",
-                            }}
-                            image={ready}
-                          />
-                        )}
+                {data?.pages.map((card) =>
+                  card.map((item: ProductType) => (
+                    <Grid
+                      key={item.id}
+                      xs={12}
+                      sm={6}
+                      md={2.5}
+                      sx={{ border: "1px solid #d3d3d3" }}
+                    >
+                      <NoneStyledLink to={`/products/${item.id}`}>
+                        <Card
+                          sx={{
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          {item.thumbnail && item.thumbnail.url ? (
+                            <CardMedia
+                              component="div"
+                              sx={{
+                                pt: "100%",
+                                height: "fit-content",
+                                borderBottom: "2px solid #808080",
+                              }}
+                              image={item.thumbnail.url}
+                            />
+                          ) : (
+                            <CardMedia
+                              component="div"
+                              sx={{
+                                pt: "100%",
+                                borderBottom: "2px solid #808080",
+                              }}
+                              image={ready}
+                            />
+                          )}
 
-                        <CardContent sx={{ flexGrow: 1 }}>
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            component="h3"
-                            sx={{
-                              maxHeight: "33px",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                            }}
-                          >
-                            {card.name}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              maxHeight: "50px",
-                              textOverflow: "ellipsis",
-                              overflow: "hidden",
-                            }}
-                          >
-                            {card.price}원
-                          </Typography>
-                        </CardContent>
-                        <CardActions
-                          sx={{ justifyContent: "end" }}
-                        ></CardActions>
-                      </Card>
-                    </NoneStyledLink>
-                  </Grid>
-                ))}
+                          <CardContent sx={{ flexGrow: 1 }}>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h3"
+                              sx={{
+                                maxHeight: "33px",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {item.name}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                maxHeight: "50px",
+                                textOverflow: "ellipsis",
+                                overflow: "hidden",
+                              }}
+                            >
+                              {item.price}원
+                            </Typography>
+                          </CardContent>
+                          <CardActions
+                            sx={{ justifyContent: "end" }}
+                          ></CardActions>
+                        </Card>
+                      </NoneStyledLink>
+                    </Grid>
+                  ))
+                )}
               </Grid>
             </InfiniteScroll>
           ) : (
