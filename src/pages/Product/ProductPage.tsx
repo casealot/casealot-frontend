@@ -8,35 +8,57 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import ready from "../../dummy/img/imgready.gif";
-import { useRecoilValue } from "recoil";
-import { ProductType, ProductListAtom } from "../../atom/Product";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { ProductType } from "../../atom/Product";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { NoneStyledLink } from "../../components/Useable/Link";
 import { api } from "../../atom/apiCall";
 import { useEffect, useState } from "react";
 import Loading from "../../components/Useable/Loading";
-import { Divider } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 
 const ProductPage = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [totalCount, setTotalCount] = useState(0);
+  const [sortOption, setSortOption] = useState("rating");
+  const [sortOrder, setSortOrder] = useState("desc");
   const [totalProduct, setTotalProduct] = useState(0);
-  const [size, setSize] = useState(12);
+  const size = 12;
 
-  console.log("hasMore");
+  const queryClient = useQueryClient();
+
+  const sortMutation = useMutation<void, unknown, [string, string]>(
+    async ([sortOption, sortOrder]) => {
+      await api.post("/cal/v1/product/", {
+        filter: [],
+        page: 0,
+        query: "",
+        size: size,
+        sort: [{ field: sortOption, option: sortOrder }],
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["getProducts", sortOption, sortOrder]);
+      },
+    }
+  ).mutate;
+
   const { data, isLoading, fetchNextPage } = useInfiniteQuery(
-    ["getProducts"],
+    ["getProducts", sortOption, sortOrder],
     async ({ pageParam = page - 1 }) => {
       const response = await api.post("/cal/v1/product/", {
         filter: [],
         page: pageParam,
         query: "",
         size: size,
-        sort: [{ field: "price", option: "desc" }],
+        sort: [{ field: sortOption, option: sortOrder }],
       });
-      setTotalCount(response.data.body.product.totalPages);
+
       setTotalProduct(response.data.body.product.totalCount);
       return response.data.body.product.items;
     },
@@ -59,6 +81,17 @@ const ProductPage = () => {
         data.pages.flatMap((item) => item).length < totalProduct ? true : false
       );
   }, [data, totalProduct]);
+
+  const handleSortChange = (option: string) => {
+    setPage(1);
+    if (sortOption === option) {
+      setSortOrder(sortOrder === "desc" ? "asc" : "desc");
+    } else {
+      setSortOption(option);
+      setSortOrder("desc");
+    }
+    sortMutation([option, sortOrder]);
+  };
 
   return (
     <>
@@ -84,9 +117,50 @@ const ProductPage = () => {
             <Stack
               sx={{ pt: 4 }}
               direction="row"
-              spacing={2}
+              spacing={1}
               justifyContent="center"
-            ></Stack>
+            >
+              <Typography variant="body1">Sort By:</Typography>
+              <Button
+                variant={sortOption === "wishCount" ? "contained" : "outlined"}
+                onClick={() => handleSortChange("wishCount")}
+              >
+                찜한순{" "}
+                {sortOption === "wishCount" && sortOrder === "desc" && "▼"}
+                {sortOption === "wishCount" && sortOrder === "asc" && "▲"}
+              </Button>
+              <Button
+                variant={sortOption === "sale" ? "contained" : "outlined"}
+                onClick={() => handleSortChange("sale")}
+              >
+                Sale {sortOption === "sale" && sortOrder === "desc" && "▼"}
+                {sortOption === "sale" && sortOrder === "asc" && "▲"}
+              </Button>
+              <Button
+                variant={sortOption === "sells" ? "contained" : "outlined"}
+                onClick={() => handleSortChange("sells")}
+              >
+                Sells {sortOption === "sells" && sortOrder === "desc" && "▼"}
+                {sortOption === "sells" && sortOrder === "asc" && "▲"}
+              </Button>
+              <Button
+                variant={sortOption === "rating" ? "contained" : "outlined"}
+                onClick={() => handleSortChange("rating")}
+              >
+                Rating {sortOption === "rating" && sortOrder === "desc" && "▼"}
+                {sortOption === "rating" && sortOrder === "asc" && "▲"}
+              </Button>
+              <Button
+                variant={
+                  sortOption === "ratingCount" ? "contained" : "outlined"
+                }
+                onClick={() => handleSortChange("ratingCount")}
+              >
+                Rating Count{" "}
+                {sortOption === "ratingCount" && sortOrder === "desc" && "▼"}
+                {sortOption === "ratingCount" && sortOrder === "asc" && "▲"}
+              </Button>
+            </Stack>
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="xl">
