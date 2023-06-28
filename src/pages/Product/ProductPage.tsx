@@ -19,7 +19,7 @@ import { NoneStyledLink } from "../../components/Useable/Link";
 import { api } from "../../atom/apiCall";
 import { useEffect, useState } from "react";
 import Loading from "../../components/Useable/Loading";
-import { Button, Divider } from "@mui/material";
+import { Button, Chip, Divider } from "@mui/material";
 
 const ProductPage = () => {
   const [page, setPage] = useState(1);
@@ -93,6 +93,10 @@ const ProductPage = () => {
     sortMutation([option, sortOrder]);
   };
 
+  const calculateDiscount = (price: number, sale: number) => {
+    const discountedPrice = price - (price * sale) / 100;
+    return discountedPrice.toFixed(0);
+  };
   return (
     <>
       <main>
@@ -120,7 +124,6 @@ const ProductPage = () => {
               spacing={1}
               justifyContent="center"
             >
-              <Typography variant="body1">Sort By:</Typography>
               <Button
                 variant={sortOption === "wishCount" ? "contained" : "outlined"}
                 onClick={() => handleSortChange("wishCount")}
@@ -130,35 +133,32 @@ const ProductPage = () => {
                 {sortOption === "wishCount" && sortOrder === "asc" && "▲"}
               </Button>
               <Button
+                variant={sortOption === "price" ? "contained" : "outlined"}
+                onClick={() => handleSortChange("price")}
+              >
+                가격순 {sortOption === "price" && sortOrder === "desc" && "▼"}
+                {sortOption === "price" && sortOrder === "asc" && "▲"}
+              </Button>
+              <Button
                 variant={sortOption === "sale" ? "contained" : "outlined"}
                 onClick={() => handleSortChange("sale")}
               >
-                Sale {sortOption === "sale" && sortOrder === "desc" && "▼"}
+                할인율순 {sortOption === "sale" && sortOrder === "desc" && "▼"}
                 {sortOption === "sale" && sortOrder === "asc" && "▲"}
               </Button>
               <Button
                 variant={sortOption === "sells" ? "contained" : "outlined"}
                 onClick={() => handleSortChange("sells")}
               >
-                Sells {sortOption === "sells" && sortOrder === "desc" && "▼"}
+                판매순 {sortOption === "sells" && sortOrder === "desc" && "▼"}
                 {sortOption === "sells" && sortOrder === "asc" && "▲"}
               </Button>
               <Button
                 variant={sortOption === "rating" ? "contained" : "outlined"}
                 onClick={() => handleSortChange("rating")}
               >
-                Rating {sortOption === "rating" && sortOrder === "desc" && "▼"}
+                평점순 {sortOption === "rating" && sortOrder === "desc" && "▼"}
                 {sortOption === "rating" && sortOrder === "asc" && "▲"}
-              </Button>
-              <Button
-                variant={
-                  sortOption === "ratingCount" ? "contained" : "outlined"
-                }
-                onClick={() => handleSortChange("ratingCount")}
-              >
-                Rating Count{" "}
-                {sortOption === "ratingCount" && sortOrder === "desc" && "▼"}
-                {sortOption === "ratingCount" && sortOrder === "asc" && "▲"}
               </Button>
             </Stack>
           </Container>
@@ -209,19 +209,33 @@ const ProductPage = () => {
                               sx={{
                                 pt: "100%",
                                 height: "fit-content",
-                                borderBottom: "2px solid #808080",
+                                borderBottom: "2px solid #d3d3d3",
+                                position: "relative",
                               }}
                               image={item.thumbnail.url}
-                            />
+                            >
+                              {item.type == "cap" && (
+                                <Chip
+                                  label="NEW"
+                                  color="success"
+                                  sx={{
+                                    position: "absolute",
+                                    right: "5px",
+                                    top: "5px",
+                                  }}
+                                />
+                              )}
+                            </CardMedia>
                           ) : (
                             <CardMedia
                               component="div"
                               sx={{
                                 pt: "100%",
                                 borderBottom: "2px solid #808080",
+                                position: "relative",
                               }}
                               image={ready}
-                            />
+                            ></CardMedia>
                           )}
 
                           <CardContent sx={{ flexGrow: 1 }}>
@@ -244,7 +258,22 @@ const ProductPage = () => {
                                 overflow: "hidden",
                               }}
                             >
-                              {item.price}원
+                              {item.sale ? (
+                                <>
+                                  <Typography
+                                    component="span"
+                                    sx={{
+                                      textDecoration: "line-through",
+                                      color: "#888888",
+                                    }}
+                                  >
+                                    {item.price}원
+                                  </Typography>{" "}
+                                  {calculateDiscount(item.price, item.sale)}원
+                                </>
+                              ) : (
+                                `${item.price}원`
+                              )}
                             </Typography>
                           </CardContent>
                           <CardActions
