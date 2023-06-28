@@ -97,6 +97,17 @@ const ProductPage = () => {
     const discountedPrice = price - (price * sale) / 100;
     return discountedPrice.toFixed(0);
   };
+  const handleImageHover = (event: React.MouseEvent<HTMLDivElement>) => {
+    const cardMediaElement = event.currentTarget as HTMLDivElement;
+    cardMediaElement.style.transform = "scale(1.1)";
+    cardMediaElement.style.transition = "transform 0.2s ease";
+  };
+
+  const handleImageLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+    const cardMediaElement = event.currentTarget as HTMLDivElement;
+    cardMediaElement.style.transform = "scale(1)";
+  };
+
   return (
     <>
       <main>
@@ -188,13 +199,7 @@ const ProductPage = () => {
               >
                 {data?.pages.map((card) =>
                   card.map((item: ProductType) => (
-                    <Grid
-                      key={item.id}
-                      xs={12}
-                      sm={6}
-                      md={2.5}
-                      sx={{ border: "1px solid #d3d3d3" }}
-                    >
+                    <Grid key={item.id} xs={12} sm={6} md={2.5}>
                       <NoneStyledLink to={`/products/${item.id}`}>
                         <Card
                           sx={{
@@ -209,10 +214,12 @@ const ProductPage = () => {
                               sx={{
                                 pt: "100%",
                                 height: "fit-content",
-                                borderBottom: "2px solid #d3d3d3",
+
                                 position: "relative",
                               }}
                               image={item.thumbnail.url}
+                              onMouseOver={handleImageHover}
+                              onMouseLeave={handleImageLeave}
                             >
                               {item.type == "cap" && (
                                 <Chip
@@ -231,14 +238,15 @@ const ProductPage = () => {
                               component="div"
                               sx={{
                                 pt: "100%",
-                                borderBottom: "2px solid #808080",
                                 position: "relative",
                               }}
                               image={ready}
                             ></CardMedia>
                           )}
 
-                          <CardContent sx={{ flexGrow: 1 }}>
+                          <CardContent
+                            sx={{ flexGrow: 1, borderTop: "2px solid #d3d3d3" }}
+                          >
                             <Typography
                               gutterBottom
                               variant="h6"
@@ -265,11 +273,22 @@ const ProductPage = () => {
                                     sx={{
                                       textDecoration: "line-through",
                                       color: "#888888",
+                                      fontSize: "14px",
                                     }}
                                   >
                                     {item.price}원
                                   </Typography>{" "}
-                                  {calculateDiscount(item.price, item.sale)}원
+                                  <Typography
+                                    component="span"
+                                    sx={{
+                                      color: "#000",
+                                      fontWeight: "600",
+                                      fontSize: "16px",
+                                      marginLeft: "3px",
+                                    }}
+                                  >
+                                    {calculateDiscount(item.price, item.sale)}원
+                                  </Typography>{" "}
                                 </>
                               ) : (
                                 `${item.price}원`
