@@ -1,14 +1,27 @@
 import Divider from "@mui/material/Divider";
-import { Container, Grid, Typography } from "@mui/material";
+import { Avatar, Container, Grid, Typography } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import { NoneStyledLink } from "../../components/Useable/Link";
+import { api } from "../../atom/apiCall";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../components/Useable/Loading";
 
 const Mypage = () => {
-  return (
+  const getMyPageData = async () => {
+    const response = await api.get("/cal/v1/function/mypage");
+    return response.data.body.function;
+  };
+  const { data, isLoading } = useQuery(["getMyPageData"], getMyPageData);
+
+  const { finish, ready, start } = data || {};
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <Container maxWidth="xl">
         <Typography
@@ -26,14 +39,21 @@ const Mypage = () => {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           {" "}
-          <AccountCircleIcon
-            sx={{
-              width: "8em",
-              height: "8em",
-              color: "#808080",
-              marginY: "20px",
-            }}
-          />
+          {data.profileImg ? (
+            <Avatar
+              src={data.profileImg.url}
+              sx={{ width: "8em", height: "8em", margin: "0 auto" }}
+            />
+          ) : (
+            <AccountCircleIcon
+              sx={{
+                width: "8em",
+                height: "8em",
+                color: "#808080",
+                marginY: "20px",
+              }}
+            />
+          )}
         </Link>
         <Grid
           container
@@ -54,7 +74,8 @@ const Mypage = () => {
           >
             <span style={{ fontSize: "24px", margin: "0 auto" }}>
               배송준비
-              <br />0
+              <br />
+              {ready}
             </span>
             <Divider orientation="vertical" flexItem sx={{ fontSize: "24px" }}>
               →
@@ -70,7 +91,8 @@ const Mypage = () => {
               style={{ fontSize: "24px", margin: "0 auto", fontWeight: "500" }}
             >
               배송중
-              <br />0
+              <br />
+              {start}
             </span>
             <Divider orientation="vertical" flexItem sx={{ fontSize: "24px" }}>
               →
@@ -86,7 +108,8 @@ const Mypage = () => {
               style={{ fontSize: "24px", margin: "0 auto", fontWeight: "500" }}
             >
               배송완료
-              <br />0
+              <br />
+              {finish}
             </span>
           </Grid>
         </Grid>
