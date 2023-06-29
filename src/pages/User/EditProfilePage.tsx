@@ -185,12 +185,22 @@ const EditProfile = () => {
           {profilePreview ? (
             <Avatar
               src={profilePreview}
-              sx={{ width: "8em", height: "8em", margin: "0 auto" }}
+              sx={{
+                width: "8em",
+                height: "8em",
+                margin: "0 auto",
+                cursor: "pointer",
+              }}
             />
           ) : (
             <Avatar
               src="/static/images/avatar/1.jpg"
-              sx={{ width: "8em", height: "8em", margin: "0 auto" }}
+              sx={{
+                width: "8em",
+                height: "8em",
+                margin: "0 auto",
+                cursor: "pointer",
+              }}
             />
           )}
         </label>

@@ -108,9 +108,6 @@ const ProductPage = () => {
     cardMediaElement.style.transform = "scale(1)";
   };
 
-  const apiKey = "zaHSAGHdplY7jwHh6nhD8w";
-  const carrierCode = "04";
-
   return (
     <>
       <main>
@@ -234,7 +231,7 @@ const ProductPage = () => {
                               onMouseOver={handleImageHover}
                               onMouseLeave={handleImageLeave}
                             >
-                              {item.type == "cap" && (
+                              {item.type === "new" && (
                                 <Chip
                                   label="NEW"
                                   color="success"
@@ -242,6 +239,19 @@ const ProductPage = () => {
                                     position: "absolute",
                                     right: "5px",
                                     top: "5px",
+                                    fontWeight: "600",
+                                  }}
+                                />
+                              )}{" "}
+                              {item.type === "best" && (
+                                <Chip
+                                  label="BEST"
+                                  color="primary"
+                                  sx={{
+                                    position: "absolute",
+                                    right: "5px",
+                                    top: "5px",
+                                    fontWeight: "600",
                                   }}
                                 />
                               )}
@@ -254,7 +264,32 @@ const ProductPage = () => {
                                 position: "relative",
                               }}
                               image={ready}
-                            ></CardMedia>
+                            >
+                              {item.type === "new" && (
+                                <Chip
+                                  label="NEW"
+                                  color="success"
+                                  sx={{
+                                    position: "absolute",
+                                    right: "5px",
+                                    top: "5px",
+                                    fontWeight: "600",
+                                  }}
+                                />
+                              )}{" "}
+                              {item.type === "best" && (
+                                <Chip
+                                  label="BEST"
+                                  color="primary"
+                                  sx={{
+                                    position: "absolute",
+                                    right: "5px",
+                                    top: "5px",
+                                    fontWeight: "600",
+                                  }}
+                                />
+                              )}
+                            </CardMedia>
                           )}
 
                           <CardContent
