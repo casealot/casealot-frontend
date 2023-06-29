@@ -21,12 +21,23 @@ import { useEffect, useState } from "react";
 import Loading from "../../components/Useable/Loading";
 import { Button, Chip, Divider } from "@mui/material";
 
+import {
+  ColorFilterButtons,
+  colorOptions,
+} from "../../components/Product/ColorPicker";
+
 const ProductPage = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [sortOption, setSortOption] = useState("rating");
   const [sortOrder, setSortOrder] = useState("desc");
   const [totalProduct, setTotalProduct] = useState(0);
+  const [selectedColor, setSelectedColor] = useState<string>("");
+  const [filterValue, setFilterValue] = useState({
+    key: "",
+    operation: "",
+    value: "",
+  });
   const size = 12;
 
   const queryClient = useQueryClient();
@@ -49,10 +60,10 @@ const ProductPage = () => {
   ).mutate;
 
   const { data, isLoading, fetchNextPage } = useInfiniteQuery(
-    ["getProducts", sortOption, sortOrder],
+    ["getProducts", sortOption, sortOrder, selectedColor],
     async ({ pageParam = page - 1 }) => {
       const response = await api.post("/cal/v1/product/", {
-        filter: [],
+        filter: [filterValue],
         page: pageParam,
         query: "",
         size: size,
@@ -107,6 +118,17 @@ const ProductPage = () => {
     const cardMediaElement = event.currentTarget as HTMLDivElement;
     cardMediaElement.style.transform = "scale(1)";
   };
+  const applyFilter = (color: string | undefined) => {
+    if (color) setFilterValue({ key: "color", operation: ":", value: color });
+  };
+
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+    const convertedColor = colorOptions.find(
+      (option) => option.value === color
+    )?.label;
+    applyFilter(convertedColor);
+  };
 
   return (
     <>
@@ -118,7 +140,7 @@ const ProductPage = () => {
             pb: 6,
           }}
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="lg">
             <Typography
               component="h1"
               variant="h3"
@@ -128,7 +150,17 @@ const ProductPage = () => {
             >
               PRODUCTS
             </Typography>
-
+            <Stack
+              sx={{ pt: 4 }}
+              direction="row"
+              spacing={1}
+              justifyContent="center"
+            >
+              <ColorFilterButtons
+                selectedColor={selectedColor}
+                onColorSelect={handleColorSelect}
+              />
+            </Stack>
             <Stack
               sx={{ pt: 4 }}
               direction="row"
