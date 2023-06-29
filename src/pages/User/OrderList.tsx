@@ -2,6 +2,7 @@ import { Container } from "@mui/material";
 import { Typography, Tabs, Tab, Box } from "@mui/material";
 import { useState } from "react";
 import TotalOrder from "../../components/Order/TotalOrder";
+import axios from "axios";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -36,6 +37,16 @@ function a11yProps(index: number) {
   };
 }
 
+const apiKey = "zaHSAGHdplY7jwHh6nhD8w";
+const tCode = "04";
+
+const handleViewInvoice = async () => {
+  await axios.post("http://info.sweettracker.co.kr/tracking/5", {
+    t_key: apiKey,
+    t_code: tCode,
+    t_invoice: 654769511471,
+  });
+};
 const OrderList = () => {
   const [value, setValue] = useState(0);
 

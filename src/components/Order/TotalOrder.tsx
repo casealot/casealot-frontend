@@ -14,8 +14,11 @@ import {
   TableRow,
   Typography,
   styled,
+  Modal,
 } from "@mui/material";
 import Loading from "../Useable/Loading";
+import axios from "axios";
+import { useState } from "react";
 
 interface OrderProduct {
   name: string;
@@ -42,11 +45,40 @@ interface Order {
 const CenterAlignedCell = styled(TableCell)`
   text-align: center;
 `;
+const apiKey = "zaHSAGHdplY7jwHh6nhD8w";
+const tCode = "04";
+
 const TotalOrder = () => {
   const { data, isLoading } = useQuery<Order[]>(["getOrderList"], async () => {
     const response = await api.get("cal/v1/order/list");
     return response.data.body.order;
   });
+
+  const handleViewInvoice = async () => {
+    try {
+      const response = await axios.post(
+        "http://info.sweettracker.co.kr/tracking/5",
+        {
+          t_key: apiKey,
+          t_code: tCode,
+          t_invoice: 654769511471,
+        },
+        {
+          params: {
+            t_key: apiKey,
+            t_code: tCode,
+            t_invoice: 654769511471,
+          },
+        }
+      );
+
+      window.open(
+        `http://info.sweettracker.co.kr/tracking/5?t_key=${apiKey}&t_code=${tCode}&t_invoice=${654769511471}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return isLoading ? (
     <Loading />
@@ -109,7 +141,8 @@ const TotalOrder = () => {
                   <Typography>{order.orderProducts.length}개</Typography>
                 </CenterAlignedCell>
                 <CenterAlignedCell>
-                  {order.orderStatus} <br /> <Button>배송조회</Button>
+                  {order.orderStatus} <br />{" "}
+                  <Button onClick={handleViewInvoice}>배송조회</Button>
                 </CenterAlignedCell>
               </TableRow>
             ))}

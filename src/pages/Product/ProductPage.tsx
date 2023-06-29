@@ -108,6 +108,9 @@ const ProductPage = () => {
     cardMediaElement.style.transform = "scale(1)";
   };
 
+  const apiKey = "zaHSAGHdplY7jwHh6nhD8w";
+  const carrierCode = "04";
+
   return (
     <>
       <main>
@@ -170,6 +173,16 @@ const ProductPage = () => {
               >
                 평점순 {sortOption === "rating" && sortOrder === "desc" && "▼"}
                 {sortOption === "rating" && sortOrder === "asc" && "▲"}
+              </Button>
+              <Button
+                variant={
+                  sortOption === "ratingCount" ? "contained" : "outlined"
+                }
+                onClick={() => handleSortChange("ratingCount")}
+              >
+                리뷰순{" "}
+                {sortOption === "ratingCount" && sortOrder === "desc" && "▼"}
+                {sortOption === "ratingCount" && sortOrder === "asc" && "▲"}
               </Button>
             </Stack>
           </Container>
