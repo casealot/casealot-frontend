@@ -19,6 +19,7 @@ import {
 import Loading from "../Useable/Loading";
 import axios from "axios";
 import { useState } from "react";
+import { width } from "@mui/system";
 
 interface OrderProduct {
   name: string;
@@ -61,19 +62,23 @@ const TotalOrder = () => {
         {
           t_key: apiKey,
           t_code: tCode,
-          t_invoice: 654769511471,
+          t_invoice: 649994926955,
         },
         {
           params: {
             t_key: apiKey,
             t_code: tCode,
-            t_invoice: 654769511471,
+            t_invoice: 649994926955,
           },
         }
       );
 
       window.open(
-        `http://info.sweettracker.co.kr/tracking/5?t_key=${apiKey}&t_code=${tCode}&t_invoice=${654769511471}`
+        `http://info.sweettracker.co.kr/tracking/5?t_key=${apiKey}&t_code=${tCode}&t_invoice=${649994926955}`,
+        "_blank",
+        `width=${400}, height=${600}, top=${
+          window.innerHeight / 2 - 600 / 2
+        }, left=${window.innerWidth / 2 - 400 / 2}`
       );
     } catch (error) {
       console.log(error);
