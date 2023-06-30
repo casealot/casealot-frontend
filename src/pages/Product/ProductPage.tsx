@@ -209,8 +209,6 @@ const ProductPage = () => {
           style={{
             display: "flex",
             height: "60px",
-            justifyContent: "center",
-            alignItems: "center",
             fontWeight: "500",
             borderBottom: "1px solid #d3d3d3",
             borderTop: "3px solid #808080",
@@ -220,6 +218,8 @@ const ProductPage = () => {
           <Container maxWidth="xl">
             <div
               style={{
+                display: "flex",
+                justifyContent: "center",
                 borderLeft: "1px solid #d3d3d3",
                 borderRight: "1px solid #d3d3d3",
                 height: "100%",
