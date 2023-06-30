@@ -1,12 +1,3 @@
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import ready from "../../dummy/img/imgready.gif";
 import { ProductType } from "../../atom/Product";
 import {
@@ -19,12 +10,24 @@ import { NoneStyledLink } from "../../components/Useable/Link";
 import { api } from "../../atom/apiCall";
 import { useEffect, useState } from "react";
 import Loading from "../../components/Useable/Loading";
-import { Button, Chip, Divider } from "@mui/material";
-
+import {
+  Chip,
+  Divider,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from "@mui/material";
 import {
   ColorFilterButtons,
   colorOptions,
 } from "../../components/Product/ColorPicker";
+import SortOptionButtons from "../../components/Product/SortOptionButtons";
+import PriceFilterButtons from "../../components/Product/PriceFilter";
 
 const ProductPage = () => {
   const [page, setPage] = useState(1);
@@ -33,11 +36,15 @@ const ProductPage = () => {
   const [sortOrder, setSortOrder] = useState("desc");
   const [totalProduct, setTotalProduct] = useState(0);
   const [selectedColor, setSelectedColor] = useState<string>("");
-  const [filterValue, setFilterValue] = useState({
-    key: "",
-    operation: "",
-    value: "",
-  });
+  const [selectedPrice, setSelectedPrice] = useState<string>("");
+  const [priceFilter, setPriceFilter] = useState<string>("");
+  const [filterValue, setFilterValue] = useState<
+    {
+      key: string;
+      operation: string;
+      value: string | number | null | undefined;
+    }[]
+  >([{ key: "", operation: "", value: null }]);
   const size = 12;
 
   const queryClient = useQueryClient();
@@ -45,7 +52,7 @@ const ProductPage = () => {
   const sortMutation = useMutation<void, unknown, [string, string]>(
     async ([sortOption, sortOrder]) => {
       await api.post("/cal/v1/product/", {
-        filter: [],
+        filter: [filterValue],
         page: 0,
         query: "",
         size: size,
@@ -54,16 +61,23 @@ const ProductPage = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["getProducts", sortOption, sortOrder]);
+        queryClient.invalidateQueries([
+          "getProducts",
+          sortOption,
+          sortOrder,
+          selectedColor,
+          selectedPrice,
+          filterValue,
+        ]);
       },
     }
   ).mutate;
 
   const { data, isLoading, fetchNextPage } = useInfiniteQuery(
-    ["getProducts", sortOption, sortOrder, selectedColor],
+    ["getProducts", sortOption, sortOrder, filterValue],
     async ({ pageParam = page - 1 }) => {
       const response = await api.post("/cal/v1/product/", {
-        filter: [filterValue],
+        filter: filterValue,
         page: pageParam,
         query: "",
         size: size,
@@ -118,16 +132,53 @@ const ProductPage = () => {
     const cardMediaElement = event.currentTarget as HTMLDivElement;
     cardMediaElement.style.transform = "scale(1)";
   };
-  const applyFilter = (color: string | undefined) => {
-    if (color) setFilterValue({ key: "color", operation: ":", value: color });
+
+  const applyFilter = () => {
+    const filterValues: {
+      key: string;
+      operation: string;
+      value: string | number | null | undefined;
+    }[] = [];
+
+    if (selectedColor) {
+      const convertedColor = colorOptions.find(
+        (option) => option.value === selectedColor
+      )?.label;
+      filterValues.push({
+        key: "color",
+        operation: ":",
+        value: convertedColor,
+      });
+    }
+
+    if (selectedPrice) {
+      if (selectedPrice === "30000") {
+        filterValues.push({ key: "price", operation: "<", value: 30000 });
+      } else if (selectedPrice === "30000-50000") {
+        filterValues.push(
+          { key: "price", operation: ">", value: 30000 },
+          { key: "price", operation: "<", value: 50000 }
+        );
+      } else if (selectedPrice === "50000-100000") {
+        filterValues.push(
+          { key: "price", operation: ">", value: 50000 },
+          { key: "price", operation: "<", value: 100000 }
+        );
+      } else if (selectedPrice === "100000") {
+        filterValues.push({ key: "price", operation: ">", value: 100000 });
+      }
+    }
+    setFilterValue(filterValues);
+    setPage(1);
   };
 
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
-    const convertedColor = colorOptions.find(
-      (option) => option.value === color
-    )?.label;
-    applyFilter(convertedColor);
+    applyFilter();
+  };
+  const handlePriceSelect = (price: string) => {
+    setSelectedPrice(price);
+    applyFilter();
   };
 
   return (
@@ -137,83 +188,74 @@ const ProductPage = () => {
           sx={{
             bgcolor: "background.paper",
             pt: 8,
-            pb: 6,
           }}
         >
-          <Container maxWidth="lg">
+          <Container maxWidth="xl">
             <Typography
               component="h1"
               variant="h3"
               align="center"
               color="blue"
               gutterBottom
+              sx={{
+                paddingBottom: "30px",
+                marginBottom: "50px",
+              }}
             >
               PRODUCTS
             </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={1}
-              justifyContent="center"
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "left",
+                padding: "10px 30px",
+                paddingLeft: "30px",
+              }}
             >
+              <Typography
+                sx={{
+                  fontSize: "20px",
+                  marginY: "auto",
+                  fontWeight: "600",
+                  marginRight: "20px",
+                }}
+              >
+                색상
+              </Typography>
               <ColorFilterButtons
                 selectedColor={selectedColor}
                 onColorSelect={handleColorSelect}
               />
-            </Stack>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={1}
-              justifyContent="center"
+            </div>
+
+            <SortOptionButtons
+              sortOption={sortOption}
+              sortOrder={sortOrder}
+              handleSortChange={handleSortChange}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "left",
+                padding: "10px 30px",
+                paddingLeft: "30px",
+              }}
             >
-              <Button
-                variant={sortOption === "wishCount" ? "contained" : "outlined"}
-                onClick={() => handleSortChange("wishCount")}
+              <Typography
+                sx={{
+                  fontSize: "20px",
+                  marginY: "auto",
+                  fontWeight: "600",
+                  marginRight: "20px",
+                }}
               >
-                찜한순{" "}
-                {sortOption === "wishCount" && sortOrder === "desc" && "▼"}
-                {sortOption === "wishCount" && sortOrder === "asc" && "▲"}
-              </Button>
-              <Button
-                variant={sortOption === "price" ? "contained" : "outlined"}
-                onClick={() => handleSortChange("price")}
-              >
-                가격순 {sortOption === "price" && sortOrder === "desc" && "▼"}
-                {sortOption === "price" && sortOrder === "asc" && "▲"}
-              </Button>
-              <Button
-                variant={sortOption === "sale" ? "contained" : "outlined"}
-                onClick={() => handleSortChange("sale")}
-              >
-                할인율순 {sortOption === "sale" && sortOrder === "desc" && "▼"}
-                {sortOption === "sale" && sortOrder === "asc" && "▲"}
-              </Button>
-              <Button
-                variant={sortOption === "sells" ? "contained" : "outlined"}
-                onClick={() => handleSortChange("sells")}
-              >
-                판매순 {sortOption === "sells" && sortOrder === "desc" && "▼"}
-                {sortOption === "sells" && sortOrder === "asc" && "▲"}
-              </Button>
-              <Button
-                variant={sortOption === "rating" ? "contained" : "outlined"}
-                onClick={() => handleSortChange("rating")}
-              >
-                평점순 {sortOption === "rating" && sortOrder === "desc" && "▼"}
-                {sortOption === "rating" && sortOrder === "asc" && "▲"}
-              </Button>
-              <Button
-                variant={
-                  sortOption === "ratingCount" ? "contained" : "outlined"
-                }
-                onClick={() => handleSortChange("ratingCount")}
-              >
-                리뷰순{" "}
-                {sortOption === "ratingCount" && sortOrder === "desc" && "▼"}
-                {sortOption === "ratingCount" && sortOrder === "asc" && "▲"}
-              </Button>
-            </Stack>
+                가격
+              </Typography>
+              <PriceFilterButtons
+                selectedPrice={selectedPrice}
+                onPriceSelect={handlePriceSelect}
+              />
+            </div>
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="xl">

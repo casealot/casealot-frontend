@@ -1,8 +1,6 @@
+import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "../../atom/apiCall";
-import { NoneStyledLink } from "../Useable/Link";
-
-import ready from "../../dummy/img/noimage.gif";
+import { Order, apiKey, getCompleteOrder, tCode } from "../../atom/Order";
 import {
   Button,
   Paper,
@@ -13,24 +11,16 @@ import {
   TableHead,
   TableRow,
   Typography,
-  styled,
-  Modal,
 } from "@mui/material";
+import CenterAlignedCell from "../Useable/CenterAlignedCell";
+import { NoneStyledLink } from "../Useable/Link";
 import Loading from "../Useable/Loading";
-import axios from "axios";
-import { useState } from "react";
-import { width } from "@mui/system";
-import { Order, apiKey, tCode } from "../../atom/Order";
-
-const CenterAlignedCell = styled(TableCell)`
-  text-align: center;
-`;
-
-const TotalOrder = () => {
-  const { data, isLoading } = useQuery<Order[]>(["getOrderList"], async () => {
-    const response = await api.get("cal/v1/order/list");
-    return response.data.body.order;
-  });
+import ready from "../../dummy/img/noimage.gif";
+const CompleteOrder = () => {
+  const { data, isLoading } = useQuery<Order[]>(
+    ["getOrderList"],
+    getCompleteOrder
+  );
 
   const handleViewInvoice = async () => {
     try {
@@ -135,4 +125,4 @@ const TotalOrder = () => {
   );
 };
 
-export default TotalOrder;
+export default CompleteOrder;

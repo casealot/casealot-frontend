@@ -22,8 +22,8 @@ const ColorButton = ({ color, onClick }: ColorButtonProps) => {
   return (
     <Button
       sx={{
-        width: "40px",
-        height: "40px",
+        width: "30px",
+        height: "30px",
         minWidth: "unset",
         backgroundColor: color,
         margin: "5px",
