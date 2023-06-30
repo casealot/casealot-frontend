@@ -133,52 +133,67 @@ const ProductPage = () => {
     cardMediaElement.style.transform = "scale(1)";
   };
 
-  const applyFilter = () => {
-    const filterValues: {
-      key: string;
-      operation: string;
-      value: string | number | null | undefined;
-    }[] = [];
+  const applyFilterMutation = useMutation(
+    async () => {
+      const filterValues: {
+        key: string;
+        operation: string;
+        value: string | number | null | undefined;
+      }[] = [];
 
-    if (selectedColor) {
-      const convertedColor = colorOptions.find(
-        (option) => option.value === selectedColor
-      )?.label;
-      filterValues.push({
-        key: "color",
-        operation: ":",
-        value: convertedColor,
-      });
-    }
-
-    if (selectedPrice) {
-      if (selectedPrice === "30000") {
-        filterValues.push({ key: "price", operation: "<", value: 30000 });
-      } else if (selectedPrice === "30000-50000") {
-        filterValues.push(
-          { key: "price", operation: ">", value: 30000 },
-          { key: "price", operation: "<", value: 50000 }
-        );
-      } else if (selectedPrice === "50000-100000") {
-        filterValues.push(
-          { key: "price", operation: ">", value: 50000 },
-          { key: "price", operation: "<", value: 100000 }
-        );
-      } else if (selectedPrice === "100000") {
-        filterValues.push({ key: "price", operation: ">", value: 100000 });
+      if (selectedColor) {
+        const convertedColor = colorOptions.find(
+          (option) => option.value === selectedColor
+        )?.label;
+        filterValues.push({
+          key: "color",
+          operation: ":",
+          value: convertedColor,
+        });
       }
+
+      if (selectedPrice) {
+        if (selectedPrice === "30000") {
+          filterValues.push({ key: "price", operation: "<", value: 30000 });
+        } else if (selectedPrice === "30000-50000") {
+          filterValues.push(
+            { key: "price", operation: ">", value: 30000 },
+            { key: "price", operation: "<", value: 50000 }
+          );
+        } else if (selectedPrice === "50000-100000") {
+          filterValues.push(
+            { key: "price", operation: ">", value: 50000 },
+            { key: "price", operation: "<", value: 100000 }
+          );
+        } else if (selectedPrice === "100000") {
+          filterValues.push({ key: "price", operation: ">", value: 100000 });
+        }
+      }
+      setFilterValue(filterValues);
+    },
+    {
+      onSuccess: () => {
+        setPage(1); // 페이지를 1로 리셋
+        queryClient.invalidateQueries([
+          "getProducts",
+          sortOption,
+          sortOrder,
+          selectedColor,
+          selectedPrice,
+          filterValue,
+        ]);
+      },
     }
-    setFilterValue(filterValues);
-    setPage(1);
-  };
+  );
 
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
-    applyFilter();
+    applyFilterMutation.mutate(); // 필터 적용
   };
+
   const handlePriceSelect = (price: string) => {
     setSelectedPrice(price);
-    applyFilter();
+    applyFilterMutation.mutate(); // 필터 적용
   };
 
   return (
