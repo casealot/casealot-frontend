@@ -21,6 +21,7 @@ import {
   Box,
   Typography,
   Container,
+  Button,
 } from "@mui/material";
 import {
   ColorFilterButtons,
@@ -37,7 +38,6 @@ const ProductPage = () => {
   const [totalProduct, setTotalProduct] = useState(0);
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedPrice, setSelectedPrice] = useState<string>("");
-  const [priceFilter, setPriceFilter] = useState<string>("");
   const [filterValue, setFilterValue] = useState<
     {
       key: string;
@@ -196,6 +196,21 @@ const ProductPage = () => {
     applyFilterMutation.mutate(); // 필터 적용
   };
 
+  const removeColorFilter = () => {
+    setSelectedColor("");
+    applyFilterMutation.mutate();
+  };
+
+  const removePriceFilter = () => {
+    setSelectedPrice("");
+    applyFilterMutation.mutate();
+  };
+
+  const removeFilters = () => {
+    setSelectedColor("");
+    setSelectedPrice("");
+    applyFilterMutation.mutate();
+  };
   return (
     <>
       <main>
@@ -270,6 +285,66 @@ const ProductPage = () => {
                 selectedPrice={selectedPrice}
                 onPriceSelect={handlePriceSelect}
               />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "left",
+                padding: "10px 30px",
+                alignItems: "center",
+              }}
+            >
+              {selectedColor || selectedPrice ? (
+                <>
+                  <Typography
+                    sx={{
+                      fontSize: "20px",
+                      marginY: "auto",
+                      fontWeight: "600",
+                      marginRight: "20px",
+                    }}
+                  >
+                    필터
+                  </Typography>
+                  {selectedColor && (
+                    <Chip
+                      label={`색상: ${selectedColor}`}
+                      onDelete={removeColorFilter}
+                      color="secondary"
+                      size="small"
+                      sx={{ marginRight: "10px" }}
+                    />
+                  )}
+                  {selectedPrice && (
+                    <Chip
+                      label={`가격: ${selectedPrice}`}
+                      onDelete={removePriceFilter}
+                      color="secondary"
+                      size="small"
+                      sx={{ marginRight: "10px" }}
+                    />
+                  )}
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    size="small"
+                    onClick={removeFilters}
+                  >
+                    모든 필터 삭제
+                  </Button>
+                </>
+              ) : (
+                <Typography
+                  sx={{
+                    fontSize: "20px",
+                    marginY: "auto",
+                    fontWeight: "600",
+                    marginRight: "20px",
+                  }}
+                >
+                  선택된 필터 없음
+                </Typography>
+              )}
             </div>
           </Container>
         </Box>
