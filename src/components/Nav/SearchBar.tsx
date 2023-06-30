@@ -1,10 +1,10 @@
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { ChangeEvent, useRef, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { ProductListAtom, ProductType } from "../../atom/Product";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+
 import SearchpopUp from "./SearchpopUp";
+import { api } from "../../atom/apiCall";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,7 +51,14 @@ const SearchBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   // const [productData, setProductData] =
   //   useRecoilState<fakeProduct[]>(ProductListAtom);
-  const productData = useRecoilValue<ProductType[]>(ProductListAtom);
+  const getAutoComplete = async () => {
+    const response = await api.get(`cal/v1/autocomplete?query=${searchValue}`);
+    console.log(response.data.body);
+    return response.data.body;
+  };
+  useEffect(() => {
+    getAutoComplete();
+  }, [searchValue]);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -66,7 +73,7 @@ const SearchBar = () => {
   };
 
   const inputRef = useRef<HTMLInputElement>(null);
-  console.log(productData);
+
   return (
     <Search onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <SearchIconWrapper>

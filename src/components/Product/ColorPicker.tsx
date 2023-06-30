@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const colorOptions = [
   { label: "빨강", value: "red" },
   { label: "주황", value: "orange" },
@@ -10,7 +11,7 @@ export const colorOptions = [
   { label: "검정", value: "black" },
   { label: "흰색", value: "white" },
   { label: "초록", value: "green" },
-  { label: "기타", value: "other" },
+  { label: "기타", value: "#000" },
 ];
 
 interface ColorButtonProps {
@@ -36,7 +37,6 @@ const ColorButton = ({ color, onClick }: ColorButtonProps) => {
 };
 
 export const ColorFilterButtons = ({
-  selectedColor,
   onColorSelect,
 }: {
   selectedColor: string;

@@ -58,7 +58,7 @@ const NavRight = () => {
   // eslint-disable-next-line no-constant-condition
   return accessToken ? (
     <>
-      <Button sx={{ color: "#fff" }} onClick={() => navigate("/products")}>
+      <Button sx={{ color: "#000" }} onClick={() => navigate("/products")}>
         Product
       </Button>
       <Button
@@ -67,7 +67,7 @@ const NavRight = () => {
         aria-haspopup="true"
         aria-expanded={accountMenuOpen ? "true" : undefined}
         onClick={handleAccountClick}
-        sx={{ color: "#fff" }}
+        sx={{ color: "#000" }}
       >
         Account
       </Button>
@@ -99,7 +99,7 @@ const NavRight = () => {
         aria-haspopup="true"
         aria-expanded={communityMenuOpen ? "true" : undefined}
         onClick={handleCommunityClick}
-        sx={{ color: "#fff" }}
+        sx={{ color: "#000" }}
       >
         Community
       </Button>
@@ -124,22 +124,22 @@ const NavRight = () => {
         </NoneStyledLink>
       </Menu>
       <Link to="/cart">
-        <Button sx={{ color: "#fff" }}>
+        <Button sx={{ color: "#000" }}>
           <Badge badgeContent={cartCount} color="primary">
             <ShoppingCartIcon sx={{ marginLeft: "2px" }} />
           </Badge>
         </Button>
       </Link>
-      <Button sx={{ color: "#fff" }} onClick={handleLogout}>
+      <Button sx={{ color: "#000" }} onClick={handleLogout}>
         Logout
       </Button>
     </>
   ) : (
     <>
-      <Button sx={{ color: "#fff" }} onClick={() => navigate("/products")}>
+      <Button sx={{ color: "#000" }} onClick={() => navigate("/products")}>
         Product
       </Button>
-      <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>
+      <Button sx={{ color: "#000" }} onClick={() => navigate("/signin")}>
         Login
       </Button>
     </>

@@ -24,7 +24,7 @@ const CompleteOrder = () => {
 
   const handleViewInvoice = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://info.sweettracker.co.kr/tracking/5",
         {
           t_key: apiKey,

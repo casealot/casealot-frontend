@@ -29,7 +29,7 @@ import {
 } from "../../components/Product/ColorPicker";
 import SortOptionButtons from "../../components/Product/SortOptionButtons";
 import PriceFilterButtons from "../../components/Product/PriceFilter";
-
+import banner from "../../dummy/img/banner.jpg";
 const ProductPage = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -61,14 +61,7 @@ const ProductPage = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([
-          "getProducts",
-          sortOption,
-          sortOrder,
-          selectedColor,
-          selectedPrice,
-          filterValue,
-        ]);
+        queryClient.invalidateQueries(["getProducts", sortOption, sortOrder]);
       },
     }
   ).mutate;
@@ -176,8 +169,6 @@ const ProductPage = () => {
         setPage(1); // 페이지를 1로 리셋
         queryClient.invalidateQueries([
           "getProducts",
-          sortOption,
-          sortOrder,
           selectedColor,
           selectedPrice,
           filterValue,
@@ -214,126 +205,105 @@ const ProductPage = () => {
   return (
     <>
       <main>
-        <Box
-          sx={{
-            bgcolor: "background.paper",
-            pt: 8,
+        <div
+          style={{
+            display: "flex",
+            height: "60px",
+            justifyContent: "center",
+            alignItems: "center",
+            fontWeight: "500",
+            borderBottom: "1px solid #d3d3d3",
+            borderTop: "3px solid #808080",
+            marginBottom: "50px",
           }}
         >
           <Container maxWidth="xl">
-            <Typography
-              component="h1"
-              variant="h3"
-              align="center"
-              color="blue"
-              gutterBottom
-              sx={{
-                paddingBottom: "30px",
-                marginBottom: "50px",
-              }}
-            >
-              PRODUCTS
-            </Typography>
             <div
               style={{
-                display: "flex",
-                justifyContent: "left",
-                padding: "10px 30px",
-                paddingLeft: "30px",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "20px",
-                  marginY: "auto",
-                  fontWeight: "600",
-                  marginRight: "20px",
-                }}
-              >
-                색상
-              </Typography>
-              <ColorFilterButtons
-                selectedColor={selectedColor}
-                onColorSelect={handleColorSelect}
-              />
-            </div>
-
-            <SortOptionButtons
-              sortOption={sortOption}
-              sortOrder={sortOrder}
-              handleSortChange={handleSortChange}
-            />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "left",
-                padding: "10px 30px",
-                paddingLeft: "30px",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "20px",
-                  marginY: "auto",
-                  fontWeight: "600",
-                  marginRight: "20px",
-                }}
-              >
-                가격
-              </Typography>
-              <PriceFilterButtons
-                selectedPrice={selectedPrice}
-                onPriceSelect={handlePriceSelect}
-              />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "left",
-                padding: "10px 30px",
+                borderLeft: "1px solid #d3d3d3",
+                borderRight: "1px solid #d3d3d3",
+                height: "100%",
                 alignItems: "center",
               }}
             >
-              {selectedColor || selectedPrice ? (
-                <>
-                  <Typography
-                    sx={{
-                      fontSize: "20px",
-                      marginY: "auto",
-                      fontWeight: "600",
-                      marginRight: "20px",
-                    }}
-                  >
-                    필터
-                  </Typography>
-                  {selectedColor && (
-                    <Chip
-                      label={`색상: ${selectedColor}`}
-                      onDelete={removeColorFilter}
-                      color="secondary"
-                      size="small"
-                      sx={{ marginRight: "10px" }}
-                    />
-                  )}
-                  {selectedPrice && (
-                    <Chip
-                      label={`가격: ${selectedPrice}`}
-                      onDelete={removePriceFilter}
-                      color="secondary"
-                      size="small"
-                      sx={{ marginRight: "10px" }}
-                    />
-                  )}
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    size="small"
-                    onClick={removeFilters}
-                  >
-                    모든 필터 삭제
-                  </Button>
-                </>
-              ) : (
+              <span style={{ marginRight: "50px" }}>전체보기</span>
+              <span style={{ margin: "0 50px" }}>베스트</span>
+              <span style={{ margin: "0 50px" }}>신상</span>
+              <span style={{ margin: "0 50px" }}>의류</span>
+              <span style={{ margin: "0 50px" }}>모자</span>
+              <span style={{ margin: "0 50px" }}>ACC</span>
+              <span style={{ margin: "0 50px" }}>시즌오프</span>
+              <span style={{ margin: "0 50px" }}>룩북</span>
+              <span style={{ margin: "0 50px" }}>느금</span>
+            </div>
+          </Container>
+        </div>
+
+        <Container maxWidth="xl">
+          <img src={banner} height="130px" width="100%" />
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              padding: "10px 30px",
+              paddingLeft: "30px",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "20px",
+                marginY: "auto",
+                fontWeight: "600",
+                marginRight: "20px",
+              }}
+            >
+              색상
+            </Typography>
+            <ColorFilterButtons
+              selectedColor={selectedColor}
+              onColorSelect={handleColorSelect}
+            />
+          </div>
+
+          <SortOptionButtons
+            sortOption={sortOption}
+            sortOrder={sortOrder}
+            handleSortChange={handleSortChange}
+          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              padding: "10px 30px",
+              paddingLeft: "30px",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "20px",
+                marginY: "auto",
+                fontWeight: "600",
+                marginRight: "20px",
+              }}
+            >
+              가격
+            </Typography>
+            <PriceFilterButtons
+              selectedPrice={selectedPrice}
+              onPriceSelect={handlePriceSelect}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              padding: "10px 30px",
+              alignItems: "center",
+            }}
+          >
+            {selectedColor || selectedPrice ? (
+              <>
                 <Typography
                   sx={{
                     fontSize: "20px",
@@ -342,12 +312,50 @@ const ProductPage = () => {
                     marginRight: "20px",
                   }}
                 >
-                  선택된 필터 없음
+                  필터
                 </Typography>
-              )}
-            </div>
-          </Container>
-        </Box>
+                {selectedColor && (
+                  <Chip
+                    label={`색상: ${selectedColor}`}
+                    onDelete={removeColorFilter}
+                    color="secondary"
+                    size="small"
+                    sx={{ marginRight: "10px" }}
+                  />
+                )}
+                {selectedPrice && (
+                  <Chip
+                    label={`가격: ${selectedPrice}`}
+                    onDelete={removePriceFilter}
+                    color="secondary"
+                    size="small"
+                    sx={{ marginRight: "10px" }}
+                  />
+                )}
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="small"
+                  onClick={removeFilters}
+                >
+                  모든 필터 삭제
+                </Button>
+              </>
+            ) : (
+              <Typography
+                sx={{
+                  fontSize: "20px",
+                  marginY: "auto",
+                  fontWeight: "600",
+                  marginRight: "20px",
+                }}
+              >
+                선택된 필터 없음
+              </Typography>
+            )}
+          </div>
+        </Container>
+
         <Container sx={{ py: 8 }} maxWidth="xl">
           {data ? (
             <InfiniteScroll
@@ -429,7 +437,7 @@ const ProductPage = () => {
                               }}
                               image={ready}
                             >
-                              {item.type === "new" && (
+                              {item.type === "NEW" && (
                                 <Chip
                                   label="NEW"
                                   color="success"
@@ -441,7 +449,7 @@ const ProductPage = () => {
                                   }}
                                 />
                               )}{" "}
-                              {item.type === "best" && (
+                              {item.type === "BEST" && (
                                 <Chip
                                   label="BEST"
                                   color="primary"

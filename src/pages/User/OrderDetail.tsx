@@ -108,15 +108,15 @@ const OrderDetail = () => {
                     <TableCell>
                       <NoneStyledLink to={`/products/${order.productId}`}>
                         <div style={{ display: "flex" }}>
-                          {/* <img
-                          src={ready}
-                          width="100%"
-                          height="100%"
-                          style={{
-                            maxWidth: "100px",
-                            maxHeight: "100px",
-                          }}
-                        /> */}
+                          <img
+                            src={ready}
+                            width="100%"
+                            height="100%"
+                            style={{
+                              maxWidth: "100px",
+                              maxHeight: "100px",
+                            }}
+                          />
                           <img
                             src={order.thumbnail}
                             width="100%"

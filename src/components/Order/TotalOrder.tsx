@@ -14,12 +14,10 @@ import {
   TableRow,
   Typography,
   styled,
-  Modal,
 } from "@mui/material";
 import Loading from "../Useable/Loading";
 import axios from "axios";
-import { useState } from "react";
-import { width } from "@mui/system";
+
 import { Order, apiKey, tCode } from "../../atom/Order";
 
 const CenterAlignedCell = styled(TableCell)`
@@ -34,7 +32,7 @@ const TotalOrder = () => {
 
   const handleViewInvoice = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://info.sweettracker.co.kr/tracking/5",
         {
           t_key: apiKey,

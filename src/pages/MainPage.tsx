@@ -1,7 +1,7 @@
 import BestSeller from "../components/Main/BestSeller";
 import ImgCarousel from "../components/Main/ImgCarousel";
 import Product from "../components/Main/Product";
-import ProductFilter from "../components/Main/ProductFilter";
+// import ProductFilter from "../components/Main/ProductFilter";
 
 import styled from "styled-components";
 
@@ -15,7 +15,7 @@ const MainPage = () => {
       <MainWrapper>
         <ImgCarousel />
         <BestSeller />
-        <ProductFilter />
+        {/* <ProductFilter /> */}
         <Product />
       </MainWrapper>
     </>

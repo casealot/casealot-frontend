@@ -57,12 +57,19 @@ export default function DrawerAppBar(props: Props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", height: "64px", width: "100%" }}>
+    <Box
+      sx={{
+        display: "flex",
+        height: "64px",
+        width: "100%",
+        marginBottom: "200px",
+      }}
+    >
       <CssBaseline />
       <AppBar
         position="static"
         component="nav"
-        sx={{ background: "#000", width: "100%" }}
+        sx={{ background: "#fff", width: "100%" }}
       >
         <Toolbar sx={{ margin: "0" }}>
           <IconButton
@@ -81,12 +88,12 @@ export default function DrawerAppBar(props: Props) {
                 xs: "none",
                 sm: "block",
                 textAlign: "left",
-                marginLeft: "40px",
+                marginLeft: "190px",
                 fontSize: "26px",
               },
             }}
           >
-            <Link to={"/"} style={{ textDecoration: "none", color: "#fff" }}>
+            <Link to={"/"} style={{ textDecoration: "none", color: "#000" }}>
               CASE A LOT
             </Link>
           </Typography>
@@ -96,7 +103,7 @@ export default function DrawerAppBar(props: Props) {
               display: {
                 xs: "none",
                 sm: "block",
-                marginRight: "10px",
+                marginRight: "190px",
               },
             }}
           >

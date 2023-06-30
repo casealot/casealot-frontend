@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import Chart from "react-apexcharts";
 import { api } from "../../atom/apiCall";
 import Loading from "../Useable/Loading";
-import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 interface SalesData {
   todaySales: number;

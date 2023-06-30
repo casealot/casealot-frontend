@@ -2,7 +2,6 @@ import { Container } from "@mui/material";
 import { Typography, Tabs, Tab, Box } from "@mui/material";
 import { useState } from "react";
 import TotalOrder from "../../components/Order/TotalOrder";
-import axios from "axios";
 import CompleteOrder from "../../components/Order/CompleteOrder";
 
 interface TabPanelProps {
@@ -41,7 +40,7 @@ function a11yProps(index: number) {
 const OrderList = () => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 

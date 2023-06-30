@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 
-interface PriceFilterButtonsProps {
+interface PriceFilterButtonsType {
   selectedPrice: string;
   onPriceSelect: (price: string) => void;
 }
@@ -8,7 +8,7 @@ interface PriceFilterButtonsProps {
 const PriceFilterButtons = ({
   selectedPrice,
   onPriceSelect,
-}: PriceFilterButtonsProps) => {
+}: PriceFilterButtonsType) => {
   const priceOptions = [
     { label: "~3만원", value: "30000" },
     { label: "3~5만원", value: "30000-50000" },

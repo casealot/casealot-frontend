@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { ProductListAtom, ProductType } from "../../atom/Product";
 import { ChangeEvent } from "react";
 import { Link } from "react-router-dom";
+import { api } from "../../atom/apiCall";
 
 const SearchWrap = styled.div`
   position: absolute;
@@ -98,8 +99,17 @@ const ProductListli = styled.li`
 const SearchpopUp = () => {
   // const [productData, setProductData] =
   //   useRecoilState<fakeProduct[]>(ProductListAtom);
-  const productData = useRecoilValue<ProductType[]>(ProductListAtom);
+
   const [filteredData, setFilteredData] = useState<ProductType[]>([]);
+  const [productData, setProductData] = useState<ProductType[]>([]);
+
+  const getAuto = async () => {
+    const response = await api.get(`cal/v1/autocomplete?query=${searchValue}`);
+    console.log(response.data.body);
+    setProductData(response.data.body.item);
+    return response.data.body.item;
+  };
+
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setSearchValue(inputValue);
@@ -113,7 +123,12 @@ const SearchpopUp = () => {
 
     setFilteredData(filteredItems);
   };
+
   const [searchValue, setSearchValue] = useState<string>("");
+
+  useEffect(() => {
+    getAuto();
+  }, [searchValue]);
 
   const highlightMatchingText = (text: string) => {
     if (!searchValue) return text;
