@@ -12,7 +12,7 @@ import Loading from "../../components/Useable/Loading";
 
 const Mypage = () => {
   const getMyPageData = async () => {
-    const response = await api.get("/cal/v1/function/mypage");
+    const response = await api.get("/cal/v1/customer/mypage");
     return response.data.body.function;
   };
   const { data, isLoading } = useQuery(["getMyPageData"], getMyPageData);
