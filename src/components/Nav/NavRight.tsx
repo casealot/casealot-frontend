@@ -58,7 +58,10 @@ const NavRight = () => {
   // eslint-disable-next-line no-constant-condition
   return accessToken ? (
     <>
-      <Button sx={{ color: "#000" }} onClick={() => navigate("/products")}>
+      <Button
+        sx={{ color: "#000", fontWeight: "600" }}
+        onClick={() => navigate("/products")}
+      >
         Product
       </Button>
       <Button
@@ -67,7 +70,7 @@ const NavRight = () => {
         aria-haspopup="true"
         aria-expanded={accountMenuOpen ? "true" : undefined}
         onClick={handleAccountClick}
-        sx={{ color: "#000" }}
+        sx={{ color: "#000", fontWeight: "600" }}
       >
         Account
       </Button>
@@ -99,7 +102,7 @@ const NavRight = () => {
         aria-haspopup="true"
         aria-expanded={communityMenuOpen ? "true" : undefined}
         onClick={handleCommunityClick}
-        sx={{ color: "#000" }}
+        sx={{ color: "#000", fontWeight: "600" }}
       >
         Community
       </Button>

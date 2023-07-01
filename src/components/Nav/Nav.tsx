@@ -14,7 +14,8 @@ import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
 import NavRight from "./NavRight";
 import { Link } from "react-router-dom";
-
+import { Container } from "@mui/material";
+import Logo from "../../dummy/img/logo.png";
 interface Props {
   /**
    * Injected by the documentation to work in an iframe.
@@ -57,86 +58,82 @@ export default function DrawerAppBar(props: Props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        height: "64px",
-        width: "100%",
-        marginBottom: "200px",
-      }}
-    >
-      <CssBaseline />
-      <AppBar
-        position="static"
-        component="nav"
-        sx={{ background: "#fff", width: "100%" }}
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          height: "64px",
+          width: "100%",
+        }}
       >
-        <Toolbar sx={{ margin: "0" }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          ></IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              flexGrow: 1,
-              display: {
-                xs: "none",
-                sm: "block",
-                textAlign: "left",
-                marginLeft: "190px",
-                fontSize: "26px",
-              },
-            }}
-          >
-            <Link to={"/"} style={{ textDecoration: "none", color: "#000" }}>
-              CASE A LOT
-            </Link>
-          </Typography>
-          <SearchBar />
-          <Box
-            sx={{
-              display: {
-                xs: "none",
-                sm: "block",
-                marginRight: "190px",
-              },
-            }}
-          >
-            {/* {navItems.map((item) => (
+        <CssBaseline />
+        <AppBar
+          position="static"
+          component="nav"
+          sx={{ background: "#fff", width: "100%" }}
+        >
+          <Container maxWidth="xl">
+            <Toolbar sx={{ margin: "0" }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: "none" } }}
+              ></IconButton>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  flexGrow: 1,
+                  display: {
+                    xs: "none",
+                    sm: "block",
+                    textAlign: "left",
+
+                    fontSize: "26px",
+                  },
+                }}
+              >
+                <Link
+                  to={"/"}
+                  style={{ textDecoration: "none", color: "#000" }}
+                >
+                  CASE A LOT
+                </Link>
+              </Typography>
+              <SearchBar />
+              <Box
+                sx={{
+                  display: {
+                    xs: "none",
+                    sm: "block",
+                  },
+                }}
+              >
+                {/* {navItems.map((item) => (
               <Button key={item} sx={{ color: "#fff" }}>
                 {item}
               </Button> */}
 
-            {/* //상단 우측 버튼// */}
-            <NavRight />
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Box component="nav">
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
+                {/* //상단 우측 버튼// */}
+                <NavRight />
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
       </Box>
-    </Box>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          borderBottom: "1px solid #d3d3d3",
+        }}
+      >
+        <Link to="/">
+          <img src={Logo} style={{ height: "180px", marginTop: "10px" }} />
+        </Link>
+      </div>
+    </>
   );
 }
