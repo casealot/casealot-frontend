@@ -39,7 +39,7 @@ const SignUpPage = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        `http://43.201.170.8:8000/cal/v1/customer/join`,
+        `https://casealot.shop/cal/v1/customer/join`,
         {
           address: address,
           addressDetail: address2,
