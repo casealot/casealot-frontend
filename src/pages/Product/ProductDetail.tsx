@@ -28,6 +28,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../components/Useable/Loading";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { RequestPayParams, RequestPayResponse } from "../../atom/PortOne";
+import ConfirmationDialog from "../../components/Useable/ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 const DetailTop = styled.div`
   width: 1180px;
@@ -80,7 +82,8 @@ const ProductDetail = () => {
   const [wishboolean, setWishboolean] = useState("");
   const [wishCountState, setWishCountState] = useState("");
   const [comment, setComment] = useState("");
-
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const getProductDetail = useCallback(async () => {
@@ -113,6 +116,7 @@ const ProductDetail = () => {
     try {
       const response = await api.post(`cal/v1/cart/items/${id}`);
       setCartItems(response.data.body.cart.products);
+      setIsConfirmationOpen(true);
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
@@ -283,6 +287,14 @@ const ProductDetail = () => {
     } else {
       handleOpenErrorModal(error_msg);
     }
+  };
+
+  const handleCloseConfirmation = () => {
+    setIsConfirmationOpen(false);
+  };
+
+  const handlelocateCart = () => {
+    navigate("/cart");
   };
 
   return isLoading ? (
@@ -525,6 +537,15 @@ const ProductDetail = () => {
         open={isErrorModalOpen}
         onClose={handleCloseErrorModal}
         errorMessage={errorMessage}
+      />
+      <ConfirmationDialog
+        open={isConfirmationOpen}
+        onClose={handleCloseConfirmation}
+        onConfirm={handlelocateCart}
+        dialogTitle="장바구니"
+        dialogContent="장바구니로 이동 하시겠습니까?"
+        confirmText="이동"
+        cancelText="닫기"
       />
     </>
   );

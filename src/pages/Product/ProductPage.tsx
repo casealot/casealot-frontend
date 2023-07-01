@@ -234,7 +234,7 @@ const ProductPage = () => {
               <span style={{ margin: "0 50px" }}>ACC</span>
               <span style={{ margin: "0 50px" }}>시즌오프</span>
               <span style={{ margin: "0 50px" }}>룩북</span>
-              <span style={{ margin: "0 50px" }}>느금</span>
+              <span style={{ margin: "0 50px" }}>빈칸</span>
             </div>
           </Container>
         </div>
@@ -313,7 +313,9 @@ const ProductPage = () => {
               display: "flex",
               justifyContent: "left",
               margin: "20px 0",
+              paddingBottom: "50px",
               alignItems: "center",
+              borderBottom: "1px solid #d3d3d3",
             }}
           >
             {selectedColor || selectedPrice ? (
