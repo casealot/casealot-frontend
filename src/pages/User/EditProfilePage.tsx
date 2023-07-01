@@ -83,8 +83,12 @@ const EditProfile = () => {
   //   setIsErrorModalOpen(false);
   // };
 
-  const { data: userInfo } = useQuery(["userInfo"], () =>
-    api.get("cal/v1/customer")
+  const { data: userInfo } = useQuery(
+    ["userInfo"],
+    () => api.get("cal/v1/customer"),
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
   useEffect(() => {

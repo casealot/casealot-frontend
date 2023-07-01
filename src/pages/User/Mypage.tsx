@@ -35,7 +35,7 @@ const Mypage = () => {
           MY ACCOUNT
         </Typography>{" "}
         <Container maxWidth="xl">
-          {data.profileImg.uuid ? (
+          {data.profileImg ? (
             <Avatar
               src={data.profileImg.url}
               sx={{ width: "8em", height: "8em", margin: "0 auto" }}

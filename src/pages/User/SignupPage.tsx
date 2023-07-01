@@ -18,6 +18,7 @@ import { Modal } from "@mui/material";
 import DaumPostcode from "react-daum-postcode";
 import axios from "axios";
 import ErrorModal from "../../components/Modal/ErrorHandleModal";
+import { useNavigate } from "react-router";
 
 const SignUpPage = () => {
   const [openPostcode, setOpenPostcode] = React.useState<boolean>(false);
@@ -34,7 +35,7 @@ const SignUpPage = () => {
   const [name, setName] = useState("");
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -56,7 +57,7 @@ const SignUpPage = () => {
           },
         }
       );
-      console.log(response);
+      navigate("/signin");
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
