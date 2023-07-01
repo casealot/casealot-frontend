@@ -1,21 +1,9 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 const BestSellerSection = styled.div`
   display: block;
 `;
-const BestSellerTextArea = styled.div`
-  font-size: 24px;
-  font-weight: 400;
-  text-align: center;
-  padding: 50px 0 5px;
-`;
-const BestSellerText = styled.h2`
-  font-weight: 400;
-  color: #2b64f3;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-`;
+
 const ProductArea = styled.div`
   padding: 30px 0 40px;
   display: flex;
@@ -34,25 +22,6 @@ const Product = styled.li`
   width: 20%;
   text-align: center;
   list-style: none;
-`;
-const changeColor = keyframes`
-   0% {
-    color: #00ff7f;
-  }
-  33% {
-    color: #cd5c5c;
-  }
-  66% {
-    color: #6495ed;
-  }
-  100% {
-    color: red;
-  }
-  
-`;
-
-const AnimatedText = styled.span`
-  animation: ${changeColor} 1s infinite;
 `;
 
 const imgList = [
