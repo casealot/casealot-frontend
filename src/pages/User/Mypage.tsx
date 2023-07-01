@@ -33,12 +33,8 @@ const Mypage = () => {
           paddingTop={10}
         >
           MY ACCOUNT
-        </Typography>
-        <Link
-          to="/mypage/profile"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          {" "}
+        </Typography>{" "}
+        <Container maxWidth="xl">
           {data.profileImg ? (
             <Avatar
               src={data.profileImg.url}
@@ -54,7 +50,7 @@ const Mypage = () => {
               }}
             />
           )}
-        </Link>
+        </Container>
         <Grid
           container
           spacing={0}

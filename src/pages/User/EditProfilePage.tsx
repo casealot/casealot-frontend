@@ -18,6 +18,7 @@ import { api } from "../../atom/apiCall";
 
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const FormFlex = styled.div`
   display: flex;
   justify-content: start;
@@ -42,6 +43,7 @@ const EditProfile = () => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profilePreview, setProfilePreview] = useState("");
   const [, setIsErrorModalOpen] = useState(false);
+  const navigate = useNavigate();
   // const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [, setErrorMessage] = useState("");
 
@@ -116,12 +118,20 @@ const EditProfile = () => {
       const response = await api.put("cal/v1/customer/update", updatedUserInfo);
       if (response) {
         const customerId = response.data.body.customer.id;
-        await api.put(`cal/v1/file/${customerId}/customer/image`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const res = await api.put(
+          `cal/v1/file/${customerId}/customer/image`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (res) {
+          navigate("/mypage");
+        }
       }
+
       queryClient.invalidateQueries(["userInfo"]);
     } catch (error) {
       if (axios.isAxiosError(error))
