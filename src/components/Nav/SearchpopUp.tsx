@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { ProductListAtom, ProductType } from "../../atom/Product";
+import { ProductType } from "../../atom/Product";
 import { ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../atom/apiCall";

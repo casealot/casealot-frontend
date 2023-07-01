@@ -18,7 +18,6 @@ import {
   CardContent,
   CardMedia,
   Grid,
-  Box,
   Typography,
   Container,
   Button,

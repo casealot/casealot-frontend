@@ -51,7 +51,6 @@ function App() {
         <Route path="/qna/fix/:id" element={<QnAFix />} />
         {/* <Route element={<ProductRegistrationPage />} />/ */}
         <Route path="/admin" element={<AdminInfo />} />
-
         <Route
           path="/admin/addproduct"
           element={
