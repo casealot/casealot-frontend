@@ -57,7 +57,7 @@ const SignUpPage = () => {
           },
         }
       );
-      navigate("/signin");
+      if (response) navigate("/signin");
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
