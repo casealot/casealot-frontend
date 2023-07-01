@@ -3,6 +3,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "quill/dist/quill.snow.css";
 
 const queryClient = new QueryClient();
 
