@@ -50,7 +50,10 @@ function App() {
         <Route path="/qna/:id" element={<QnaDetail />} />
         <Route path="/qna/fix/:id" element={<QnAFix />} />
         {/* <Route element={<ProductRegistrationPage />} />/ */}
-        <Route path="/admin" element={<AdminInfo />} />
+        <Route
+          path="/admin"
+          element={role === "ADMIN" ? <AdminInfo /> : <h1>No access</h1>}
+        />
         <Route
           path="/admin/addproduct"
           element={
