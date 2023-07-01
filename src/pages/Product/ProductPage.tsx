@@ -29,6 +29,7 @@ import {
 import SortOptionButtons from "../../components/Product/SortOptionButtons";
 import PriceFilterButtons from "../../components/Product/PriceFilter";
 import banner from "../../dummy/img/banner.jpg";
+import { height } from "@mui/system";
 const ProductPage = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -239,14 +240,29 @@ const ProductPage = () => {
         </div>
 
         <Container maxWidth="xl">
-          <img src={banner} height="130px" width="100%" />
-
+          <div
+            style={{
+              width: "100%",
+              height: "180px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundImage: `url(${banner})`,
+              backgroundSize: "cover",
+              backgroundPosition:
+                "center" /* 기타 배경 이미지 스타일을 설정합니다 */,
+              color: "#fff",
+              textAlign: "center",
+              marginBottom: "40px",
+            }}
+          >
+            <Typography variant="h3">PRODUCTS</Typography>
+          </div>
           <div
             style={{
               display: "flex",
               justifyContent: "left",
-              padding: "10px 30px",
-              paddingLeft: "30px",
+              margin: "20px 0",
             }}
           >
             <Typography
@@ -265,17 +281,11 @@ const ProductPage = () => {
             />
           </div>
 
-          <SortOptionButtons
-            sortOption={sortOption}
-            sortOrder={sortOrder}
-            handleSortChange={handleSortChange}
-          />
           <div
             style={{
               display: "flex",
               justifyContent: "left",
-              padding: "10px 30px",
-              paddingLeft: "30px",
+              margin: "20px 0",
             }}
           >
             <Typography
@@ -293,11 +303,16 @@ const ProductPage = () => {
               onPriceSelect={handlePriceSelect}
             />
           </div>
+          <SortOptionButtons
+            sortOption={sortOption}
+            sortOrder={sortOrder}
+            handleSortChange={handleSortChange}
+          />
           <div
             style={{
               display: "flex",
               justifyContent: "left",
-              padding: "10px 30px",
+              margin: "20px 0",
               alignItems: "center",
             }}
           >
@@ -355,178 +370,187 @@ const ProductPage = () => {
           </div>
         </Container>
 
-        <Container sx={{ py: 8 }} maxWidth="xl">
-          {data ? (
-            <InfiniteScroll
-              dataLength={data?.pages?.flatMap((item) => item).length}
-              next={handleLoadMore}
-              hasMore={hasMore}
-              loader={<Loading />}
-              endMessage={
-                <>
-                  <p style={{ fontSize: "40px" }}>
-                    <Divider sx={{ marginBottom: "20px" }} />
-                    NO MORE PRODUCTS
-                  </p>
-                </>
-              }
-            >
-              <Grid
-                container
-                spacing={4}
-                gap={5}
-                rowGap={4}
-                sx={{ justifyContent: "center", marginTop: "20px" }}
+        <Container sx={{ padding: "0" }} maxWidth="xl">
+          <div style={{ padding: "0", width: "100%" }}>
+            {data ? (
+              <InfiniteScroll
+                dataLength={data?.pages?.flatMap((item) => item).length}
+                next={handleLoadMore}
+                hasMore={hasMore}
+                loader={<Loading />}
+                endMessage={
+                  <>
+                    <p style={{ fontSize: "40px" }}>
+                      <Divider sx={{ marginBottom: "20px" }} />
+                      NO MORE PRODUCTS
+                    </p>
+                  </>
+                }
               >
-                {data?.pages.map((card) =>
-                  card.map((item: ProductType) => (
-                    <Grid key={item.id} xs={12} sm={6} md={2.5}>
-                      <NoneStyledLink to={`/products/${item.id}`}>
-                        <Card
-                          sx={{
-                            height: "100%",
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          {item.thumbnail && item.thumbnail.url ? (
-                            <CardMedia
-                              component="div"
-                              sx={{
-                                pt: "100%",
-                                height: "fit-content",
-
-                                position: "relative",
-                              }}
-                              image={item.thumbnail.url}
-                              onMouseOver={handleImageHover}
-                              onMouseLeave={handleImageLeave}
-                            >
-                              {item.type === "new" && (
-                                <Chip
-                                  label="NEW"
-                                  color="success"
-                                  sx={{
-                                    position: "absolute",
-                                    right: "5px",
-                                    top: "5px",
-                                    fontWeight: "600",
-                                  }}
-                                />
-                              )}{" "}
-                              {item.type === "best" && (
-                                <Chip
-                                  label="BEST"
-                                  color="primary"
-                                  sx={{
-                                    position: "absolute",
-                                    right: "5px",
-                                    top: "5px",
-                                    fontWeight: "600",
-                                  }}
-                                />
-                              )}
-                            </CardMedia>
-                          ) : (
-                            <CardMedia
-                              component="div"
-                              sx={{
-                                pt: "100%",
-                                position: "relative",
-                              }}
-                              image={ready}
-                            >
-                              {item.type === "NEW" && (
-                                <Chip
-                                  label="NEW"
-                                  color="success"
-                                  sx={{
-                                    position: "absolute",
-                                    right: "5px",
-                                    top: "5px",
-                                    fontWeight: "600",
-                                  }}
-                                />
-                              )}{" "}
-                              {item.type === "BEST" && (
-                                <Chip
-                                  label="BEST"
-                                  color="primary"
-                                  sx={{
-                                    position: "absolute",
-                                    right: "5px",
-                                    top: "5px",
-                                    fontWeight: "600",
-                                  }}
-                                />
-                              )}
-                            </CardMedia>
-                          )}
-
-                          <CardContent
-                            sx={{ flexGrow: 1, borderTop: "2px solid #d3d3d3" }}
+                <Grid
+                  container
+                  rowGap={4}
+                  gap={6}
+                  sx={{
+                    justifyContent: "center",
+                    marginTop: "20px",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {data?.pages.map((card) =>
+                    card.map((item: ProductType) => (
+                      <Grid key={item.id} xs={12} sm={6} md={2.7}>
+                        <NoneStyledLink to={`/products/${item.id}`}>
+                          <Card
+                            sx={{
+                              height: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
                           >
-                            <Typography
-                              gutterBottom
-                              variant="h6"
-                              component="h3"
-                              sx={{
-                                maxHeight: "33px",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              {item.name}
-                            </Typography>
-                            <Typography
-                              sx={{
-                                maxHeight: "50px",
-                                textOverflow: "ellipsis",
-                                overflow: "hidden",
-                              }}
-                            >
-                              {item.sale ? (
-                                <>
-                                  <Typography
-                                    component="span"
+                            {item.thumbnail && item.thumbnail.url ? (
+                              <CardMedia
+                                component="div"
+                                sx={{
+                                  pt: "100%",
+                                  height: "fit-content",
+
+                                  position: "relative",
+                                }}
+                                image={item.thumbnail.url}
+                                onMouseOver={handleImageHover}
+                                onMouseLeave={handleImageLeave}
+                              >
+                                {item.type === "new" && (
+                                  <Chip
+                                    label="NEW"
+                                    color="success"
                                     sx={{
-                                      textDecoration: "line-through",
-                                      color: "#888888",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    {item.price}원
-                                  </Typography>{" "}
-                                  <Typography
-                                    component="span"
-                                    sx={{
-                                      color: "#000",
+                                      position: "absolute",
+                                      right: "5px",
+                                      top: "5px",
                                       fontWeight: "600",
-                                      fontSize: "16px",
-                                      marginLeft: "3px",
                                     }}
-                                  >
-                                    {calculateDiscount(item.price, item.sale)}원
-                                  </Typography>{" "}
-                                </>
-                              ) : (
-                                `${item.price}원`
-                              )}
-                            </Typography>
-                          </CardContent>
-                          <CardActions
-                            sx={{ justifyContent: "end" }}
-                          ></CardActions>
-                        </Card>
-                      </NoneStyledLink>
-                    </Grid>
-                  ))
-                )}
-              </Grid>
-            </InfiniteScroll>
-          ) : (
-            <Loading />
-          )}
+                                  />
+                                )}{" "}
+                                {item.type === "best" && (
+                                  <Chip
+                                    label="BEST"
+                                    color="primary"
+                                    sx={{
+                                      position: "absolute",
+                                      right: "5px",
+                                      top: "5px",
+                                      fontWeight: "600",
+                                    }}
+                                  />
+                                )}
+                              </CardMedia>
+                            ) : (
+                              <CardMedia
+                                component="div"
+                                sx={{
+                                  pt: "100%",
+                                  position: "relative",
+                                }}
+                                image={ready}
+                              >
+                                {item.type === "NEW" && (
+                                  <Chip
+                                    label="NEW"
+                                    color="success"
+                                    sx={{
+                                      position: "absolute",
+                                      right: "5px",
+                                      top: "5px",
+                                      fontWeight: "600",
+                                    }}
+                                  />
+                                )}{" "}
+                                {item.type === "BEST" && (
+                                  <Chip
+                                    label="BEST"
+                                    color="primary"
+                                    sx={{
+                                      position: "absolute",
+                                      right: "5px",
+                                      top: "5px",
+                                      fontWeight: "600",
+                                    }}
+                                  />
+                                )}
+                              </CardMedia>
+                            )}
+
+                            <CardContent
+                              sx={{
+                                flexGrow: 1,
+                                borderTop: "2px solid #d3d3d3",
+                              }}
+                            >
+                              <Typography
+                                gutterBottom
+                                variant="h6"
+                                component="h3"
+                                sx={{
+                                  maxHeight: "33px",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                }}
+                              >
+                                {item.name}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  maxHeight: "50px",
+                                  textOverflow: "ellipsis",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                {item.sale ? (
+                                  <>
+                                    <Typography
+                                      component="span"
+                                      sx={{
+                                        textDecoration: "line-through",
+                                        color: "#888888",
+                                        fontSize: "14px",
+                                      }}
+                                    >
+                                      {item.price}원
+                                    </Typography>{" "}
+                                    <Typography
+                                      component="span"
+                                      sx={{
+                                        color: "#000",
+                                        fontWeight: "600",
+                                        fontSize: "16px",
+                                        marginLeft: "3px",
+                                      }}
+                                    >
+                                      {calculateDiscount(item.price, item.sale)}
+                                      원
+                                    </Typography>{" "}
+                                  </>
+                                ) : (
+                                  `${item.price}원`
+                                )}
+                              </Typography>
+                            </CardContent>
+                            <CardActions
+                              sx={{ justifyContent: "end" }}
+                            ></CardActions>
+                          </Card>
+                        </NoneStyledLink>
+                      </Grid>
+                    ))
+                  )}
+                </Grid>
+              </InfiniteScroll>
+            ) : (
+              <Loading />
+            )}
+          </div>
         </Container>
       </main>
     </>

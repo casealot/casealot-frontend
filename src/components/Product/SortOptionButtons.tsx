@@ -12,22 +12,20 @@ const SortOptionButtons = ({
   handleSortChange,
 }: SortOptionButtons) => {
   return (
-    <Stack
-      sx={{
-        pt: 4,
-        paddingLeft: "30px",
-        paddingY: "10px",
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "left",
+        margin: "20px 0",
+        alignItems: "center",
       }}
-      direction="row"
-      spacing={1}
-      justifyContent="left"
     >
       <Typography
         sx={{
-          fontSize: "18px",
+          fontSize: "20px",
           marginY: "auto",
           fontWeight: "600",
-          marginRight: "7px",
+          marginRight: "20px",
         }}
       >
         정렬
@@ -80,7 +78,7 @@ const SortOptionButtons = ({
         리뷰순 {sortOption === "ratingCount" && sortOrder === "desc" && "▼"}
         {sortOption === "ratingCount" && sortOrder === "asc" && "▲"}
       </Button>
-    </Stack>
+    </div>
   );
 };
 
