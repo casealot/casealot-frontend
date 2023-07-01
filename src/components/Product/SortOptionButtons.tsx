@@ -1,4 +1,4 @@
-import { Stack, Typography, Button } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 
 interface SortOptionButtons {
   sortOption: string;

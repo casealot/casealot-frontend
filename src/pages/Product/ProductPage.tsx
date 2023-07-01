@@ -29,7 +29,7 @@ import {
 import SortOptionButtons from "../../components/Product/SortOptionButtons";
 import PriceFilterButtons from "../../components/Product/PriceFilter";
 import banner from "../../dummy/img/banner.jpg";
-import { height } from "@mui/system";
+
 const ProductPage = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
