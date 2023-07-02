@@ -58,6 +58,11 @@ const CategoryPage = () => {
       value: string | number | null | undefined;
     }[]
   >([{ key: "", operation: "", value: null }]);
+  useEffect(() => {
+    setFilterValue([{ key: "", operation: "", value: null }]);
+    setSelectedPrice("");
+    setSelectedColor("");
+  }, [categoryName]);
   const size = 12;
 
   const queryClient = useQueryClient();
