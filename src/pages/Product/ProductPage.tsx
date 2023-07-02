@@ -325,16 +325,6 @@ const ProductPage = () => {
                 </Button>
               </>
             ) : (
-              // <Typography
-              //   sx={{
-              //     fontSize: "20px",
-              //     marginY: "auto",
-              //     fontWeight: "600",
-              //     marginRight: "20px",
-              //   }}
-              // >
-              //   선택된 필터 없음
-              // </Typography>
               ""
             )}
           </div>
