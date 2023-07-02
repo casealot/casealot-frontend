@@ -14,6 +14,7 @@ import { api } from "../../atom/apiCall";
 import { styled } from "styled-components";
 import axios from "axios";
 import ErrorModal from "../Modal/ErrorHandleModal";
+import { useNavigate } from "react-router";
 
 const ContentText = styled.div`
   display: flex;
@@ -36,7 +37,7 @@ const ProductEditor = () => {
   const [thumbnailpre, setThumbnailpre] = useState("");
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (quillRef.current) {
       quillRef.current.on("text-change", handleContentChange);
@@ -87,6 +88,7 @@ const ProductEditor = () => {
           },
         });
       }
+      navigate("/admin");
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
