@@ -33,7 +33,7 @@ const TotalOrder = () => {
   const handleViewInvoice = async () => {
     try {
       await axios.post(
-        "http://info.sweettracker.co.kr/tracking/5",
+        "https://info.sweettracker.co.kr/tracking/5",
         {
           t_key: apiKey,
           t_code: tCode,
