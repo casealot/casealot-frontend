@@ -1,5 +1,4 @@
 import { Divider, Grid } from "@mui/material";
-import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import { ProductListAtom, ProductType } from "../../atom/Product";
