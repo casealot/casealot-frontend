@@ -81,10 +81,12 @@ const ProductState = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Image</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell sx={{ fontWeight: "600" }}>Image</TableCell>
+              <TableCell sx={{ fontWeight: "600" }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: "600" }}>Price</TableCell>
+              <TableCell sx={{ fontWeight: "600" }}>Sale</TableCell>
+              <TableCell sx={{ fontWeight: "600" }}>SalePrice</TableCell>
+              <TableCell sx={{ fontWeight: "600" }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -113,6 +115,10 @@ const ProductState = () => {
                   </TableCell>
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{product.price} 원</TableCell>
+                  <TableCell>{product.sale}%</TableCell>
+                  <TableCell sx={{ color: "blue" }}>
+                    {product.calculatePrice} 원
+                  </TableCell>
                   <TableCell>
                     <Button
                       variant="outlined"
