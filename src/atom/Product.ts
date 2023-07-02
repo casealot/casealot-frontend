@@ -33,6 +33,7 @@ export interface ProductType {
   color: string;
   season: string;
   type: string;
+  calculatePrice: number;
 }
 
 export const ProductListAtom = atom<ProductType[]>({

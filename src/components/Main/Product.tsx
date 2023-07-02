@@ -118,7 +118,43 @@ const Product = () => {
                   </NoneStyledLink>
                   <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
                   <NoneStyledLink to={`/products/${item.id}`}>
-                    <span>{item.price}원</span>
+                    {item.sale > 0 ? (
+                      <>
+                        <Typography
+                          component="span"
+                          sx={{
+                            textDecoration: "line-through",
+                            color: "#888888",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {item.price}원
+                        </Typography>
+                        <Typography
+                          component="span"
+                          sx={{
+                            color: "#000",
+                            fontWeight: "600",
+                            fontSize: "15px",
+                            marginLeft: "3px",
+                          }}
+                        >
+                          {item.calculatePrice}원
+                        </Typography>{" "}
+                      </>
+                    ) : (
+                      <Typography
+                        component="span"
+                        sx={{
+                          color: "#000",
+                          fontWeight: "600",
+                          fontSize: "15px",
+                          marginLeft: "3px",
+                        }}
+                      >
+                        {item.price}원
+                      </Typography>
+                    )}
                   </NoneStyledLink>
                 </div>
               </Grid>
