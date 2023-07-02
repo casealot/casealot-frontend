@@ -1,7 +1,6 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import img1 from "../../dummy/img/carousel1.jpg";
 import img2 from "../../dummy/img/carousel2.jpg";
 import img3 from "../../dummy/img/carousel3.jpg";
 
@@ -20,9 +19,6 @@ const ImgCarousel = () => {
     <>
       <div>
         <Slider {...settings}>
-          <div>
-            <img src={img1} width="100%" />
-          </div>
           <div>
             <img src={img2} width="100%" />
           </div>

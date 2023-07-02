@@ -63,7 +63,7 @@ const Product = () => {
         {isLoading ? (
           <Loading />
         ) : (
-          <Grid container spacing={2} gap={3}>
+          <Grid container spacing={2} gap={3} sx={{ justifyContent: "center" }}>
             {productList.map((item: ProductType) => (
               <Grid item xs={2}>
                 <NoneStyledLink to={`/products/${item.id}`}>

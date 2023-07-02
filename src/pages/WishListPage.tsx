@@ -32,7 +32,9 @@ const WishListPage = () => {
   };
 
   const handleWishDeleteAll = async () => {
-    await api.delete("cal/v1/wishlist");
+    const response = await api.delete("cal/v1/wishlist");
+    setWishState(response.data.body.wishlist.productList);
+    setIsConfirmationOpen(false);
   };
   const handleOpenConfirmation = () => {
     setIsConfirmationOpen(true);

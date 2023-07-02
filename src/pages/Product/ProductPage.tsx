@@ -205,39 +205,6 @@ const ProductPage = () => {
   return (
     <>
       <main>
-        <div
-          style={{
-            display: "flex",
-            height: "60px",
-            fontWeight: "500",
-            borderBottom: "1px solid #d3d3d3",
-            borderTop: "3px solid #808080",
-            marginBottom: "50px",
-          }}
-        >
-          <Container maxWidth="xl">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                borderLeft: "1px solid #d3d3d3",
-                borderRight: "1px solid #d3d3d3",
-                height: "100%",
-                alignItems: "center",
-              }}
-            >
-              <span style={{ marginRight: "50px" }}>ALL</span>
-              <span style={{ margin: "0 50px" }}>NEW COLLECTION</span>
-              <span style={{ margin: "0 50px" }}>BEST</span>
-              <span style={{ margin: "0 50px" }}>CAP</span>
-              <span style={{ margin: "0 50px" }}>TOP</span>
-              <span style={{ margin: "0 50px" }}>BOTTOM</span>
-              <span style={{ margin: "0 50px" }}>ACCESSORY</span>
-              <span style={{ margin: "0 50px" }}>LOOKBOOK</span>
-            </div>
-          </Container>
-        </div>
-
         <Container maxWidth="xl">
           <div
             style={{
@@ -252,7 +219,7 @@ const ProductPage = () => {
                 "center" /* 기타 배경 이미지 스타일을 설정합니다 */,
               color: "#fff",
               textAlign: "center",
-              marginBottom: "40px",
+              margin: "60px 0",
             }}
           >
             <Typography variant="h3">PRODUCTS</Typography>
