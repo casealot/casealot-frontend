@@ -1,4 +1,3 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,7 +11,7 @@ import { Container } from "@mui/material";
 import Logo from "../../dummy/img/logo.png";
 
 export default function DrawerAppBar() {
-  const [_mobileOpen, setMobileOpen] = React.useState(false);
+  // const [_mobileOpen, setMobileOpen] = React.useState(false);
 
   // const drawer = (
   //   <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
