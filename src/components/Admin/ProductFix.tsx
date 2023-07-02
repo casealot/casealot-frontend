@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
-import "quill/dist/quill.snow.css";
+import "react-quill/dist/quill.snow.css";
 import {
   TextField,
   Button,
