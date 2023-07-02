@@ -100,7 +100,7 @@ export default function DrawerAppBar() {
           <img src={Logo} style={{ height: "180px", marginTop: "10px" }} />
         </Link>
       </div>
-      {param.include("admin") ? (
+      {param?.includes("admin") ? (
         ""
       ) : (
         <div
