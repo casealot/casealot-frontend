@@ -28,6 +28,7 @@ const ProductEditor = () => {
   const quillRef = useRef<any>(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
   const [sale, setSale] = useState("");
   const [season, setSeason] = useState("");
   const [type, setType] = useState("");
@@ -103,6 +104,9 @@ const ProductEditor = () => {
     setPrice(event.target.value);
   };
 
+  const handleCategoryChange = (event: SelectChangeEvent<string>) => {
+    setCategory(event.target.value as string);
+  };
   const handleContentChange = () => {
     if (quillRef.current) {
       const content = quillRef.current.root.innerHTML;
@@ -215,7 +219,33 @@ const ProductEditor = () => {
                 : ""}
             </span>
           </ContentText>
-          <ContentText style={{ marginBottom: "20px" }}>
+          <ContentText>
+            <span style={{ color: "red", marginRight: "5px" }}>*</span>
+            <span style={{ marginRight: "10px" }}>카테고리 : </span>
+            <FormControl
+              margin="normal"
+              sx={{ width: "220px", marginRight: " auto" }}
+            >
+              <InputLabel id="demo-simple-select-label">Color</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Color"
+                value={category}
+                onChange={handleCategoryChange}
+              >
+                <MenuItem value="빨강">ALL</MenuItem>
+                <MenuItem value="주황">NEW</MenuItem>
+                <MenuItem value="노랑">BEST</MenuItem>
+                <MenuItem value="파랑">CAP</MenuItem>
+                <MenuItem value="핑크">TOP</MenuItem>
+                <MenuItem value="보라">BOTTOM</MenuItem>
+                <MenuItem value="검정">ACCESSORY</MenuItem>
+                <MenuItem value="흰색">LOOKBOOK</MenuItem>
+              </Select>
+            </FormControl>
+          </ContentText>
+          {/* <ContentText style={{ marginBottom: "20px" }}>
             <span style={{ marginRight: "10px", marginLeft: "12px" }}>
               부가정보 :{" "}
             </span>
@@ -227,15 +257,7 @@ const ProductEditor = () => {
               placeholder="ex) 2022 F/W"
               sx={{ width: "130px" }}
             />
-            <TextField
-              label="TYPE"
-              value={type}
-              onChange={handleTypeChange}
-              margin="normal"
-              placeholder="ex) NEW"
-              sx={{ marginLeft: "10px", width: "130px" }}
-            />
-          </ContentText>
+          </ContentText> */}
           <ContentText style={{ marginBottom: "20px", marginLeft: "14px" }}>
             <span style={{ marginRight: "10px" }}>썸네일</span>
             <input

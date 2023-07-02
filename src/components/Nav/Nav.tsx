@@ -125,7 +125,7 @@ const Nav = () => {
           <Container maxWidth="xl">
             <Grid
               container
-              gap={6}
+              gap={10}
               justifyContent="center"
               alignItems="center"
               height="100%"
