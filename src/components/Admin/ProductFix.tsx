@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useQuill } from "react-quilljs";
@@ -41,6 +41,7 @@ const ProductFix = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const productId = params.id;
+  const navigate = useNavigate();
 
   const getProduct = async () => {
     try {
@@ -144,6 +145,7 @@ const ProductFix = () => {
           },
         });
       }
+      navigate("/admin/product");
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
@@ -215,6 +217,11 @@ const ProductFix = () => {
                   <MenuItem value="보라">보라</MenuItem>
                   <MenuItem value="검정">검정</MenuItem>
                   <MenuItem value="흰색">흰색</MenuItem>
+                  <MenuItem value="하늘">하늘</MenuItem>
+                  <MenuItem value="베이지">베이지</MenuItem>
+                  <MenuItem value="그레이">그레이</MenuItem>
+                  <MenuItem value="카키">카키</MenuItem>
+                  <MenuItem value="네이비">네이비</MenuItem>
                   <MenuItem value="기타">기타</MenuItem>
                 </Select>
               </FormControl>

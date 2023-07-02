@@ -164,6 +164,11 @@ const ProductEditor = () => {
                 <MenuItem value="보라">보라</MenuItem>
                 <MenuItem value="검정">검정</MenuItem>
                 <MenuItem value="흰색">흰색</MenuItem>
+                <MenuItem value="하늘">하늘</MenuItem>
+                <MenuItem value="베이지">베이지</MenuItem>
+                <MenuItem value="그레이">그레이</MenuItem>
+                <MenuItem value="카키">카키</MenuItem>
+                <MenuItem value="네이비">네이비</MenuItem>
                 <MenuItem value="기타">기타</MenuItem>
               </Select>
             </FormControl>

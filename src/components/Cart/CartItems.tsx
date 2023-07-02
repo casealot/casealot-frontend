@@ -104,9 +104,9 @@ const CartItems = () => {
 
     if (success) {
       alert("결제 성공");
-
+      console.log(response);
       const res = await api.put(
-        `http://43.201.170.8:8000/cal/v1/verifyIamport/${response.merchant_uid}`,
+        `/cal/v1/verifyIamport/${response.merchant_uid}`,
         `${response.imp_uid}`,
         {
           headers: {

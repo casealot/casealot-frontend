@@ -423,7 +423,7 @@ const ProductPage = () => {
                                 onMouseOver={handleImageHover}
                                 onMouseLeave={handleImageLeave}
                               >
-                                {item.type === "new" && (
+                                {item.type === "NEW" && (
                                   <Chip
                                     label="NEW"
                                     color="success"
@@ -435,7 +435,7 @@ const ProductPage = () => {
                                     }}
                                   />
                                 )}{" "}
-                                {item.type === "best" && (
+                                {item.type === "BEST" && (
                                   <Chip
                                     label="BEST"
                                     color="primary"

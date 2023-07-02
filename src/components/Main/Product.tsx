@@ -111,14 +111,19 @@ const Product = () => {
             {productList.map((item: ProductType) => (
               <ProductList key={item.id}>
                 <NoneStyledLink to={`/products/${item.id}`}>
-                  <div style={{ maxWidth: 300, maxHeight: 300 }}>
+                  <div
+                    style={{
+                      maxWidth: 300,
+                      maxHeight: 300,
+                    }}
+                  >
                     {item.thumbnail && item.thumbnail.url ? (
                       <img
                         src={item.thumbnail.url}
                         style={{
                           width: "100%",
                           height: "100%",
-                          objectFit: "contain",
+                          objectFit: "cover",
                           aspectRatio: "1/1",
                         }}
                         alt={item.name}
@@ -133,22 +138,30 @@ const Product = () => {
                     )}
                   </div>
                 </NoneStyledLink>
-                <NoneStyledLink to={`/products/${item.id}`}>
-                  <span
-                    style={{
-                      marginTop: "20px",
-                      textAlign: "left",
-                      whiteSpace: "nowrap",
-                      maxWidth: "200px",
-                    }}
-                  >
-                    {item.name}
-                  </span>
-                </NoneStyledLink>
-                <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
-                <NoneStyledLink to={`/products/${item.id}`}>
-                  <span>{item.price}원</span>
-                </NoneStyledLink>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginTop: "20px",
+                  }}
+                >
+                  <NoneStyledLink to={`/products/${item.id}`}>
+                    <span
+                      style={{
+                        marginTop: "20px",
+                        textAlign: "left",
+                        whiteSpace: "nowrap",
+                        maxWidth: "200px",
+                      }}
+                    >
+                      {item.name}
+                    </span>
+                  </NoneStyledLink>
+                  <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
+                  <NoneStyledLink to={`/products/${item.id}`}>
+                    <span>{item.price}원</span>
+                  </NoneStyledLink>
+                </div>
               </ProductList>
             ))}
           </ProductGrid>

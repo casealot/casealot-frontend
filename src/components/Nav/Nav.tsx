@@ -2,7 +2,7 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import IconButton from "@mui/material/IconButton";
+
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
@@ -44,36 +44,24 @@ export default function DrawerAppBar() {
     <>
       <Box
         sx={{
-          display: "flex",
-          height: "64px",
-          width: "100%",
+          flexGrow: 1,
         }}
       >
         <CssBaseline />
-        <AppBar
-          position="static"
-          component="nav"
-          sx={{ background: "#fff", width: "100%" }}
-        >
+        <AppBar position="static" sx={{ background: "#fff" }}>
           <Container maxWidth="xl">
             <Toolbar sx={{ margin: "0" }}>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: "none" } }}
-              ></IconButton>
               <Typography
-                variant="h6"
+                variant="h2"
                 component="div"
+                noWrap
                 sx={{
                   flexGrow: 1,
                   display: {
                     xs: "none",
                     sm: "block",
+                    flexGrow: 1,
                     textAlign: "left",
-
                     fontSize: "26px",
                   },
                 }}
