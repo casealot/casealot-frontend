@@ -1,4 +1,4 @@
-import { Divider, Grid } from "@mui/material";
+import { Divider, Grid, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import { ProductListAtom, ProductType } from "../../atom/Product";
@@ -65,7 +65,7 @@ const Product = () => {
         ) : (
           <Grid container spacing={2} gap={3} sx={{ justifyContent: "center" }}>
             {productList.map((item: ProductType) => (
-              <Grid item xs={2}>
+              <Grid item xs={2} sx={{ width: "20%" }}>
                 <NoneStyledLink to={`/products/${item.id}`}>
                   <div
                     style={{
@@ -102,16 +102,19 @@ const Product = () => {
                   }}
                 >
                   <NoneStyledLink to={`/products/${item.id}`}>
-                    <span
-                      style={{
+                    <Typography
+                      variant="body2"
+                      sx={{
                         marginTop: "20px",
-                        textAlign: "left",
-                        whiteSpace: "nowrap",
-                        maxWidth: "200px",
+                        textAlign: "center",
+                        overflow: "hidden",
+                        maxHeight: "20px",
+                        marginX: "auto",
+                        textOverflow: "ellipsis",
                       }}
                     >
                       {item.name}
-                    </span>
+                    </Typography>
                   </NoneStyledLink>
                   <Divider variant="middle" flexItem sx={{ marginY: "12px" }} />
                   <NoneStyledLink to={`/products/${item.id}`}>

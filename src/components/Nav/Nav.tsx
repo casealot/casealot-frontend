@@ -6,36 +6,46 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
 import NavRight from "./NavRight";
-import { Link, useParams } from "react-router-dom";
-import { Container } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
+import { Button, Container, Grid } from "@mui/material";
 import Logo from "../../dummy/img/logo.png";
+import styled from "styled-components";
 
-export default function DrawerAppBar() {
-  // const [_mobileOpen, setMobileOpen] = React.useState(false);
+const Nav = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
 
-  // const drawer = (
-  //   <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-  //     <Typography variant="h6" sx={{ my: 2 }}>
-  //       Case A Lot
-  //     </Typography>
+  const NavListButton = styled(Button)`
+    color: #000;
+    font-weight: 600;
+  `;
 
-  //     <Divider />
-  //     <List>
-  //       {navItems.map((item) => (
-  //         <ListItem key={item} disablePadding>
-  //           <ListItemButton sx={{ textAlign: "center" }}>
-  //             <ListItemText primary={item} />
-  //           </ListItemButton>
-  //         </ListItem>
-  //       ))}
-  //     </List>
-  //   </Box>
-  // );
-
-  // const container =
-  //   window !== undefined ? () => window().document.body : undefined;
-
-  const { param } = useParams();
+  const NavList = [
+    {
+      name: "ALL",
+    },
+    {
+      name: "NEW",
+    },
+    {
+      name: "BEST",
+    },
+    {
+      name: "CAP",
+    },
+    {
+      name: "TOP",
+    },
+    {
+      name: "BOTTOM",
+    },
+    {
+      name: "ACCESSORY",
+    },
+    {
+      name: "LOOKBOOK",
+    },
+  ];
   return (
     <>
       <Box
@@ -100,7 +110,7 @@ export default function DrawerAppBar() {
           <img src={Logo} style={{ height: "180px", marginTop: "10px" }} />
         </Link>
       </div>
-      {param?.includes("admin") ? (
+      {pathname?.includes("admin") ? (
         ""
       ) : (
         <div
@@ -113,30 +123,42 @@ export default function DrawerAppBar() {
           }}
         >
           <Container maxWidth="xl">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
+            <Grid
+              container
+              gap={6}
+              justifyContent="center"
+              alignItems="center"
+              height="100%"
+              sx={{
                 borderLeft: "1px solid #d3d3d3",
                 borderRight: "1px solid #d3d3d3",
-                height: "100%",
-                alignItems: "center",
+                textOverflow: "hidden",
+                overflow: "hidden",
               }}
             >
-              <Typography style={{ marginRight: "50px", fontWeight: "600" }}>
-                ALL
-              </Typography>
-              <span style={{ margin: "0 50px" }}>NEW COLLECTION</span>
+              {NavList.map((item) => (
+                <Grid item xs={1}>
+                  <NavListButton
+                    sx={{ color: "#000", fontWeight: "bold", fontSize: "16px" }}
+                  >
+                    {item.name}
+                  </NavListButton>
+                </Grid>
+              ))}
+
+              {/* <span style={{ margin: "0 50px" }}>NEW COLLECTION</span>
               <span style={{ margin: "0 50px" }}>BEST</span>
               <span style={{ margin: "0 50px" }}>CAP</span>
               <span style={{ margin: "0 50px" }}>TOP</span>
               <span style={{ margin: "0 50px" }}>BOTTOM</span>
               <span style={{ margin: "0 50px" }}>ACCESSORY</span>
-              <span style={{ margin: "0 50px" }}>LOOKBOOK</span>
-            </div>
+              <span style={{ margin: "0 50px" }}>LOOKBOOK</span> */}
+            </Grid>
           </Container>
         </div>
       )}
     </>
   );
-}
+};
+
+export default Nav;
