@@ -24,7 +24,6 @@ const ContentText = styled.div`
 `;
 
 const ProductEditor = () => {
-  // const { quill, quillRef } = useQuill();
   const quillRef = useRef<any>(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -45,6 +44,22 @@ const ProductEditor = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const modules = {
+    toolbar: [
+      //[{ 'font': [] }],
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"],
+      [{ align: [] }, { color: [] }, { background: [] }], // dropdown with defaults from theme
+      ["clean"],
+    ],
+  };
   const handleSave = async (event: FormEvent) => {
     try {
       event.preventDefault();
@@ -250,9 +265,11 @@ const ProductEditor = () => {
           <ReactQuill
             value={contentValue}
             onChange={handleContentChange}
+            theme="snow"
             style={{ height: "600px" }}
+            modules={modules}
           />
-          <Button variant="contained" type="submit" sx={{ marginTop: "20px" }}>
+          <Button variant="contained" type="submit" sx={{ marginTop: "60px" }}>
             등록하기
           </Button>
         </form>

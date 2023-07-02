@@ -162,6 +162,23 @@ const ProductFix = () => {
     setIsErrorModalOpen(false);
   };
 
+  const modules = {
+    toolbar: [
+      //[{ 'font': [] }],
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"],
+      [{ align: [] }, { color: [] }, { background: [] }], // dropdown with defaults from theme
+      ["clean"],
+    ],
+  };
+
   return (
     <>
       <Container
@@ -304,11 +321,13 @@ const ProductFix = () => {
               value={contentValue}
               onChange={handleContentChange}
               style={{ height: "600px" }}
+              modules={modules}
+              theme="snow"
             />
             <Button
               variant="contained"
               type="submit"
-              sx={{ marginTop: "20px" }}
+              sx={{ marginTop: "60px" }}
             >
               등록하기
             </Button>
