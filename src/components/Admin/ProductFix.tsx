@@ -37,6 +37,7 @@ const ProductFix = () => {
   const [type, setType] = useState("");
   const [color, setColor] = useState("");
   const [contentValue, setContentValue] = useState("");
+  const [category, setCategory] = useState("");
   const [thumbnail, setThumbnail] = useState<null | File>(null);
   const [thumbnailpre, setThumbnailpre] = useState("");
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
@@ -59,6 +60,7 @@ const ProductFix = () => {
       setContentValue(res.content);
       setThumbnail(res.thumbnail.url);
       setThumbnailpre(res.thumbnail.url);
+      setCategory(res.category);
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
@@ -102,12 +104,16 @@ const ProductFix = () => {
     }
   };
 
-  const handleSeasonChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSeason(event.target.value);
-  };
+  // const handleSeasonChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setSeason(event.target.value);
+  // };
 
-  const handleTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setType(event.target.value);
+  // const handleTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setType(event.target.value);
+  // };
+
+  const handleCategoryChange = (event: SelectChangeEvent<string>) => {
+    setCategory(event.target.value as string);
   };
 
   const handleThumbnailChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -130,6 +136,7 @@ const ProductFix = () => {
         sale: sale,
         season: season,
         type: type,
+        category: category,
         // Add other fields to update
       });
       console.log(response); // 예시로 콘솔에 출력합니다.
@@ -268,7 +275,33 @@ const ProductFix = () => {
                   : ""}
               </span>
             </ContentText>
-            <ContentText style={{ marginBottom: "20px" }}>
+            <ContentText>
+              <span style={{ color: "red", marginRight: "5px" }}>*</span>
+              <span style={{ marginRight: "10px" }}>카테고리 : </span>
+              <FormControl
+                margin="normal"
+                sx={{ width: "220px", marginRight: " auto" }}
+              >
+                <InputLabel id="demo-simple-select-label">Color</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Color"
+                  value={category}
+                  onChange={handleCategoryChange}
+                >
+                  <MenuItem value="빨강">ALL</MenuItem>
+                  <MenuItem value="주황">NEW</MenuItem>
+                  <MenuItem value="노랑">BEST</MenuItem>
+                  <MenuItem value="파랑">CAP</MenuItem>
+                  <MenuItem value="핑크">TOP</MenuItem>
+                  <MenuItem value="보라">BOTTOM</MenuItem>
+                  <MenuItem value="검정">ACCESSORY</MenuItem>
+                  <MenuItem value="흰색">LOOKBOOK</MenuItem>
+                </Select>
+              </FormControl>
+            </ContentText>
+            {/* <ContentText style={{ marginBottom: "20px" }}>
               <span style={{ marginRight: "10px", marginLeft: "12px" }}>
                 부가정보 :{" "}
               </span>
@@ -280,15 +313,7 @@ const ProductFix = () => {
                 placeholder="ex) 2022 F/W"
                 sx={{ width: "130px" }}
               />
-              <TextField
-                label="TYPE"
-                value={type}
-                onChange={handleTypeChange}
-                margin="normal"
-                placeholder="ex) NEW"
-                sx={{ marginLeft: "10px", width: "130px" }}
-              />
-            </ContentText>
+            </ContentText> */}
             <ContentText style={{ marginBottom: "20px", marginLeft: "14px" }}>
               <span style={{ marginRight: "10px" }}>썸네일</span>
               <input
