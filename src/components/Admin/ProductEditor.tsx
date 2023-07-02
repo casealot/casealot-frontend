@@ -1,4 +1,5 @@
 import ReactQuill from "react-quill";
+import "quill/dist/quill.snow.css";
 import {
   TextField,
   Button,
@@ -13,7 +14,6 @@ import { api } from "../../atom/apiCall";
 import { styled } from "styled-components";
 import axios from "axios";
 import ErrorModal from "../Modal/ErrorHandleModal";
-import "react-quill/dist/quill.snow.css";
 
 const ContentText = styled.div`
   display: flex;

@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../atom/apiCall";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useQuill } from "react-quilljs";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import ReactQuill from "react-quill";
+import "quill/dist/quill.snow.css";
 import {
   TextField,
   Button,
@@ -28,7 +29,7 @@ const ContentText = styled.div`
 
 const ProductFix = () => {
   const params = useParams();
-  const { quill, quillRef } = useQuill();
+  const quillRef = useRef<any>(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [sale, setSale] = useState("");
@@ -67,13 +68,13 @@ const ProductFix = () => {
   useEffect(() => {
     getProduct(); // 서버에서 상품 데이터 가져오기
 
-    if (quill) {
-      // Quill 에디터가 초기화되었을 때 실행될 코드
-      quill.root.innerHTML = contentValue; // 기본값 설정
-      quill.on("text-change", handleContentChange); // 내용 변경 시 호출할 함수 등록
+    if (quillRef.current) {
+      quillRef.current.on("text-change", handleContentChange);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [quill]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -84,8 +85,8 @@ const ProductFix = () => {
   };
 
   const handleContentChange = () => {
-    if (quill) {
-      const content = quill.root.innerHTML;
+    if (quillRef.current) {
+      const content = quillRef.current.root.innerHTML;
       setContentValue(content);
     }
   };
@@ -299,10 +300,10 @@ const ProductFix = () => {
                 </Button>
               </label>
             </ContentText>
-            <div
-              ref={quillRef}
+            <ReactQuill
+              value={contentValue}
+              onChange={handleContentChange}
               style={{ height: "600px" }}
-              defaultValue={contentValue}
             />
             <Button
               variant="contained"
