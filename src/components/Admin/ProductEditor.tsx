@@ -1,4 +1,4 @@
-import { useQuill } from "react-quilljs";
+import ReactQuill from "react-quill";
 import {
   TextField,
   Button,
@@ -8,7 +8,7 @@ import {
   SelectChangeEvent,
   InputLabel,
 } from "@mui/material";
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect, useRef } from "react";
 import { api } from "../../atom/apiCall";
 import { styled } from "styled-components";
 import axios from "axios";
@@ -24,7 +24,8 @@ const ContentText = styled.div`
 `;
 
 const ProductEditor = () => {
-  const { quill, quillRef } = useQuill();
+  // const { quill, quillRef } = useQuill();
+  const quillRef = useRef<any>(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [sale, setSale] = useState("");
@@ -38,11 +39,11 @@ const ProductEditor = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    if (quill) {
-      quill.on("text-change", handleContentChange);
+    if (quillRef.current) {
+      quillRef.current.on("text-change", handleContentChange);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [quill]);
+  }, []);
 
   const handleSave = async (event: FormEvent) => {
     try {
@@ -86,8 +87,8 @@ const ProductEditor = () => {
   };
 
   const handleContentChange = () => {
-    if (quill) {
-      const content = quill.root.innerHTML;
+    if (quillRef.current) {
+      const content = quillRef.current.root.innerHTML;
       setContentValue(content);
     }
   };
@@ -246,7 +247,11 @@ const ProductEditor = () => {
               </Button>
             </label>
           </ContentText>
-          <div ref={quillRef} style={{ height: "600px" }} />
+          <ReactQuill
+            value={contentValue}
+            onChange={handleContentChange}
+            style={{ height: "600px" }}
+          />
           <Button variant="contained" type="submit" sx={{ marginTop: "20px" }}>
             등록하기
           </Button>
