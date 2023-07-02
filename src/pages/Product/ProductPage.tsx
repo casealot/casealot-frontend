@@ -226,15 +226,14 @@ const ProductPage = () => {
                 alignItems: "center",
               }}
             >
-              <span style={{ marginRight: "50px" }}>전체보기</span>
-              <span style={{ margin: "0 50px" }}>베스트</span>
-              <span style={{ margin: "0 50px" }}>신상</span>
-              <span style={{ margin: "0 50px" }}>의류</span>
-              <span style={{ margin: "0 50px" }}>모자</span>
-              <span style={{ margin: "0 50px" }}>ACC</span>
-              <span style={{ margin: "0 50px" }}>시즌오프</span>
-              <span style={{ margin: "0 50px" }}>룩북</span>
-              <span style={{ margin: "0 50px" }}>빈칸</span>
+              <span style={{ marginRight: "50px" }}>ALL</span>
+              <span style={{ margin: "0 50px" }}>NEW COLLECTION</span>
+              <span style={{ margin: "0 50px" }}>BEST</span>
+              <span style={{ margin: "0 50px" }}>CAP</span>
+              <span style={{ margin: "0 50px" }}>TOP</span>
+              <span style={{ margin: "0 50px" }}>BOTTOM</span>
+              <span style={{ margin: "0 50px" }}>ACCESSORY</span>
+              <span style={{ margin: "0 50px" }}>LOOKBOOK</span>
             </div>
           </Container>
         </div>
@@ -358,16 +357,17 @@ const ProductPage = () => {
                 </Button>
               </>
             ) : (
-              <Typography
-                sx={{
-                  fontSize: "20px",
-                  marginY: "auto",
-                  fontWeight: "600",
-                  marginRight: "20px",
-                }}
-              >
-                선택된 필터 없음
-              </Typography>
+              // <Typography
+              //   sx={{
+              //     fontSize: "20px",
+              //     marginY: "auto",
+              //     fontWeight: "600",
+              //     marginRight: "20px",
+              //   }}
+              // >
+              //   선택된 필터 없음
+              // </Typography>
+              ""
             )}
           </div>
         </Container>

@@ -1,4 +1,4 @@
-import { Divider } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
@@ -10,49 +10,6 @@ import { Container } from "@mui/material";
 import ready from "../../dummy/img/imgready.gif";
 import { NoneStyledLink } from "../Useable/Link";
 import Loading from "../Useable/Loading";
-
-// const ProductArea = styled.div`
-//   margin: 70px 0 0;
-//   padding: 30px 0 40px;
-//   display: flex;
-//   justify-content: center;
-// `;
-
-const ProductGrid = styled.ul`
-  padding: 10px 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  color: #000;
-`;
-
-const ProductList = styled.li`
-  position: relative;
-  vertical-align: top;
-  margin: 0 5px 30px !important;
-  margin-left: 10px;
-  text-align: center;
-  width: 16%;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  @media (max-width: 1280px) {
-    width: 33.33%;
-  }
-
-  @media (max-width: 960px) {
-    width: 50%;
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-  }
-`;
 
 const Product = () => {
   const [page] = useState(0);
@@ -107,9 +64,9 @@ const Product = () => {
         {isLoading ? (
           <Loading />
         ) : (
-          <ProductGrid>
+          <Grid container spacing={2} gap={3}>
             {productList.map((item: ProductType) => (
-              <ProductList key={item.id}>
+              <Grid item xs={2}>
                 <NoneStyledLink to={`/products/${item.id}`}>
                   <div
                     style={{
@@ -162,9 +119,9 @@ const Product = () => {
                     <span>{item.price}원</span>
                   </NoneStyledLink>
                 </div>
-              </ProductList>
+              </Grid>
             ))}
-          </ProductGrid>
+          </Grid>
         )}
       </Container>
     </>

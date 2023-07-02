@@ -185,7 +185,6 @@ const ProductEditor = () => {
                 <MenuItem value="그레이">그레이</MenuItem>
                 <MenuItem value="카키">카키</MenuItem>
                 <MenuItem value="네이비">네이비</MenuItem>
-                <MenuItem value="기타">기타</MenuItem>
               </Select>
             </FormControl>
           </ContentText>

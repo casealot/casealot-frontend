@@ -2,16 +2,20 @@ import { Button } from "@mui/material";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const colorOptions = [
-  { label: "빨강", value: "red" },
-  { label: "주황", value: "orange" },
-  { label: "노랑", value: "yellow" },
-  { label: "파랑", value: "blue" },
-  { label: "핑크", value: "pink" },
-  { label: "보라", value: "purple" },
-  { label: "검정", value: "black" },
-  { label: "흰색", value: "white" },
-  { label: "초록", value: "green" },
-  { label: "기타", value: "#000" },
+  { label: "빨강", value: "RED" },
+  { label: "주황", value: "ORANGE" },
+  { label: "노랑", value: "YELLOW" },
+  { label: "파랑", value: "BLUE" },
+  { label: "핑크", value: "PINK" },
+  { label: "보라", value: "PURPLE" },
+  { label: "검정", value: "BLACK" },
+  { label: "흰색", value: "WHITE" },
+  { label: "초록", value: "GREEN" },
+  { label: "베이지", value: "BEIGE" },
+  { label: "하늘", value: "LIGHTSKYBLUE" },
+  { label: "카키", value: "OLIVE" },
+  { label: "네이비", value: "NAVY" },
+  { label: "그레이", value: "GRAY" },
 ];
 
 interface ColorButtonProps {
