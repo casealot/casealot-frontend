@@ -6,7 +6,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
 import NavRight from "./NavRight";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Button, Container, Grid } from "@mui/material";
 import Logo from "../../dummy/img/logo.png";
 import styled from "styled-components";
@@ -137,13 +137,19 @@ const Nav = () => {
               }}
             >
               {NavList.map((item) => (
-                <Grid item xs={1}>
-                  <NavListButton
-                    sx={{ color: "#000", fontWeight: "bold", fontSize: "16px" }}
-                  >
-                    {item.name}
-                  </NavListButton>
-                </Grid>
+                <Link to={`/products/category/${item.name.toLowerCase()}`}>
+                  <Grid item xs={1}>
+                    <NavListButton
+                      sx={{
+                        color: "#000",
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {item.name}
+                    </NavListButton>
+                  </Grid>
+                </Link>
               ))}
 
               {/* <span style={{ margin: "0 50px" }}>NEW COLLECTION</span>

@@ -38,6 +38,7 @@ const ProductPage = () => {
   const [totalProduct, setTotalProduct] = useState(0);
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedPrice, setSelectedPrice] = useState<string>("");
+
   const [filterValue, setFilterValue] = useState<
     {
       key: string;
@@ -69,7 +70,7 @@ const ProductPage = () => {
   const { data, isLoading, fetchNextPage } = useInfiniteQuery(
     ["getProducts", sortOption, sortOrder, filterValue],
     async ({ pageParam = page - 1 }) => {
-      const response = await api.post("/cal/v1/product/", {
+      const response = await api.post(`/cal/v1/product/`, {
         filter: filterValue,
         page: pageParam,
         query: "",

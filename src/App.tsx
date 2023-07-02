@@ -23,6 +23,7 @@ import QnAFix from "./pages/QnA/QnAFix";
 import AdminInfo from "./pages/Admin/AdminInfo";
 import OrderList from "./pages/User/OrderList";
 import OrderDetail from "./pages/User/OrderDetail";
+import CategoryPage from "./pages/Product/CategoryPage";
 
 const role = localStorage.getItem("role");
 
@@ -40,7 +41,8 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/products" element={<ProductPage />} />
+        <Route path="/products/" element={<ProductPage />} />
+        <Route path="/products/category/:category" element={<CategoryPage />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/profile" element={<EditProfile />} />
         <Route path="/mypage/orderlist" element={<OrderList />} />
