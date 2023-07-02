@@ -6,8 +6,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
 import NavRight from "./NavRight";
-import { Link } from "react-router-dom";
-import { Container, Stack } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
+import { Container } from "@mui/material";
 import Logo from "../../dummy/img/logo.png";
 
 export default function DrawerAppBar() {
@@ -35,6 +35,7 @@ export default function DrawerAppBar() {
   // const container =
   //   window !== undefined ? () => window().document.body : undefined;
 
+  const { param } = useParams();
   return (
     <>
       <Box
@@ -99,39 +100,43 @@ export default function DrawerAppBar() {
           <img src={Logo} style={{ height: "180px", marginTop: "10px" }} />
         </Link>
       </div>
-      <div
-        style={{
-          display: "flex",
-          height: "60px",
-          fontWeight: "500",
-          borderBottom: "1px solid #d3d3d3",
-          borderTop: "3px solid #808080",
-        }}
-      >
-        <Container maxWidth="xl">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              borderLeft: "1px solid #d3d3d3",
-              borderRight: "1px solid #d3d3d3",
-              height: "100%",
-              alignItems: "center",
-            }}
-          >
-            <Typography style={{ marginRight: "50px", fontWeight: "600" }}>
-              ALL
-            </Typography>
-            <span style={{ margin: "0 50px" }}>NEW COLLECTION</span>
-            <span style={{ margin: "0 50px" }}>BEST</span>
-            <span style={{ margin: "0 50px" }}>CAP</span>
-            <span style={{ margin: "0 50px" }}>TOP</span>
-            <span style={{ margin: "0 50px" }}>BOTTOM</span>
-            <span style={{ margin: "0 50px" }}>ACCESSORY</span>
-            <span style={{ margin: "0 50px" }}>LOOKBOOK</span>
-          </div>
-        </Container>
-      </div>
+      {param.include("admin") ? (
+        ""
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            height: "60px",
+            fontWeight: "500",
+            borderBottom: "1px solid #d3d3d3",
+            borderTop: "3px solid #808080",
+          }}
+        >
+          <Container maxWidth="xl">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                borderLeft: "1px solid #d3d3d3",
+                borderRight: "1px solid #d3d3d3",
+                height: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Typography style={{ marginRight: "50px", fontWeight: "600" }}>
+                ALL
+              </Typography>
+              <span style={{ margin: "0 50px" }}>NEW COLLECTION</span>
+              <span style={{ margin: "0 50px" }}>BEST</span>
+              <span style={{ margin: "0 50px" }}>CAP</span>
+              <span style={{ margin: "0 50px" }}>TOP</span>
+              <span style={{ margin: "0 50px" }}>BOTTOM</span>
+              <span style={{ margin: "0 50px" }}>ACCESSORY</span>
+              <span style={{ margin: "0 50px" }}>LOOKBOOK</span>
+            </div>
+          </Container>
+        </div>
+      )}
     </>
   );
 }
