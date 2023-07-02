@@ -30,8 +30,9 @@ const ProductEditor = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [sale, setSale] = useState("");
-  const [season, setSeason] = useState("");
-  const [type, setType] = useState("");
+  // const [season, setSeason] = useState("");
+  // const [type, setType] = useState("");
+
   const [color, setColor] = useState("");
   const [contentValue, setContentValue] = useState("");
   const [thumbnail, setThumbnail] = useState<null | File>(null);
@@ -76,8 +77,9 @@ const ProductEditor = () => {
         color: color,
         price: price,
         sale: sale,
-        season: season,
-        type: type,
+        // season: season,
+        // type: type,
+        category: category,
       });
 
       const id = response.data.body.product.id;
@@ -125,13 +127,9 @@ const ProductEditor = () => {
     }
   };
 
-  const handleSeasonChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSeason(event.target.value);
-  };
-
-  const handleTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setType(event.target.value);
-  };
+  // const handleSeasonChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setSeason(event.target.value);
+  // };
 
   const handleThumbnailChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
