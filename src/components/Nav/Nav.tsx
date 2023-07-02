@@ -14,10 +14,6 @@ import Logo from "../../dummy/img/logo.png";
 export default function DrawerAppBar() {
   const [_mobileOpen, setMobileOpen] = React.useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
-  };
-
   // const drawer = (
   //   <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
   //     <Typography variant="h6" sx={{ my: 2 }}>
