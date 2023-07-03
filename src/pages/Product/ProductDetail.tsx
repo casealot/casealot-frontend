@@ -102,7 +102,16 @@ const ProductDetail = () => {
     api.get(`cal/v1/product/${id}`).then((response) => response.data.body)
   );
   const product = useMemo(() => data?.product || {}, [data]);
-  const { name, price, content, thumbnail, wishCount, wishYn } = product;
+  const {
+    name,
+    price,
+    content,
+    thumbnail,
+    wishCount,
+    wishYn,
+    sale,
+    calculatePrice,
+  } = product;
 
   useEffect(() => {
     getProductDetail();
@@ -311,7 +320,7 @@ const ProductDetail = () => {
         )}
 
         <div style={{ width: "470px", textAlign: "left", paddingTop: "20px" }}>
-          <DetailRightTop>
+          <DetailRightTop style={{ borderBottom: "1px solid" }}>
             <div style={{ display: "flex", borderBottom: "1px solid #d3d3d3" }}>
               <DetailTitle>{name}</DetailTitle>
             </div>
@@ -323,97 +332,108 @@ const ProductDetail = () => {
                 gap: "10px",
               }}
             >
-              <span
-                style={{
-                  fontSize: "16px",
-                  marginRight: "30px",
-                }}
-              >
-                판매가
-              </span>
-              <span
-                style={{
-                  fontSize: "16px",
-                  marginRight: "30px",
-                }}
-              >
-                할인율
-              </span>
-              <span
-                style={{
-                  fontSize: "16px",
-                  marginRight: "30px",
-                }}
-              >
-                할인판매가
-              </span>
+              <div style={{ display: "flex" }}>
+                <span
+                  style={{
+                    fontSize: "16px",
+                    marginRight: "30px",
+                    width: "33%",
+                  }}
+                >
+                  판매가
+                </span>
+                <span
+                  style={{
+                    fontSize: "16px",
+                    marginLeft: "auto",
+                  }}
+                >
+                  {price}원
+                </span>
+              </div>
+
+              <div style={{ display: "flex" }}>
+                <span
+                  style={{
+                    fontSize: "16px",
+                    marginRight: "30px",
+                    width: "33%",
+                  }}
+                >
+                  할인율
+                </span>
+                <span
+                  style={{
+                    fontSize: "16px",
+                    marginLeft: "auto",
+                    color: "#808080",
+                  }}
+                >
+                  {sale} %
+                </span>
+              </div>
+              <div style={{ display: "flex" }}>
+                <span
+                  style={{
+                    fontSize: "16px",
+                    marginRight: "30px",
+                    width: "33%",
+                  }}
+                >
+                  할인판매가
+                </span>
+                <span
+                  style={{
+                    fontSize: "16px",
+                    marginLeft: "auto",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {calculatePrice}원
+                </span>
+              </div>
             </div>
             <div
               style={{
-                marginTop: "27px",
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
+                justifyContent: "right",
+                marginTop: "20px",
               }}
             >
-              <span
-                style={{
-                  fontSize: "16px",
-                  marginRight: "auto",
-                }}
-              >
-                {data.CalculatePrice}원
-              </span>
-              <span
-                style={{
-                  fontSize: "16px",
-                  marginRight: "auto",
-                }}
-              >
-                {data.CalculatePrice}원
-              </span>
-              <span
-                style={{
-                  fontSize: "16px",
-                  marginRight: "auto",
-                }}
-              >
-                {data.CalculatePrice}원
-              </span>
+              {wishboolean === "N" ? (
+                <Button
+                  style={{
+                    alignItems: "right",
+                    fontSize: "23px",
+                    verticalAlign: "baseline",
+                  }}
+                  onClick={handleWishAdd}
+                >
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <FavoriteBorderIcon sx={{ paddingTop: "2px" }} />
+                    <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
+                      {wishCountState}
+                    </span>
+                  </div>
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    alignItems: "right",
+                    fontSize: "23px",
+                    verticalAlign: "baseline",
+                  }}
+                  onClick={handleWishRemove}
+                >
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <FavoriteIcon sx={{ paddingTop: "2px" }} />
+                    <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
+                      {wishCountState}
+                    </span>
+                  </div>
+                </Button>
+              )}
             </div>
-            {wishboolean === "N" ? (
-              <Button
-                style={{
-                  alignItems: "right",
-                  fontSize: "23px",
-                  verticalAlign: "baseline",
-                }}
-                onClick={handleWishAdd}
-              >
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <FavoriteBorderIcon sx={{ paddingTop: "2px" }} />
-                  <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
-                    {wishCountState}
-                  </span>
-                </div>
-              </Button>
-            ) : (
-              <Button
-                style={{
-                  alignItems: "right",
-                  fontSize: "23px",
-                  verticalAlign: "baseline",
-                }}
-                onClick={handleWishRemove}
-              >
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <FavoriteIcon sx={{ paddingTop: "2px" }} />
-                  <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
-                    {wishCountState}
-                  </span>
-                </div>
-              </Button>
-            )}
           </DetailRightTop>
           <div
             style={{
