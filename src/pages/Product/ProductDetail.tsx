@@ -1,6 +1,6 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
-
+import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -18,6 +18,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  IconButton,
+  TextField,
 } from "@mui/material";
 import ready from "../../dummy/img/noimage.gif";
 import ReviewForm from "../../components/Product/Review";
@@ -83,6 +85,7 @@ const ProductDetail = () => {
   const [wishCountState, setWishCountState] = useState("");
   const [comment, setComment] = useState("");
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -111,6 +114,8 @@ const ProductDetail = () => {
     wishYn,
     sale,
     calculatePrice,
+    rating,
+    ratingCount,
   } = product;
 
   useEffect(() => {
@@ -123,7 +128,7 @@ const ProductDetail = () => {
 
   const handleAddToCart = useCallback(async () => {
     try {
-      const response = await api.post(`cal/v1/cart/items/${id}`);
+      const response = await api.post(`cal/v1/cart/items/${id}/${quantity}`);
       setCartItems(response.data.body.cart.products);
       setIsConfirmationOpen(true);
     } catch (error) {
@@ -223,7 +228,7 @@ const ProductDetail = () => {
   const onSubmitOrder = async () => {
     try {
       const response = await api.post("cal/v1/order", {
-        orderProducts: [{ productId: id, quantity: 1 }],
+        orderProducts: [{ productId: id, quantity: quantity }],
       });
       const responseData = response.data.body.order;
       if (response && responseData) {
@@ -306,6 +311,16 @@ const ProductDetail = () => {
     navigate("/cart");
   };
 
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
   return isLoading ? (
     <Loading />
   ) : (
@@ -320,7 +335,7 @@ const ProductDetail = () => {
         )}
 
         <div style={{ width: "470px", textAlign: "left", paddingTop: "20px" }}>
-          <DetailRightTop style={{ borderBottom: "1px solid" }}>
+          <DetailRightTop>
             <div style={{ display: "flex", borderBottom: "1px solid #d3d3d3" }}>
               <DetailTitle>{name}</DetailTitle>
             </div>
@@ -330,6 +345,8 @@ const ProductDetail = () => {
                 display: "flex",
                 flexDirection: "column",
                 gap: "10px",
+                borderBottom: "1px solid #d3d3d3",
+                paddingBottom: "20px",
               }}
             >
               <div style={{ display: "flex" }}>
@@ -396,45 +413,134 @@ const ProductDetail = () => {
             <div
               style={{
                 display: "flex",
-                justifyContent: "right",
+                justifyContent: "left",
                 marginTop: "20px",
+                maxHeight: "30px",
               }}
             >
-              {wishboolean === "N" ? (
-                <Button
-                  style={{
-                    alignItems: "right",
-                    fontSize: "23px",
-                    verticalAlign: "baseline",
+              <span
+                style={{
+                  fontSize: "14px",
+                  marginRight: "30px",
+                }}
+              >
+                {name}
+              </span>
+              <span
+                style={{
+                  fontSize: "16px",
+                  marginRight: "30px",
+                  marginLeft: "auto",
+                }}
+              >
+                <TextField
+                  value={quantity}
+                  onChange={(event) => setQuantity(Number(event.target.value))}
+                  type="number"
+                  inputProps={{
+                    min: 1,
+                    max: 50, // Set the maximum allowed quantity here
+                    style: {
+                      padding: "4px", // Adjust the padding value as needed
+                      fontSize: "12px", // Adjust the font size as needed
+                      maxWidth: "30px",
+                    },
                   }}
-                  onClick={handleWishAdd}
-                >
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <FavoriteBorderIcon sx={{ paddingTop: "2px" }} />
-                    <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
-                      {wishCountState}
-                    </span>
-                  </div>
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    alignItems: "right",
-                    fontSize: "23px",
-                    verticalAlign: "baseline",
-                  }}
-                  onClick={handleWishRemove}
-                >
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <FavoriteIcon sx={{ paddingTop: "2px" }} />
-                    <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
-                      {wishCountState}
-                    </span>
-                  </div>
-                </Button>
-              )}
+                />{" "}
+                개
+              </span>
+              <span
+                style={{
+                  fontSize: "16px",
+                  marginLeft: "auto",
+                }}
+              >
+                {price * quantity}원
+              </span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "left",
+                color: "#808080",
+                maxHeight: "30px",
+                borderBottom: "1px solid #d3d3d3",
+                paddingBottom: "30px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "14px",
+                  marginLeft: "auto",
+                }}
+              >
+                -{price * quantity - calculatePrice * quantity}원
+              </span>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "left",
+                marginTop: "20px",
+                maxHeight: "30px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "16px",
+                  marginLeft: "auto",
+                }}
+              >
+                TOTAL : {calculatePrice * quantity}원
+              </span>
             </div>
           </DetailRightTop>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              paddingTop: "20px",
+              alignItems: "center",
+            }}
+          >
+            <Rating value={rating} readOnly />
+            <span style={{ marginLeft: "10px" }}> {ratingCount} 건</span>
+            {wishboolean === "N" ? (
+              <Button
+                style={{
+                  alignItems: "right",
+                  fontSize: "23px",
+                  verticalAlign: "baseline",
+                  marginLeft: "auto",
+                }}
+                onClick={handleWishAdd}
+              >
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <FavoriteBorderIcon sx={{ paddingTop: "2px" }} />
+                  <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
+                    {wishCountState}
+                  </span>
+                </div>
+              </Button>
+            ) : (
+              <Button
+                style={{
+                  alignItems: "right",
+                  fontSize: "23px",
+                  verticalAlign: "baseline",
+                  marginLeft: "auto",
+                }}
+                onClick={handleWishRemove}
+              >
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <FavoriteIcon sx={{ paddingTop: "2px" }} />
+                  <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
+                    {wishCountState}
+                  </span>
+                </div>
+              </Button>
+            )}
+          </div>
           <div
             style={{
               display: "flex",
