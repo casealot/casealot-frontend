@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const BestSellerSection = styled.div`
-  margin-top: 600px;
+  margin-top: 650px;
 
   @media (max-width: 768px) {
     margin-top: 500px;
@@ -62,7 +62,7 @@ const imgList = [
 const BestSeller = () => {
   return (
     <>
-      <BestSellerSection style={{ marginTop: "30%" }}>
+      <BestSellerSection>
         {/* <BestSellerTextArea>
           <BestSellerText>
             <AnimatedText>BEST SELLER</AnimatedText>
