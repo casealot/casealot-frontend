@@ -312,56 +312,108 @@ const ProductDetail = () => {
 
         <div style={{ width: "470px", textAlign: "left", paddingTop: "20px" }}>
           <DetailRightTop>
-            <DetailTitle>{name}</DetailTitle>
+            <div style={{ display: "flex", borderBottom: "1px solid #d3d3d3" }}>
+              <DetailTitle>{name}</DetailTitle>
+            </div>
             <div
               style={{
                 marginTop: "27px",
                 display: "flex",
+                flexDirection: "column",
+                gap: "10px",
               }}
             >
               <span
                 style={{
-                  fontSize: "23px",
-                  fontWeight: "500",
+                  fontSize: "16px",
+                  marginRight: "30px",
+                }}
+              >
+                판매가
+              </span>
+              <span
+                style={{
+                  fontSize: "16px",
+                  marginRight: "30px",
+                }}
+              >
+                할인율
+              </span>
+              <span
+                style={{
+                  fontSize: "16px",
+                  marginRight: "30px",
+                }}
+              >
+                할인판매가
+              </span>
+            </div>
+            <div
+              style={{
+                marginTop: "27px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "16px",
                   marginRight: "auto",
                 }}
               >
-                {price}원
+                {data.CalculatePrice}원
               </span>
-              {wishboolean === "N" ? (
-                <Button
-                  style={{
-                    alignItems: "right",
-                    fontSize: "23px",
-                    verticalAlign: "baseline",
-                  }}
-                  onClick={handleWishAdd}
-                >
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <FavoriteBorderIcon sx={{ paddingTop: "2px" }} />
-                    <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
-                      {wishCountState}
-                    </span>
-                  </div>
-                </Button>
-              ) : (
-                <Button
-                  style={{
-                    alignItems: "right",
-                    fontSize: "23px",
-                    verticalAlign: "baseline",
-                  }}
-                  onClick={handleWishRemove}
-                >
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <FavoriteIcon sx={{ paddingTop: "2px" }} />
-                    <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
-                      {wishCountState}
-                    </span>
-                  </div>
-                </Button>
-              )}
+              <span
+                style={{
+                  fontSize: "16px",
+                  marginRight: "auto",
+                }}
+              >
+                {data.CalculatePrice}원
+              </span>
+              <span
+                style={{
+                  fontSize: "16px",
+                  marginRight: "auto",
+                }}
+              >
+                {data.CalculatePrice}원
+              </span>
             </div>
+            {wishboolean === "N" ? (
+              <Button
+                style={{
+                  alignItems: "right",
+                  fontSize: "23px",
+                  verticalAlign: "baseline",
+                }}
+                onClick={handleWishAdd}
+              >
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <FavoriteBorderIcon sx={{ paddingTop: "2px" }} />
+                  <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
+                    {wishCountState}
+                  </span>
+                </div>
+              </Button>
+            ) : (
+              <Button
+                style={{
+                  alignItems: "right",
+                  fontSize: "23px",
+                  verticalAlign: "baseline",
+                }}
+                onClick={handleWishRemove}
+              >
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <FavoriteIcon sx={{ paddingTop: "2px" }} />
+                  <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
+                    {wishCountState}
+                  </span>
+                </div>
+              </Button>
+            )}
           </DetailRightTop>
           <div
             style={{
@@ -407,7 +459,6 @@ const ProductDetail = () => {
         <Container>
           <div
             style={{
-              display: "flex",
               justifyContent: "center",
               borderBottom: "1px solid #d3d3d3",
               borderTop: "1px solid #d3d3d3",

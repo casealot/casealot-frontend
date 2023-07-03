@@ -71,7 +71,10 @@ const ProductFix = () => {
     getProduct(); // 서버에서 상품 데이터 가져오기
 
     if (quillRef.current) {
-      quillRef.current.on("text-change", handleContentChange);
+      if (quillRef.current) {
+        const quillInstance = quillRef.current.getEditor();
+        quillInstance.on("text-change", handleContentChange);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
@@ -88,8 +91,10 @@ const ProductFix = () => {
 
   const handleContentChange = () => {
     if (quillRef.current) {
-      const content = quillRef.current.root.innerHTML;
+      const quillInstance = quillRef.current.getEditor();
+      const content = quillInstance.root.innerHTML;
       setContentValue(content);
+      console.log(contentValue);
     }
   };
 
@@ -342,6 +347,7 @@ const ProductFix = () => {
               </label>
             </ContentText>
             <ReactQuill
+              ref={quillRef}
               value={contentValue}
               onChange={handleContentChange}
               style={{ height: "600px" }}

@@ -40,11 +40,12 @@ const ProductEditor = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
   useEffect(() => {
     if (quillRef.current) {
-      quillRef.current.on("text-change", handleContentChange);
+      const quillInstance = quillRef.current.getEditor();
+      quillInstance.on("text-change", handleContentChange);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const modules = {
@@ -111,8 +112,10 @@ const ProductEditor = () => {
   };
   const handleContentChange = () => {
     if (quillRef.current) {
-      const content = quillRef.current.root.innerHTML;
+      const quillInstance = quillRef.current.getEditor();
+      const content = quillInstance.root.innerHTML;
       setContentValue(content);
+      console.log(contentValue);
     }
   };
 
@@ -284,6 +287,7 @@ const ProductEditor = () => {
             </label>
           </ContentText>
           <ReactQuill
+            ref={quillRef}
             value={contentValue}
             onChange={handleContentChange}
             theme="snow"
