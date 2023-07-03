@@ -4,7 +4,7 @@
 // import { ProductListAtom, ProductType } from "../../atom/Product";
 // import { useEffect, useState } from "react";
 
-import casealot from "../../dummy/img/casealot2.mp4";
+import video from "../../dummy/img/casealot.mp4";
 
 // import { api } from "../../atom/apiCall";
 // import { Container } from "@mui/material";
@@ -174,7 +174,7 @@ const MainProduct = () => {
   return (
     <>
       <video
-        src={casealot}
+        src={video}
         autoPlay
         loop
         muted

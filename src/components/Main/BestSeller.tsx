@@ -62,7 +62,13 @@ const imgList = [
 const BestSeller = () => {
   return (
     <>
-      <BestSellerSection>
+      <BestSellerSection style={{ marginTop: "30%" }}>
+        {/* <BestSellerTextArea>
+          <BestSellerText>
+            <AnimatedText>BEST SELLER</AnimatedText>
+          </BestSellerText>
+        </BestSellerTextArea> */}
+
         <ProductArea>
           <ProductGrid>
             {imgList.map((item) => (
