@@ -160,22 +160,23 @@ const Nav = () => {
                 marginY: "auto",
               }}
             >
-              {NavList.map((item) =>
-                item.name === "ALL" ? (
-                  <Grid item xs={1} key={item.name}>
-                    <Link to="/products/">
-                      <NavListButton
-                        sx={{
-                          color: "#000",
-                          fontWeight: "bold",
-                          fontSize: "16px",
-                        }}
-                      >
-                        {item.name}
-                      </NavListButton>
-                    </Link>
-                  </Grid>
-                ) : (
+              {NavList.map(
+                (item) => (
+                  // item.name === "ALL" ? (
+                  //   <Grid item xs={1} key={item.name}>
+                  //     <Link to="/products/">
+                  //       <NavListButton
+                  //         sx={{
+                  //           color: "#000",
+                  //           fontWeight: "bold",
+                  //           fontSize: "16px",
+                  //         }}
+                  //       >
+                  //         {item.name}
+                  //       </NavListButton>
+                  //     </Link>
+                  //   </Grid>
+                  // ) : (
                   <Grid item xs={1} key={item.name}>
                     <Link to={`/products/category/${item.name.toLowerCase()}`}>
                       <NavListButton
@@ -191,6 +192,7 @@ const Nav = () => {
                     </Link>
                   </Grid>
                 )
+                // )
               )}
             </Grid>
           </Container>

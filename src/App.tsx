@@ -7,7 +7,7 @@ import Footer from "./components/Footer/Footer";
 import SignUpPage from "./pages/User/SignupPage";
 import ProductDetail from "./pages/Product/ProductDetail";
 import CartPage from "./pages/CartPage";
-import ProductPage from "./pages/Product/ProductPage";
+// import ProductPage from "./pages/Product/ProductPage";
 import Mypage from "./pages/User/Mypage";
 import EditProfile from "./pages/User/EditProfilePage";
 import QnaPage from "./pages/QnA/QnAPage";
@@ -41,7 +41,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/products/" element={<ProductPage />} />
+        {/* <Route path="/products/" element={<ProductPage />} /> */}
         <Route path="/products/category/:category" element={<CategoryPage />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/profile" element={<EditProfile />} />

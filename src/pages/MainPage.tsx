@@ -1,5 +1,5 @@
 import BestSeller from "../components/Main/BestSeller";
-import ImgCarousel from "../components/Main/ImgCarousel";
+// import ImgCarousel from "../components/Main/ImgCarousel";
 import Product from "../components/Main/Product";
 // import ProductFilter from "../components/Main/ProductFilter";
 

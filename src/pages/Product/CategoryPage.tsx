@@ -30,7 +30,7 @@ import { NoneStyledLink } from "../../components/Useable/Link";
 import Loading from "../../components/Useable/Loading";
 
 import ready from "../../dummy/img/imgready.gif";
-// import Banner from "../../components/Useable/Banner";
+import Banner from "../../components/Useable/Banner";
 
 const CategoryPage = () => {
   const [categoryName, setCategoryName] = useState<string>("");
@@ -40,8 +40,13 @@ const CategoryPage = () => {
     const lowercaseCategoryName = String(category).toLowerCase();
     if (lowercaseCategoryName === "new" || lowercaseCategoryName === "best") {
       setCategoryName(`type/${lowercaseCategoryName}`);
+      setPage(1);
+    } else if (lowercaseCategoryName === "all") {
+      setCategoryName("");
+      setPage(1);
     } else {
       setCategoryName(`category/${lowercaseCategoryName}`);
+      setPage(1);
     }
   }, [category]);
 
@@ -225,7 +230,7 @@ const CategoryPage = () => {
     <>
       <main>
         <Container maxWidth="xl">
-          {/* <Banner item={category ? category.toLocaleUpperCase() : ""} /> */}
+          <Banner item={category ? category.toLocaleUpperCase() : ""} />
           <div
             style={{
               display: "flex",
