@@ -1,6 +1,5 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
-import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -18,7 +17,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  IconButton,
   TextField,
 } from "@mui/material";
 import ready from "../../dummy/img/noimage.gif";
@@ -311,16 +309,6 @@ const ProductDetail = () => {
     navigate("/cart");
   };
 
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
   return isLoading ? (
     <Loading />
   ) : (
@@ -582,13 +570,14 @@ const ProductDetail = () => {
       </DetailTop>
 
       <DetailBottom>
-        <Container>
+        <Container maxWidth="xl">
           <div
             style={{
               justifyContent: "center",
               borderBottom: "1px solid #d3d3d3",
               borderTop: "1px solid #d3d3d3",
               minHeight: "500px",
+
               padding: "50px",
             }}
             dangerouslySetInnerHTML={{ __html: content }}
