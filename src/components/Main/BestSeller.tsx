@@ -54,7 +54,7 @@ const imgList = [
 const BestSeller = () => {
   return (
     <>
-      <BestSellerSection>
+      <BestSellerSection style={{ marginTop: "30%" }}>
         {/* <BestSellerTextArea>
           <BestSellerText>
             <AnimatedText>BEST SELLER</AnimatedText>
@@ -64,7 +64,7 @@ const BestSeller = () => {
         <ProductArea>
           <ProductGrid>
             {imgList.map((item) => (
-              <Product>
+              <Product key={item.id}>
                 <a href={item.url} target="_blank">
                   <img src={item.src} width="100%" />
                 </a>

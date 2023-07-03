@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import RemoveConfirmationDialog from "../components/Cart/CartpopUp";
 import CartEmpty from "../components/Cart/CartEmpty";
 import CartItems from "../components/Cart/CartItems";
-import Banner from "../components/Useable/Banner";
+// import Banner from "../components/Useable/Banner";
 import { Container } from "@mui/material";
 
 const ShoppingCartPage = () => {
@@ -34,7 +34,7 @@ const ShoppingCartPage = () => {
           marginBottom: "50px",
         }}
       >
-        <Banner item="CART" />
+        {/* <Banner item="CART" /> */}
 
         {cartItems.length === 0 ? <CartEmpty /> : <CartItems />}
         <RemoveConfirmationDialog

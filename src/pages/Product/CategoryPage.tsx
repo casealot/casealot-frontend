@@ -28,9 +28,9 @@ import PriceFilterButtons from "../../components/Product/PriceFilter";
 import SortOptionButtons from "../../components/Product/SortOptionButtons";
 import { NoneStyledLink } from "../../components/Useable/Link";
 import Loading from "../../components/Useable/Loading";
-import banner from "../../dummy/img/banner.jpg";
+
 import ready from "../../dummy/img/imgready.gif";
-import Banner from "../../components/Useable/Banner";
+// import Banner from "../../components/Useable/Banner";
 
 const CategoryPage = () => {
   const [categoryName, setCategoryName] = useState<string>("");
@@ -225,7 +225,7 @@ const CategoryPage = () => {
     <>
       <main>
         <Container maxWidth="xl">
-          <Banner item={category ? category.toLocaleUpperCase() : ""} />
+          {/* <Banner item={category ? category.toLocaleUpperCase() : ""} /> */}
           <div
             style={{
               display: "flex",
