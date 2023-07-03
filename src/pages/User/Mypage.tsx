@@ -1,5 +1,5 @@
 import Divider from "@mui/material/Divider";
-import { Avatar, Container, Grid, Typography } from "@mui/material";
+import { Avatar, Container, Grid } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";

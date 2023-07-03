@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled, alpha } from "@mui/material/styles";
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
@@ -17,7 +17,7 @@ import Loading from "../../components/Useable/Loading";
 import { NoneStyledLink } from "../../components/Useable/Link";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-// import Banner from "../../components/Useable/Banner";
+import Banner from "../../components/Useable/Banner";
 
 interface QNA {
   content: string;
@@ -142,7 +142,7 @@ const QnaPage = () => {
   ) : (
     <>
       <Container maxWidth="xl" sx={{ minHeight: "880px" }}>
-        {/* <Banner item="Q&A" /> */}
+        <Banner item="Q&A" />
         <div style={{ display: "flex" }}>
           <Search sx={{ marginBottom: "5px" }}>
             <SearchIconWrapper>
