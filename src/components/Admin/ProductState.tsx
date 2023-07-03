@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import ready from "../../dummy/img/imgready.gif";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProductState = () => {
   const [page, setPage] = useState(0);
@@ -94,24 +94,26 @@ const ProductState = () => {
               products.map((product: ProductType) => (
                 <TableRow key={product.id}>
                   <TableCell>
-                    {product.thumbnail && product.thumbnail.url ? (
-                      <img
-                        src={product.thumbnail.url}
-                        alt={product.name}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                        }}
-                      />
-                    ) : (
-                      <img
-                        src={ready}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                        }}
-                      />
-                    )}
+                    <Link to={`/products/${product.id}`}>
+                      {product.thumbnail && product.thumbnail.url ? (
+                        <img
+                          src={product.thumbnail.url}
+                          alt={product.name}
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src={ready}
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                          }}
+                        />
+                      )}
+                    </Link>
                   </TableCell>
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{product.price} 원</TableCell>

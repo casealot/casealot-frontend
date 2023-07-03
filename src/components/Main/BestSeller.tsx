@@ -1,7 +1,15 @@
 import styled from "styled-components";
 
 const BestSellerSection = styled.div`
-  display: block;
+  margin-top: 600px;
+
+  @media (max-width: 768px) {
+    margin-top: 500px;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 300px;
+  }
 `;
 
 const ProductArea = styled.div`
@@ -55,16 +63,10 @@ const BestSeller = () => {
   return (
     <>
       <BestSellerSection>
-        {/* <BestSellerTextArea>
-          <BestSellerText>
-            <AnimatedText>BEST SELLER</AnimatedText>
-          </BestSellerText>
-        </BestSellerTextArea> */}
-
         <ProductArea>
           <ProductGrid>
             {imgList.map((item) => (
-              <Product>
+              <Product key={item.id}>
                 <a href={item.url} target="_blank">
                   <img src={item.src} width="100%" />
                 </a>

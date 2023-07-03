@@ -1,7 +1,5 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { CartListState, ConfirmButtonState } from "../atom/Cart";
-import Typography from "@mui/material/Typography";
-
 import RemoveConfirmationDialog from "../components/Cart/CartpopUp";
 import CartEmpty from "../components/Cart/CartEmpty";
 import CartItems from "../components/Cart/CartItems";

@@ -59,12 +59,6 @@ const NavRight = () => {
   return accessToken ? (
     <>
       <Button
-        sx={{ color: "#000", fontWeight: "600" }}
-        onClick={() => navigate("/products")}
-      >
-        Product
-      </Button>
-      <Button
         id="account-menu-button"
         aria-controls={accountMenuOpen ? "account-menu" : undefined}
         aria-haspopup="true"
@@ -139,9 +133,6 @@ const NavRight = () => {
     </>
   ) : (
     <>
-      <Button sx={{ color: "#000" }} onClick={() => navigate("/products")}>
-        Product
-      </Button>
       <Button sx={{ color: "#000" }} onClick={() => navigate("/signin")}>
         Login
       </Button>

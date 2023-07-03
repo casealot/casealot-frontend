@@ -8,17 +8,40 @@ import SearchBar from "./SearchBar";
 import NavRight from "./NavRight";
 import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Grid } from "@mui/material";
-import Logo from "../../dummy/img/logo.png";
+
+import removebg from "../../dummy/img/removebg.png";
 import styled from "styled-components";
+import { useState } from "react";
+
+const NavListButton = styled(Button)`
+  color: #000;
+  font-weight: 600;
+`;
 
 const Nav = () => {
   const location = useLocation();
   const pathname = location.pathname;
 
-  const NavListButton = styled(Button)`
-    color: #000;
-    font-weight: 600;
-  `;
+  const [hover, setHovered] = useState(false);
+  const handleHover = () => {
+    setHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
+  const MainNav = {
+    ...(pathname === "/" && { opacity: hover ? 0.8 : 0.3 }),
+    transition: "0.2 ease-out",
+  };
+  const MainBannerStyle =
+    pathname === "/"
+      ? {
+          display: "flex",
+          justifyContent: "center",
+          backgroundColor: "#fff",
+        }
+      : { display: "flex", justifyContent: "center" };
 
   const NavList = [
     {
@@ -47,14 +70,19 @@ const Nav = () => {
     },
   ];
   return (
-    <>
+    <div
+      style={MainNav}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleMouseLeave}
+    >
       <Box
         sx={{
           flexGrow: 1,
         }}
       >
         <CssBaseline />
-        <AppBar position="static" sx={{ background: "#fff" }}>
+
+        <AppBar position="static" sx={{ backgroundColor: "#fff" }}>
           <Container maxWidth="xl">
             <Toolbar sx={{ margin: "0" }}>
               <Typography
@@ -93,21 +121,15 @@ const Nav = () => {
                 {item}
               </Button> */}
 
-                {/* //상단 우측 버튼// */}
                 <NavRight />
               </Box>
             </Toolbar>
           </Container>
         </AppBar>
       </Box>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <div style={MainBannerStyle}>
         <Link to="/">
-          <img src={Logo} style={{ height: "180px", marginTop: "10px" }} />
+          <img src={removebg} style={{ height: "180px", marginTop: "10px" }} />
         </Link>
       </div>
       {pathname?.includes("admin") ? (
@@ -120,12 +142,13 @@ const Nav = () => {
             fontWeight: "500",
             borderBottom: "1px solid #d3d3d3",
             borderTop: "3px solid #808080",
+            backgroundColor: "#fff",
           }}
         >
           <Container maxWidth="xl">
             <Grid
               container
-              gap={10}
+              gap={6}
               justifyContent="center"
               alignItems="center"
               height="100%"
@@ -134,52 +157,48 @@ const Nav = () => {
                 borderRight: "1px solid #d3d3d3",
                 textOverflow: "hidden",
                 overflow: "hidden",
+                marginY: "auto",
               }}
             >
-              {NavList.map((item) =>
-                item.name === "ALL" ? (
-                  <Link to="/products/">
-                    <Grid item xs={1}>
+              {NavList.map(
+                (item) => (
+                  // item.name === "ALL" ? (
+                  //   <Grid item xs={1} key={item.name}>
+                  //     <Link to="/products/">
+                  //       <NavListButton
+                  //         sx={{
+                  //           color: "#000",
+                  //           fontWeight: "bold",
+                  //           fontSize: "16px",
+                  //         }}
+                  //       >
+                  //         {item.name}
+                  //       </NavListButton>
+                  //     </Link>
+                  //   </Grid>
+                  // ) : (
+                  <Grid item xs={1} key={item.name}>
+                    <Link to={`/products/category/${item.name.toLowerCase()}`}>
                       <NavListButton
                         sx={{
                           color: "#000",
                           fontWeight: "bold",
                           fontSize: "16px",
+                          marginY: "auto",
                         }}
                       >
                         {item.name}
                       </NavListButton>
-                    </Grid>
-                  </Link>
-                ) : (
-                  <Link to={`/products/category/${item.name.toLowerCase()}`}>
-                    <Grid item xs={1}>
-                      <NavListButton
-                        sx={{
-                          color: "#000",
-                          fontWeight: "bold",
-                          fontSize: "16px",
-                        }}
-                      >
-                        {item.name}
-                      </NavListButton>
-                    </Grid>
-                  </Link>
+                    </Link>
+                  </Grid>
                 )
+                // )
               )}
-
-              {/* <span style={{ margin: "0 50px" }}>NEW COLLECTION</span>
-              <span style={{ margin: "0 50px" }}>BEST</span>
-              <span style={{ margin: "0 50px" }}>CAP</span>
-              <span style={{ margin: "0 50px" }}>TOP</span>
-              <span style={{ margin: "0 50px" }}>BOTTOM</span>
-              <span style={{ margin: "0 50px" }}>ACCESSORY</span>
-              <span style={{ margin: "0 50px" }}>LOOKBOOK</span> */}
             </Grid>
           </Container>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

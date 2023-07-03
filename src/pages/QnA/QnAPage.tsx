@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled, alpha } from "@mui/material/styles";
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";

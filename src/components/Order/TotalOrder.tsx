@@ -121,8 +121,10 @@ const TotalOrder = () => {
                   <Typography>{order.orderProducts.length}개</Typography>
                 </CenterAlignedCell>
                 <CenterAlignedCell>
-                  {order.orderStatus} <br />{" "}
-                  <Button onClick={handleViewInvoice}>배송조회</Button>
+                  {order.orderStatus === "CANCEL"
+                    ? "취소완료"
+                    : order.orderStatus}{" "}
+                  <br /> <Button onClick={handleViewInvoice}>배송조회</Button>
                 </CenterAlignedCell>
               </TableRow>
             ))}

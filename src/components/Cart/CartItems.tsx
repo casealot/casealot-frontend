@@ -30,6 +30,7 @@ const CartItems = () => {
   const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
   // const setConfirmRemoveProductId = useSetRecoilState(ConfirmButtonState);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState("");
   // const [cart, setCart] = useState([]);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);

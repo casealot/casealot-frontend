@@ -17,8 +17,12 @@ import Loading from "../../components/Useable/Loading";
 import { NoneStyledLink } from "../../components/Useable/Link";
 import CenterAlignedCell from "../../components/Useable/CenterAlignedCell";
 import ready from "../../dummy/img/noimage.gif";
+import { useState } from "react";
+import ConfirmationDialog from "../../components/Useable/ConfirmModal";
 
 const OrderDetail = () => {
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+
   const { id } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
@@ -42,6 +46,14 @@ const OrderDetail = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleOpenConfirmation = () => {
+    setIsConfirmationOpen(true);
+  };
+
+  const handleCloseConfirmation = () => {
+    setIsConfirmationOpen(false);
   };
   return isLoading ? (
     <Loading />
@@ -76,7 +88,7 @@ const OrderDetail = () => {
           </Typography>
           <Button
             variant="contained"
-            onClick={handleOrderCancel}
+            onClick={handleOpenConfirmation}
             sx={{
               marginLeft: "auto",
               backgroundColor: "#fff",
@@ -156,6 +168,15 @@ const OrderDetail = () => {
           </Table>
         </TableContainer>
       </Container>
+      <ConfirmationDialog
+        open={isConfirmationOpen}
+        onClose={handleCloseConfirmation}
+        onConfirm={handleOrderCancel}
+        dialogTitle="취소 확인"
+        dialogContent="정말 취소하시겠습니까?"
+        cancelText="닫기"
+        confirmText="취소하기"
+      />
     </>
   );
 };
