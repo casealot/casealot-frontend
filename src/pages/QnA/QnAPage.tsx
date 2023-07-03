@@ -17,6 +17,7 @@ import Loading from "../../components/Useable/Loading";
 import { NoneStyledLink } from "../../components/Useable/Link";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import Banner from "../../components/Useable/Banner";
 
 interface QNA {
   content: string;
@@ -141,17 +142,7 @@ const QnaPage = () => {
   ) : (
     <>
       <Container maxWidth="xl" sx={{ minHeight: "880px" }}>
-        <Typography
-          component="h2"
-          variant="h3"
-          align="center"
-          color="blue"
-          gutterBottom
-          paddingTop={10}
-          sx={{ margin: "50px 0" }}
-        >
-          Q&A
-        </Typography>
+        <Banner item="Q&A" />
         <div style={{ display: "flex" }}>
           <Search sx={{ marginBottom: "5px" }}>
             <SearchIconWrapper>

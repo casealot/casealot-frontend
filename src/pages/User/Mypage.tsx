@@ -9,6 +9,7 @@ import { NoneStyledLink } from "../../components/Useable/Link";
 import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../components/Useable/Loading";
+import Banner from "../../components/Useable/Banner";
 
 const Mypage = () => {
   const getMyPageData = async () => {
@@ -24,16 +25,7 @@ const Mypage = () => {
   ) : (
     <>
       <Container maxWidth="xl">
-        <Typography
-          component="h2"
-          variant="h3"
-          align="center"
-          color="blue"
-          gutterBottom
-          paddingTop={10}
-        >
-          MY ACCOUNT
-        </Typography>{" "}
+        <Banner item="MYPAGE" />
         <Container maxWidth="xl">
           {data.profileImg ? (
             <Avatar

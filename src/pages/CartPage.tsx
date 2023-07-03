@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import RemoveConfirmationDialog from "../components/Cart/CartpopUp";
 import CartEmpty from "../components/Cart/CartEmpty";
 import CartItems from "../components/Cart/CartItems";
+import Banner from "../components/Useable/Banner";
+import { Container } from "@mui/material";
 
 const ShoppingCartPage = () => {
   const cartItems = useRecoilValue(CartListState);
@@ -24,32 +26,23 @@ const ShoppingCartPage = () => {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "600px",
-        marginTop: "30px",
-        marginBottom: "50px",
-        paddingLeft: "50px",
-      }}
-    >
+    <Container maxWidth="xl">
       <div
-        style={{ width: "fit-content", margin: "0 auto", marginBottom: "30px" }}
+        style={{
+          minHeight: "600px",
+          marginTop: "30px",
+          marginBottom: "50px",
+        }}
       >
-        <Typography
-          variant="h5"
-          gutterBottom
-          sx={{ borderBottom: "solid 1px", textAlign: "center" }}
-        >
-          장바구니
-        </Typography>
-      </div>
+        <Banner item="CART" />
 
-      {cartItems.length === 0 ? <CartEmpty /> : <CartItems />}
-      <RemoveConfirmationDialog
-        open={confirmRemoveProductId !== null}
-        onClose={handleConfirmRemove}
-      />
-    </div>
+        {cartItems.length === 0 ? <CartEmpty /> : <CartItems />}
+        <RemoveConfirmationDialog
+          open={confirmRemoveProductId !== null}
+          onClose={handleConfirmRemove}
+        />
+      </div>
+    </Container>
   );
 };
 

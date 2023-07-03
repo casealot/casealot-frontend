@@ -14,6 +14,7 @@ import { NoneStyledLink } from "../components/Useable/Link";
 import { useEffect, useState } from "react";
 import ready from "../dummy/img/noimage.gif";
 import ConfirmationDialog from "../components/Useable/ConfirmModal";
+import Banner from "../components/Useable/Banner";
 
 const WishListPage = () => {
   const [wishState, setWishState] = useRecoilState<WishType[]>(wishListState);
@@ -46,18 +47,7 @@ const WishListPage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ minHeight: "50vh" }}>
-      <Typography
-        level="h5"
-        gutterBottom
-        sx={{
-          textAlign: "center",
-          marginTop: "50px",
-          borderBottom: "2px solid",
-          paddingBottom: "20px",
-        }}
-      >
-        위시리스트
-      </Typography>
+      <Banner item="WISHLIST" />
       <div style={{ display: "flex", justifyContent: "end" }}>
         <Button onClick={handleOpenConfirmation}>
           <DeleteIcon />

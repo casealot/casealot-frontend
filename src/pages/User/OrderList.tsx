@@ -3,6 +3,7 @@ import { Typography, Tabs, Tab, Box } from "@mui/material";
 import { useState } from "react";
 import TotalOrder from "../../components/Order/TotalOrder";
 import CompleteOrder from "../../components/Order/CompleteOrder";
+import Banner from "../../components/Useable/Banner";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -47,16 +48,7 @@ const OrderList = () => {
   return (
     <>
       <Container maxWidth="xl" sx={{ minHeight: "800px" }}>
-        <Typography
-          component="h2"
-          variant="h3"
-          align="center"
-          color="blue"
-          gutterBottom
-          paddingTop={10}
-        >
-          ORDER LIST
-        </Typography>
+        <Banner item="ORDER LIST" />
         <Box sx={{ width: "100%", marginY: "90px" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs

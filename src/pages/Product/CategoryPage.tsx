@@ -30,6 +30,7 @@ import { NoneStyledLink } from "../../components/Useable/Link";
 import Loading from "../../components/Useable/Loading";
 import banner from "../../dummy/img/banner.jpg";
 import ready from "../../dummy/img/imgready.gif";
+import Banner from "../../components/Useable/Banner";
 
 const CategoryPage = () => {
   const [categoryName, setCategoryName] = useState<string>("");
@@ -224,24 +225,7 @@ const CategoryPage = () => {
     <>
       <main>
         <Container maxWidth="xl">
-          <div
-            style={{
-              width: "100%",
-              height: "180px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundImage: `url(${banner})`,
-              backgroundSize: "cover",
-              backgroundPosition:
-                "center" /* 기타 배경 이미지 스타일을 설정합니다 */,
-              color: "#fff",
-              textAlign: "center",
-              margin: "60px 0",
-            }}
-          >
-            <Typography variant="h3">PRODUCTS</Typography>
-          </div>
+          <Banner item={category ? category.toLocaleUpperCase() : ""} />
           <div
             style={{
               display: "flex",

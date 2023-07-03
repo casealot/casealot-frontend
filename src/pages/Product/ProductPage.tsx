@@ -223,7 +223,7 @@ const ProductPage = () => {
               margin: "60px 0",
             }}
           >
-            <Typography variant="h3">PRODUCTS</Typography>
+            <Typography variant="h3">ALL</Typography>
           </div>
           <div
             style={{
