@@ -577,7 +577,6 @@ const ProductDetail = () => {
               borderBottom: "1px solid #d3d3d3",
               borderTop: "1px solid #d3d3d3",
               minHeight: "500px",
-
               padding: "50px",
             }}
             dangerouslySetInnerHTML={{ __html: content }}
