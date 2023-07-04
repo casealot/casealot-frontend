@@ -158,7 +158,9 @@ const ProductFix = () => {
           },
         });
       }
+
       navigate("/admin/product");
+      location.reload();
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);

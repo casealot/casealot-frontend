@@ -127,16 +127,13 @@ const QnaPage = () => {
     pageNumbers.push(i);
   }
 
-  // const filteredItems = currentItems.filter((item: QNA) => {
-  //   const lowerCaseSearchTerm = searchTerm.toLowerCase();
-  //   return item.title.toLowerCase().includes(lowerCaseSearchTerm);
-  // });
+  const filteredItems = currentItems.filter((item: QNA) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return item.title.toLowerCase().includes(lowerCaseSearchTerm);
+  });
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getQnaList();
-  }, []);
   return isLoading ? (
     <Loading />
   ) : (
@@ -183,7 +180,7 @@ const QnaPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentItems.map((row: QNA, index: number) => (
+              {filteredItems.map((row: QNA, index: number) => (
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
