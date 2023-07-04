@@ -1,21 +1,7 @@
 import axios from "axios";
-import { redirectURI } from "../../atom/User";
 import KakaoLoginImg from "../../dummy/img/kakaologin.png";
 
-const handleLoginSuccess = (token: string, refreshToken: string) => {
-  // 추출한 토큰 값을 활용하여 필요한 작업을 수행합니다.
-  // 예: 서버에 토큰 전송, 로컬 스토리지에 토큰 저장 등
-  console.log("Token:", token);
-  console.log("Refresh Token:", refreshToken);
-
-  // 작업 완료 후 다음 경로로 이동
-  // 예: history.push("/dashboard");
-};
-
 const KakaoLogin = () => {
-  const REDIRECT_URI = redirectURI;
-  const kakaoURL = "https://casealot.shop/oauth2/authorization/kakao";
-
   const handleKaKaoLogin = async () => {
     console.log("Before request"); // 요청 전에 출력
     const response = await axios.post(
