@@ -8,7 +8,6 @@ import SearchBar from "./SearchBar";
 import NavRight from "./NavRight";
 import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Grid } from "@mui/material";
-
 import removebg from "../../dummy/img/removebg.png";
 import styled from "styled-components";
 import { useState } from "react";

@@ -25,6 +25,7 @@ import axios from "axios";
 import ErrorModal from "../Modal/ErrorHandleModal";
 import ConfirmationDialog from "../Useable/ConfirmModal";
 import { RequestPayParams, RequestPayResponse } from "../../atom/PortOne";
+import { Link } from "react-router-dom";
 
 const CartItems = () => {
   const [cartItems, setCartItems] = useRecoilState<cartItems[]>(CartListState);
@@ -212,21 +213,23 @@ const CartItems = () => {
             {cartItems.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>
-                  {item.thumbnail ? (
-                    <img
-                      src={item.thumbnail}
-                      width="100%"
-                      height="100%"
-                      style={{ maxWidth: "200px", maxHeight: "200px" }}
-                    />
-                  ) : (
-                    <img
-                      src={ready}
-                      width="100%"
-                      height="100%"
-                      style={{ maxWidth: "200px", maxHeight: "200px" }}
-                    />
-                  )}
+                  <Link to={`/products/${item.id}`}>
+                    {item.thumbnail ? (
+                      <img
+                        src={item.thumbnail}
+                        width="100%"
+                        height="100%"
+                        style={{ maxWidth: "200px", maxHeight: "200px" }}
+                      />
+                    ) : (
+                      <img
+                        src={ready}
+                        width="100%"
+                        height="100%"
+                        style={{ maxWidth: "200px", maxHeight: "200px" }}
+                      />
+                    )}
+                  </Link>
                 </TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.price}원</TableCell>

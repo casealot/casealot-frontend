@@ -133,7 +133,7 @@ const ProductDetail = () => {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
     }
-  }, [id, setCartItems]);
+  }, [id, setCartItems, setQuantity, quantity]);
 
   const addReviewMutation = useMutation(
     async (reviewData: { rating: number; reviewText: string }) => {
@@ -309,6 +309,7 @@ const ProductDetail = () => {
     navigate("/cart");
   };
 
+  console.log(quantity);
   return isLoading ? (
     <Loading />
   ) : (

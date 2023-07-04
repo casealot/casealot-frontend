@@ -24,7 +24,7 @@ export const CartList = selector<cartItems[]>({
   key: "CartList",
   get: async ({ get }) => {
     const accessToken = get(accessTokenState);
-    if (accessToken) {
+    if (accessToken !== null) {
       const cartItems = await getCart();
       return cartItems;
     } else {

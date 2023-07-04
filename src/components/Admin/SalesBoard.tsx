@@ -19,7 +19,7 @@ const SalesBoard = () => {
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const SalesX = data?.reverse().map((item) => item.today);
+  // const SalesX = data?.reverse().map((item) => item.today);
   const orderCountsChartOptions: ApexOptions = {
     chart: {
       id: "order-counts",
@@ -29,7 +29,7 @@ const SalesBoard = () => {
       },
     },
     xaxis: {
-      categories: SalesX,
+      categories: data?.map((item) => item.today),
     },
 
     colors: ["#008FFB"],
@@ -44,7 +44,7 @@ const SalesBoard = () => {
       },
     },
     xaxis: {
-      categories: SalesX,
+      categories: data?.map((item) => item.today),
     },
 
     colors: ["#00E396"],

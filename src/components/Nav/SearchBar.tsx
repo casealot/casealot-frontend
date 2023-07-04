@@ -14,11 +14,15 @@ const Search = styled("div")(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
+  marginLeft: "auto",
+  width: "15%",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
     width: "auto",
+  },
+  display: "none", // Added display none for mobile view
+  [theme.breakpoints.up("sm")]: {
+    display: "block",
   },
 }));
 
@@ -39,7 +43,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
-    width: "100%",
+
+    width: "50%",
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
     },
@@ -49,13 +54,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [isHovered, setIsHovered] = useState(false);
-  // const [productData, setProductData] =
-  //   useRecoilState<fakeProduct[]>(ProductListAtom);
+
   const getAutoComplete = async () => {
     const response = await api.get(`cal/v1/autocomplete?query=${searchValue}`);
     console.log(response.data.body);
     return response.data.body;
   };
+
   useEffect(() => {
     getAutoComplete();
   }, [searchValue]);
@@ -93,4 +98,5 @@ const SearchBar = () => {
     </Search>
   );
 };
+
 export default SearchBar;

@@ -23,7 +23,7 @@ const SearchArea = styled.div`
 `;
 
 const Search = styled.input`
-  width: 410px;
+  max-width: 410px;
   height: 40px;
   padding: 0 68px 2px 20px;
   font-size: 17px;
