@@ -92,7 +92,7 @@ const ProductEditor = () => {
           },
         });
       }
-      navigate("/admin");
+      navigate("/admin/product");
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
