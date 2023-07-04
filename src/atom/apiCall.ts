@@ -23,14 +23,11 @@ api.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem("refreshToken");
 
-        const res = await axios.get(
-          "https://43.201.170.8:8000/cal/v1/auth/refresh",
-          {
-            headers: {
-              RefreshToken: `Bearer ${refreshToken}`,
-            },
-          }
-        );
+        const res = await api.get("/cal/v1/auth/refresh", {
+          headers: {
+            RefreshToken: `Bearer ${refreshToken}`,
+          },
+        });
 
         const newAccessToken = res.data.body.accessToken;
         const newRefreshToken = res.data.body.refreshToken;
