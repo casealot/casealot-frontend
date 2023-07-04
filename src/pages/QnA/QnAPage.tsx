@@ -10,7 +10,7 @@ import { Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import ErrorModal from "../../components/Modal/ErrorHandleModal";
 import Loading from "../../components/Useable/Loading";
