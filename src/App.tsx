@@ -24,6 +24,7 @@ import AdminInfo from "./pages/Admin/AdminInfo";
 import OrderList from "./pages/User/OrderList";
 import OrderDetail from "./pages/User/OrderDetail";
 import CategoryPage from "./pages/Product/CategoryPage";
+import TokenHandler from "./components/Useable/KakaoRedirect";
 
 const role = localStorage.getItem("role");
 
@@ -37,6 +38,7 @@ function App() {
           element={role ? <div>No Access</div> : <AdminLogin />}
         />
         <Route path="/" element={<MainPage />} />
+        <Route path="/oauth/redirect" element={<TokenHandler />} />
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/products/:id" element={<ProductDetail />} />

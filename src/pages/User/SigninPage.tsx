@@ -17,6 +17,7 @@ import { useState } from "react";
 import axios from "axios";
 import ErrorModal from "../../components/Modal/ErrorHandleModal";
 import { NoneStyledLink } from "../../components/Useable/Link";
+import KakaoLogin from "../../components/Useable/KakaoLogin";
 
 const defaultTheme = createTheme();
 
@@ -139,6 +140,7 @@ const SigninPage = () => {
               >
                 로그인
               </Button>
+              <KakaoLogin />
               <Grid container>
                 <Grid item xs>
                   <NoneStyledLink to="/">비밀번호 찾기</NoneStyledLink>
