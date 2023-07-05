@@ -372,7 +372,12 @@ const EditProfile = () => {
             >
               수정하기
             </Button>
-            <Button variant="contained" color="primary" size="large">
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={() => navigate("/mypage")}
+            >
               취소하기
             </Button>
           </FormFlex>

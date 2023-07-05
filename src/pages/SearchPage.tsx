@@ -16,6 +16,7 @@ type SearchData = {
 const SearchPage = () => {
   const { keyword } = useParams<{ keyword: string }>();
   const [page, setPage] = useState(0);
+
   const getSearchData = async (currentPage: number) => {
     const response = await api.post(`/cal/v1/product`, {
       filter: [],
@@ -28,7 +29,7 @@ const SearchPage = () => {
   };
 
   const { data, isLoading } = useQuery<SearchData>(
-    ["getSearch", page],
+    ["getSearch", page, keyword],
     () => getSearchData(page),
     {
       enabled: !!keyword,
@@ -88,9 +89,9 @@ const SearchPage = () => {
             {Array.from({ length: data.totalPages }, (_, index) => (
               <Button
                 key={index}
-                variant="contained"
+                variant={index === page ? "contained" : "outlined"}
                 onClick={() => handlePageChange(index)}
-                disabled={index === page}
+                disabled={index == page}
               >
                 {index + 1}
               </Button>
