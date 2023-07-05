@@ -6,6 +6,7 @@ import { Container, Typography, Box, Divider, Button } from "@mui/material";
 
 const QnaDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   console.log(id);
 
   const QnaDetail = async () => {
@@ -17,8 +18,16 @@ const QnaDetail = () => {
 
   const { content, createdDt, customerId, title, available } = data || {};
 
-  const navigate = useNavigate();
-
+  const handleDeleteQNA = async () => {
+    try {
+      const response = await api.delete(`/cal/v1/qna/${id}`);
+      if (response) {
+        navigate("/qna");
+      }
+    } catch (error) {
+      alert("error");
+    }
+  };
   return isLoading ? (
     <Loading />
   ) : (
@@ -52,7 +61,7 @@ const QnaDetail = () => {
               <Button onClick={() => navigate(`/qna/fix/${id}`)}>
                 수정하기
               </Button>
-              <Button>삭제하기</Button>
+              <Button onClick={handleDeleteQNA}>삭제하기</Button>
             </>
           ) : (
             ""

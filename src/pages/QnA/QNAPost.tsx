@@ -37,7 +37,6 @@ const QNAPost = () => {
         title: title,
       });
       navigate("/qna");
-      console.log(response);
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
