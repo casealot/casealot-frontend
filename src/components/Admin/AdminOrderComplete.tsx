@@ -1,19 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../atom/apiCall";
 import Loading from "../Useable/Loading";
-import ready from "../../dummy/img/noimage.gif";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import CenterAlignedCell from "../Useable/CenterAlignedCell";
-import { NoneStyledLink } from "../Useable/Link";
 import AdminOrderTable from "./AdminOrderTable";
 
 type OrderList = {

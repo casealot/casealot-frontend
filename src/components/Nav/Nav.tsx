@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import navLogo from "../../dummy/img/navlogo.jpg";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
 import NavRight from "./NavRight";
 import { Link, useLocation } from "react-router-dom";

@@ -32,6 +32,7 @@ const QNAPost = () => {
 
   const handleSubmit = async () => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response = api.post("cal/v1/qna", {
         content: content,
         title: title,
