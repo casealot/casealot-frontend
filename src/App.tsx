@@ -26,6 +26,7 @@ import OrderDetail from "./pages/User/OrderDetail";
 import CategoryPage from "./pages/Product/CategoryPage";
 import TokenHandler from "./components/Useable/KakaoRedirect";
 import AdminOrderList from "./pages/Admin/AdminOrderList";
+import SearchPage from "./pages/SearchPage";
 
 const role = localStorage.getItem("role");
 
@@ -54,6 +55,7 @@ function App() {
         <Route path="/qna/new" element={<QNAPost />} />
         <Route path="/qna/:id" element={<QnaDetail />} />
         <Route path="/qna/fix/:id" element={<QnAFix />} />
+        <Route path="/search/:keyword" element={<SearchPage />} />
         {/* <Route element={<ProductRegistrationPage />} />/ */}
         <Route
           path="/admin"

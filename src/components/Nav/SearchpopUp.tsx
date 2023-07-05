@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ProductType } from "../../atom/Product";
 import { ChangeEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
+import { NoneStyledLink } from "../Useable/Link";
 
 const SearchWrap = styled.div`
   position: absolute;
@@ -11,7 +12,6 @@ const SearchWrap = styled.div`
   right: 0;
   border: 1px solid #111;
   z-index: 41;
-  display: block;
   box-sizing: content-box;
   text-align: left;
 `;
@@ -95,18 +95,21 @@ const ProductListli = styled.li`
   }
 `;
 
+type SearchValue = {
+  keyword: string;
+  hlKeyword: string;
+};
 const SearchpopUp = () => {
   // const [productData, setProductData] =
   //   useRecoilState<fakeProduct[]>(ProductListAtom);
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [filteredData, setFilteredData] = useState<SearchValue[]>([]);
+  const [productData, setProductData] = useState<SearchValue[]>([]);
+  const navigate = useNavigate();
+  const getAuto = async (query: string) => {
+    const response = await api.get(`cal/v1/autocomplete?query=${query}`);
 
-  const [filteredData, setFilteredData] = useState<ProductType[]>([]);
-  const [productData, setProductData] = useState<ProductType[]>([]);
-
-  const getAuto = async () => {
-    const response = await api.get(`cal/v1/autocomplete?query=${searchValue}`);
-    console.log(response.data.body);
     setProductData(response.data.body.item);
-    return response.data.body.item;
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -114,20 +117,18 @@ const SearchpopUp = () => {
     setSearchValue(inputValue);
 
     const filteredItems = productData.filter((item) => {
-      return item.name
+      return item.keyword
         .replace(" ", "")
         .toLocaleLowerCase()
         .includes(inputValue.toLocaleLowerCase().replace(" ", ""));
     });
 
     setFilteredData(filteredItems);
+
+    if (inputValue.length >= 1) {
+      getAuto(inputValue);
+    }
   };
-
-  const [searchValue, setSearchValue] = useState<string>("");
-
-  useEffect(() => {
-    getAuto();
-  }, [searchValue]);
 
   const highlightMatchingText = (text: string) => {
     if (!searchValue) return text;
@@ -136,13 +137,32 @@ const SearchpopUp = () => {
       `(${searchValue.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")})`,
       "gi"
     );
-    return text.replace(regex, "<span class='highlight'>$1</span>");
-  };
+    const parts = text.split(regex);
 
+    return parts.map((part, index) => {
+      if (part.toLowerCase() === searchValue.toLowerCase()) {
+        return (
+          <span key={index} className="highlight">
+            {part}
+          </span>
+        );
+      }
+      return part;
+    });
+  };
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      navigate(`/search/${searchValue}`);
+    }
+  };
   return (
     <SearchWrap>
       <SearchArea>
-        <Search value={searchValue} onChange={onChange} />
+        <Search
+          value={searchValue}
+          onChange={onChange}
+          onKeyPress={onKeyPress}
+        />
       </SearchArea>
       <WrapWords>
         <Left>
@@ -153,15 +173,12 @@ const SearchpopUp = () => {
             </>
           ) : (
             <ProductList>
-              {filteredData.map((item) => (
-                <ProductListli key={item.id}>
-                  <Link
-                    to={`products/${item.id}`}
-                    dangerouslySetInnerHTML={{
-                      __html: highlightMatchingText(item.name),
-                    }}
-                  />
-                </ProductListli>
+              {filteredData.map((item, index: number) => (
+                <NoneStyledLink to={`/search/${item.keyword}`}>
+                  <ProductListli key={index}>
+                    <div>{highlightMatchingText(item.keyword)}</div>
+                  </ProductListli>
+                </NoneStyledLink>
               ))}
             </ProductList>
           )}
