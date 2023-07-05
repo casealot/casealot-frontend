@@ -5,6 +5,7 @@ import { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { NoneStyledLink } from "../Useable/Link";
+import { Button } from "@mui/material";
 
 const SearchWrap = styled.div`
   position: absolute;
@@ -53,13 +54,13 @@ const Title = styled.div`
   padding: 22px 20px 0;
   font-size: 15px;
   font-weight: 700;
-  color: #000;
+
+  color: #808080;
 `;
 
 const Swiper = styled.div`
   overflow: hidden;
-  margin: 0 30px;
-  color: #000;
+  margin: 30 30px;
 `;
 
 const ProductList = styled.ul`
@@ -76,14 +77,13 @@ const ProductList = styled.ul`
 const ProductListli = styled.li`
   margin-left: 10px;
   position: relative;
-  border-radius: 5px;
-  overflow: hidden;
-  padding: 5px 25px 5px 11px;
+
+  padding: 10px 25px 10px 11px;
   line-height: 25px;
   overflow: hidden;
   text-overflow: ellipsis;
   color: #111;
-
+  border-top: 1px solid #d3d3d3;
   a {
     text-decoration: none;
     color: inherit;
@@ -103,7 +103,7 @@ const SearchpopUp = () => {
   // const [productData, setProductData] =
   //   useRecoilState<fakeProduct[]>(ProductListAtom);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [filteredData, setFilteredData] = useState<SearchValue[]>([]);
+
   const [productData, setProductData] = useState<SearchValue[]>([]);
   const navigate = useNavigate();
   const getAuto = async (query: string) => {
@@ -115,15 +115,6 @@ const SearchpopUp = () => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setSearchValue(inputValue);
-
-    const filteredItems = productData.filter((item) => {
-      return item.keyword
-        .replace(" ", "")
-        .toLocaleLowerCase()
-        .includes(inputValue.toLocaleLowerCase().replace(" ", ""));
-    });
-
-    setFilteredData(filteredItems);
 
     if (inputValue.length >= 1) {
       getAuto(inputValue);
@@ -163,25 +154,22 @@ const SearchpopUp = () => {
           onChange={onChange}
           onKeyPress={onKeyPress}
         />
+        <Button sx={{ position: "absolute", right: "0", marginTop: "5px" }}>
+          Enter
+        </Button>
       </SearchArea>
       <WrapWords>
         <Left>
-          {searchValue.length < 1 ? (
-            <>
-              <Title>최근 검색어</Title>
-              <Swiper>최근 검색어가 없습니다.</Swiper>
-            </>
-          ) : (
-            <ProductList>
-              {filteredData.map((item, index: number) => (
-                <NoneStyledLink to={`/search/${item.keyword}`}>
-                  <ProductListli key={index}>
-                    <div>{highlightMatchingText(item.keyword)}</div>
-                  </ProductListli>
-                </NoneStyledLink>
-              ))}
-            </ProductList>
-          )}
+          <Title>검색어를 입력하고 Enter를 누르세요</Title>
+          <ProductList>
+            {productData.map((item, index: number) => (
+              <NoneStyledLink to={`/search/${item.keyword}`} key={index}>
+                <ProductListli>
+                  <span>{highlightMatchingText(item.keyword)}</span>
+                </ProductListli>
+              </NoneStyledLink>
+            ))}
+          </ProductList>
         </Left>
         <Right></Right>
       </WrapWords>
