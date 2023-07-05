@@ -32,6 +32,7 @@ const SearchPage = () => {
     () => getSearchData(page),
     {
       enabled: !!keyword,
+      refetchOnWindowFocus: false,
     }
   );
   useEffect(() => {

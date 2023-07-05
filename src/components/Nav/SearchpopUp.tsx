@@ -58,11 +58,6 @@ const Title = styled.div`
   color: #808080;
 `;
 
-const Swiper = styled.div`
-  overflow: hidden;
-  margin: 30 30px;
-`;
-
 const ProductList = styled.ul`
   padding: 10px 11px 25px;
   max-height: 500px;
