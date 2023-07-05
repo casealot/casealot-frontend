@@ -55,6 +55,7 @@ const AdminInfoTop = () => {
           sx={{ marginTop: "17px", marginLeft: "4px" }}
         />
       </div>
+
       <div
         style={{
           display: "flex",
@@ -63,50 +64,64 @@ const AdminInfoTop = () => {
           alignItems: "center",
         }}
       >
-        <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
-          신규주문
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "12px",
-            color: "red",
-            fontWeight: "600",
-            marginLeft: "2px",
-          }}
-        >
-          {todayOrder}
-        </Typography>
+        <NoneStyledLink to="/admin/order">
+          <div style={{ display: "flex" }}>
+            <Typography sx={{ fontSize: "12px", fontWeight: "600" }}>
+              신규주문
+            </Typography>
 
-        <Typography
-          sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
-        >
-          교환문의
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "12px",
-            color: "red",
-            fontWeight: "600",
-            marginLeft: "2px",
-          }}
-        >
-          {todayChange}
-        </Typography>
-        <Typography
-          sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
-        >
-          취소문의
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "12px",
-            color: "red",
-            fontWeight: "600",
-            marginLeft: "2px",
-          }}
-        >
-          {todayCancel}
-        </Typography>
+            <Typography
+              sx={{
+                fontSize: "12px",
+                color: "red",
+                fontWeight: "600",
+                marginLeft: "2px",
+              }}
+            >
+              {todayOrder}
+            </Typography>
+          </div>
+        </NoneStyledLink>
+
+        <NoneStyledLink to="/admin/order">
+          <div style={{ display: "flex" }}>
+            <Typography
+              sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
+            >
+              교환내역
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "12px",
+                color: "red",
+                fontWeight: "600",
+                marginLeft: "2px",
+              }}
+            >
+              {todayChange}
+            </Typography>
+          </div>
+        </NoneStyledLink>
+
+        <NoneStyledLink to="/admin/order">
+          <div style={{ display: "flex" }}>
+            <Typography
+              sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
+            >
+              취소내역
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "12px",
+                color: "red",
+                fontWeight: "600",
+                marginLeft: "2px",
+              }}
+            >
+              {todayCancel}
+            </Typography>
+          </div>
+        </NoneStyledLink>
         <Typography
           sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
         >

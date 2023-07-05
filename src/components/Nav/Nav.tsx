@@ -1,7 +1,7 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-
+import navLogo from "../../dummy/img/navlogo.jpg";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import SearchBar from "./SearchBar";
@@ -29,6 +29,7 @@ const Nav = () => {
   const handleMouseLeave = () => {
     setHovered(false);
   };
+
   const MainNav = {
     ...(pathname === "/" && { opacity: hover ? 0.8 : 0.3 }),
     transition: "0.2 ease-out",
@@ -84,28 +85,12 @@ const Nav = () => {
         <AppBar position="static" sx={{ backgroundColor: "#fff" }}>
           <Container maxWidth="xl">
             <Toolbar sx={{ margin: "0" }}>
-              <Typography
-                variant="h2"
-                component="div"
-                noWrap
-                sx={{
-                  flexGrow: 1,
-                  display: {
-                    xs: "none",
-                    sm: "block",
-                    flexGrow: 1,
-                    textAlign: "left",
-                    fontSize: "26px",
-                  },
-                }}
-              >
-                <Link
-                  to={"/"}
-                  style={{ textDecoration: "none", color: "#000" }}
-                >
-                  CASE A LOT
-                </Link>
-              </Typography>
+              <Link to={"/"} style={{ textDecoration: "none", color: "#000" }}>
+                <div>
+                  <img src={navLogo} />
+                </div>
+              </Link>
+
               <SearchBar />
               <Box
                 sx={{
