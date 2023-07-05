@@ -25,6 +25,7 @@ import OrderList from "./pages/User/OrderList";
 import OrderDetail from "./pages/User/OrderDetail";
 import CategoryPage from "./pages/Product/CategoryPage";
 import TokenHandler from "./components/Useable/KakaoRedirect";
+import AdminOrderList from "./pages/Admin/AdminOrderList";
 
 const role = localStorage.getItem("role");
 
@@ -72,6 +73,10 @@ function App() {
         <Route
           path="/admin/edit/:id"
           element={role === "ADMIN" ? <ProductFix /> : <h1>No access</h1>}
+        />
+        <Route
+          path="/admin/order"
+          element={role === "ADMIN" ? <AdminOrderList /> : <h1>No access</h1>}
         />
       </Routes>
       <Footer />
