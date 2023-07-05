@@ -20,7 +20,7 @@ const KakaoLogin = () => {
   //     console.log(token);
   //     console.log(refreshToken);
   //   };
-  const requestURL = "https://casalot.shop/oauth2/authorization/kakao";
+  const requestURL = "https://casealot.shop/oauth2/authorization/kakao";
   return (
     <img
       alt="카카오 로그인"
