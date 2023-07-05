@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { ProductType } from "../../atom/Product";
+
 import { ChangeEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { NoneStyledLink } from "../Useable/Link";
 
