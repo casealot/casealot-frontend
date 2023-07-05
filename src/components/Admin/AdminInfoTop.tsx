@@ -122,21 +122,26 @@ const AdminInfoTop = () => {
             </Typography>
           </div>
         </NoneStyledLink>
-        <Typography
-          sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
-        >
-          답변대기 문의
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: "12px",
-            color: "red",
-            fontWeight: "600",
-            marginLeft: "2px",
-          }}
-        >
-          {todayQna}
-        </Typography>
+        <NoneStyledLink to="/admin/qna">
+          <div style={{ display: "flex" }}>
+            <Typography
+              sx={{ fontSize: "12px", marginLeft: "4px", fontWeight: "600" }}
+            >
+              답변대기 문의
+            </Typography>
+
+            <Typography
+              sx={{
+                fontSize: "12px",
+                color: "red",
+                fontWeight: "600",
+                marginLeft: "2px",
+              }}
+            >
+              {todayQna}
+            </Typography>
+          </div>
+        </NoneStyledLink>
         <div
           style={{
             display: "flex",
