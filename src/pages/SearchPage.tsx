@@ -27,8 +27,12 @@ const SearchPage = () => {
     return response.data.body.product;
   };
 
-  const { data, isLoading } = useQuery<SearchData>(["getSearch", page], () =>
-    getSearchData(page)
+  const { data, isLoading } = useQuery<SearchData>(
+    ["getSearch", page],
+    () => getSearchData(page),
+    {
+      enabled: !!keyword,
+    }
   );
   useEffect(() => {
     setPage(0); // Reset current page when the keyword changes
