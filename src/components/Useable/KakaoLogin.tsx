@@ -1,4 +1,3 @@
-import axios from "axios";
 import KakaoLoginImg from "../../dummy/img/kakaologin.png";
 import { api } from "../../atom/apiCall";
 
