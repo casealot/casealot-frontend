@@ -58,5 +58,5 @@
     "typescript": "^5.0.2",
     "vite": "^4.3.2"
   },
-  "proxy": "http://43.201.170.8:8000/"
+  "proxy": "https://casealot.shop"
 }

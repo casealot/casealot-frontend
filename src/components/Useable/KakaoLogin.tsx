@@ -1,12 +1,11 @@
 import axios from "axios";
 import KakaoLoginImg from "../../dummy/img/kakaologin.png";
+import { api } from "../../atom/apiCall";
 
 const KakaoLogin = () => {
   const handleKaKaoLogin = async () => {
     console.log("Before request"); // 요청 전에 출력
-    const response = await axios.post(
-      "https://casealot.shop/oauth2/authorization/kakao"
-    );
+    const response = await api.post("/oauth2/authorization/kakao");
     console.log("After request"); // 요청 후에 출력
     // 로그인 성공 후 리다이렉트된 URL 가져오기
     const redirectUrl = response.request.responseURL;
