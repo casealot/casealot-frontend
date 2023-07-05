@@ -14,6 +14,13 @@ function TokenHandler() {
       localStorage.setItem("accessToken", token);
       navigate("/");
     }
+    const storedToken = localStorage.getItem("accessToken");
+    const storedRefreshToken = localStorage.getItem("refreshToken");
+
+    if (storedToken && storedRefreshToken) {
+      // Tokens are present in local storage, navigate to the main screen or desired route
+      navigate("/");
+    }
   }, [location.search]);
 
   return null;
