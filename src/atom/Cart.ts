@@ -20,21 +20,6 @@ export const getCart = async () => {
   return response.data.body.cart.products;
 };
 
-export const CartList = selector<cartItems[]>({
-  key: "CartList",
-  get: async ({ get }) => {
-    const isLoggedIn = get(isLoggedInSelector);
-    console.log("isLoggedIn", isLoggedIn);
-    if (isLoggedIn) {
-      const cartItems = await getCart();
-      return cartItems;
-    } else {
-      console.log("안돼");
-      return [];
-    }
-  },
-});
-
 export const CartListState = atom<cartItems[]>({
   key: "CartListState",
   default: selector<cartItems[]>({
@@ -49,7 +34,6 @@ export const CartListState = atom<cartItems[]>({
         }
         return cartItems;
       } else {
-        console.log("안됌");
         return [];
       }
     },
