@@ -15,13 +15,7 @@ function TokenHandler() {
     );
     const role = new URLSearchParams(location.search).get("role");
 
-    if (
-      isLoginLoadable.state === "hasValue" &&
-      isLoginLoadable.contents &&
-      token &&
-      refreshToken &&
-      role
-    ) {
+    if (token && refreshToken && role) {
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("accessToken", token);
       localStorage.setItem("role", role);
@@ -31,7 +25,12 @@ function TokenHandler() {
     const storedRefreshToken = localStorage.getItem("refreshToken");
     const storedRoleType = localStorage.getItem("role");
 
-    if (storedToken && storedRefreshToken && storedRoleType) {
+    if (
+      isLoginLoadable.state === "hasValue" &&
+      storedToken &&
+      storedRefreshToken &&
+      storedRoleType
+    ) {
       navigate("/");
     }
   }, [isLoginLoadable, location.search, navigate]);

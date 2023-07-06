@@ -51,7 +51,6 @@ const SigninPage = () => {
         "refreshToken",
         response.data.body.customerToken.refreshToken
       );
-
       localStorage.setItem("role", response.data.body.customerToken.roleType);
       navigate("/");
       location.reload();
