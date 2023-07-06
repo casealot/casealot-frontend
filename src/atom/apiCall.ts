@@ -1,14 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  accessTokenState,
-  refreshTokenState,
-  isLoggedInSelector,
-} from "./User";
 
 export const api = axios.create({
-  // baseURL: "http://43.201.170.8:8000/",
   baseURL: "https://casealot.shop",
   headers: {
     "Content-Type": "application/json",
@@ -17,7 +10,7 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const accessToken = useRecoilValue(accessTokenState);
+  const accessToken = localStorage.getItem("accessToken");
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
@@ -29,20 +22,16 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const navigate = useNavigate();
-    const isLoggedIn = useRecoilValue(isLoggedInSelector);
-    const setAccessToken = useSetRecoilState(accessTokenState);
-    const setRefreshToken = useSetRecoilState(refreshTokenState);
+    const refreshToken = localStorage.getItem("refreshToken");
 
     if (
-      isLoggedIn &&
       error.response.status === 401 &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      refreshToken
     ) {
       originalRequest._retry = true;
 
       try {
-        const refreshToken = useRecoilValue(refreshTokenState);
-
         const res = await api.get("/cal/v1/auth/refresh", {
           headers: {
             RefreshToken: `Bearer ${refreshToken}`,
@@ -54,10 +43,6 @@ api.interceptors.response.use(
 
         localStorage.setItem("accessToken", newAccessToken);
         localStorage.setItem("refreshToken", newRefreshToken);
-
-        // Update Recoil state with new tokens
-        setAccessToken(newAccessToken);
-        setRefreshToken(newRefreshToken);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         location.reload();
