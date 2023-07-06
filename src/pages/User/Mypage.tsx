@@ -18,7 +18,7 @@ const Mypage = () => {
   };
   const { data, isLoading } = useQuery(["getMyPageData"], getMyPageData);
 
-  const { finish, ready, start } = data || {};
+  const { finish, ready, start, profileImageUrl } = data || {};
 
   return isLoading ? (
     <Loading />
@@ -27,9 +27,9 @@ const Mypage = () => {
       <Container maxWidth="xl">
         <Banner item="MYPAGE" />
         <Container maxWidth="xl">
-          {data.profileImg ? (
+          {profileImageUrl ? (
             <Avatar
-              src={data.profileImg.url}
+              src={profileImageUrl}
               sx={{ width: "8em", height: "8em", margin: "0 auto" }}
             />
           ) : (
