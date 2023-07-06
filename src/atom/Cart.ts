@@ -1,6 +1,6 @@
 import { atom, selector } from "recoil";
 import { api } from "./apiCall";
-import { accessTokenState } from "./User";
+import { isLoggedInSelector } from "./User";
 
 export interface cartItems {
   id: number;
@@ -23,8 +23,9 @@ const getCart = async () => {
 export const CartList = selector<cartItems[]>({
   key: "CartList",
   get: async ({ get }) => {
-    const accessToken = get(accessTokenState);
-    if (accessToken !== null) {
+    const isLoggedIn = get(isLoggedInSelector);
+
+    if (isLoggedIn) {
       const cartItems = await getCart();
       return cartItems;
     } else {
@@ -38,8 +39,8 @@ export const CartListState = atom<cartItems[]>({
   default: selector<cartItems[]>({
     key: "CartListDefault",
     get: async ({ get }) => {
-      const accessToken = get(accessTokenState);
-      if (accessToken) {
+      const isLoggedIn = get(isLoggedInSelector);
+      if (isLoggedIn) {
         const cartItems = await getCart();
         if (cartItems.length < 1) {
           return [];
