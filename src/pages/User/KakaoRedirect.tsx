@@ -33,7 +33,6 @@ function TokenHandler() {
       storedRoleType
     ) {
       navigate("/");
-      getCart();
     }
   }, [isLoginLoadable, location.search, navigate]);
 

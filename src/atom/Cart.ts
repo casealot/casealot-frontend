@@ -41,6 +41,7 @@ export const CartListState = atom<cartItems[]>({
     key: "CartListDefault",
     get: async ({ get }) => {
       const isLoggedIn = get(isLoggedInSelector);
+      console.log("isLoggedIn", isLoggedIn);
       if (isLoggedIn) {
         const cartItems = await getCart();
         if (cartItems.length < 1) {
@@ -48,6 +49,7 @@ export const CartListState = atom<cartItems[]>({
         }
         return cartItems;
       } else {
+        console.log("안됌");
         return [];
       }
     },
