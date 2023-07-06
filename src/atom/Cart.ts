@@ -24,11 +24,12 @@ export const CartList = selector<cartItems[]>({
   key: "CartList",
   get: async ({ get }) => {
     const isLoggedIn = get(isLoggedInSelector);
-
+    console.log("isLoggedIn", isLoggedIn);
     if (isLoggedIn) {
       const cartItems = await getCart();
       return cartItems;
     } else {
+      console.log("안돼");
       return [];
     }
   },
