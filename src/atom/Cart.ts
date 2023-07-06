@@ -14,7 +14,7 @@ export interface cartItems {
   type: string;
 }
 
-const getCart = async () => {
+export const getCart = async () => {
   const response = await api.get(`cal/v1/cart`);
   console.log(response.data.body);
   return response.data.body.cart.products;
