@@ -2,8 +2,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../components/Useable/Loading";
-import { Container, Typography, Box, Divider, Button } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Divider,
+  Button,
+  List,
+  Avatar,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from "@mui/material";
 import AdminQnaReply from "../Admin/AdminQnaReply";
+import { QnA } from "../../atom/QnA";
 
 const QnaDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,7 +28,7 @@ const QnaDetail = () => {
     return response.data.body.qna;
   };
 
-  const { data, isLoading } = useQuery(["QnADetail"], QnaDetail);
+  const { data, isLoading } = useQuery<QnA>(["QnADetail"], QnaDetail);
 
   const { content, createdDt, customerId, title, available } = data || {};
 
@@ -57,7 +69,14 @@ const QnaDetail = () => {
             {content}
           </Typography>
         </Box>
-        <div style={{ display: "flex", marginTop: "20px" }}>
+        <div
+          style={{
+            display: "flex",
+            marginTop: "20px",
+            borderBottom: "1px solid #d3d3d3",
+            paddingBottom: "20px",
+          }}
+        >
           {available === "Y" ? (
             <>
               <Button onClick={() => navigate(`/qna/fix/${id}`)}>
@@ -76,6 +95,44 @@ const QnaDetail = () => {
             목록으로
           </Button>
         </div>
+        <List
+          sx={{
+            width: "100%",
+          }}
+        >
+          {data?.qnaCommentList.map((item: any) => (
+            <ListItem alignItems="flex-start" sx={{ padding: "none" }}>
+              <ListItemAvatar>
+                <Avatar
+                  sx={{ bgcolor: "orange" }}
+                  alt="ADMIN"
+                  src="/broken-image.jpg"
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={`${item.customerId}`}
+                secondary={
+                  <div style={{ display: "flex" }}>
+                    <Typography
+                      sx={{
+                        display: "inline",
+                        padding: "none",
+                      }}
+                      component="span"
+                      variant="body2"
+                      color="text.primary"
+                    >
+                      {item.content}
+                    </Typography>
+                    <Typography sx={{ marginLeft: "auto" }} variant="body2">
+                      {item.modifiedDt}
+                    </Typography>
+                  </div>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
       </Container>
       {roleType === "ADMIN" && id && <AdminQnaReply id={id} />}
     </>
