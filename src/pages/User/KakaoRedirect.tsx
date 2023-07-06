@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { isLoggedInSelector } from "../../atom/User";
-import { useRecoilValueLoadable } from "recoil";
+import { accessTokenState, isLoggedInSelector } from "../../atom/User";
+import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
 
 function TokenHandler() {
   const isLoginLoadable = useRecoilValueLoadable(isLoggedInSelector);
   const location = useLocation();
   const navigate = useNavigate();
+  const setAccessToken = useSetRecoilState(accessTokenState);
 
   useEffect(() => {
     const token = new URLSearchParams(location.search).get("token");
@@ -19,6 +20,7 @@ function TokenHandler() {
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("accessToken", token);
       localStorage.setItem("role", role);
+      setAccessToken(token);
     }
 
     const storedToken = localStorage.getItem("accessToken");
@@ -33,7 +35,7 @@ function TokenHandler() {
     ) {
       navigate("/");
     }
-  }, [isLoginLoadable, location.search, navigate]);
+  }, [isLoginLoadable, location.search, navigate, setAccessToken]);
 
   return null;
 }
