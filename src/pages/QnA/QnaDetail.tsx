@@ -190,18 +190,24 @@ const QnaDetail = () => {
                           <Typography variant="body2">
                             {item.modifiedDt}
                           </Typography>
-                          <div style={{ display: "flex" }}>
-                            <Button onClick={() => handleEditComment(item.id)}>
-                              <EditIcon />
-                            </Button>
-                            <Button
-                              onClick={() =>
-                                handleDeleteComment.mutate(item.id)
-                              }
-                            >
-                              <CancelIcon />
-                            </Button>
-                          </div>
+                          {roleType === "ADMIN" ? (
+                            <div style={{ display: "flex" }}>
+                              <Button
+                                onClick={() => handleEditComment(item.id)}
+                              >
+                                <EditIcon />
+                              </Button>
+                              <Button
+                                onClick={() =>
+                                  handleDeleteComment.mutate(item.id)
+                                }
+                              >
+                                <CancelIcon />
+                              </Button>
+                            </div>
+                          ) : (
+                            ""
+                          )}
                         </div>
                       </>
                     )}

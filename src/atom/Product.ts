@@ -42,6 +42,7 @@ export const ProductListAtom = atom<ProductType[]>({
 });
 
 export interface Review {
+  customerName: string;
   id: number;
   rating: number | null;
   comment: string;

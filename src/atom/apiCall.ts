@@ -21,7 +21,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const navigate = useNavigate();
+
     const refreshToken = localStorage.getItem("refreshToken");
 
     if (
@@ -49,7 +49,7 @@ api.interceptors.response.use(
         return axios(originalRequest);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          navigate("/");
+          console.log(error);
         }
       }
     }

@@ -117,9 +117,6 @@ const ProductDetail = () => {
   } = product;
 
   useEffect(() => {
-    getProductDetail();
-  }, []);
-  useEffect(() => {
     setWishboolean(wishYn);
     setWishCountState(wishCount);
   }, [wishYn, wishCount]);
@@ -133,7 +130,7 @@ const ProductDetail = () => {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);
     }
-  }, [id, setCartItems, setQuantity, quantity]);
+  }, [id, setCartItems, quantity]);
 
   const addReviewMutation = useMutation(
     async (reviewData: { rating: number; reviewText: string }) => {
@@ -156,7 +153,7 @@ const ProductDetail = () => {
           handleOpenErrorModal(error.response?.data.message);
       }
     },
-    []
+    [addReviewMutation]
   );
 
   const handleWishAdd = useCallback(async () => {
@@ -219,7 +216,7 @@ const ProductDetail = () => {
           handleOpenErrorModal(error.response?.data.message);
       }
     },
-    [comment]
+    [addReviewCommentMutation, comment]
   );
   // console.log(cartItems);
 
