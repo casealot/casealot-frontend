@@ -9,9 +9,38 @@ import { NoneStyledLink } from "../components/Useable/Link";
 
 type SearchData = {
   count: number;
-  items: [];
+  items: SearchItems[];
   totalCount: number;
   totalPages: number;
+};
+
+type SearchItems = {
+  calculatePrice: number;
+  category: string;
+  color: string;
+  content: string;
+  createdDt: string;
+  id: number;
+  modifiedDt: string;
+  name: string;
+  price: number;
+  rating: number;
+  ratingCount: number;
+  sale: number;
+  season: string;
+  sells: number;
+  thumbnail: {
+    createdDt: string;
+    fileSize: number;
+    fileType: string;
+    modifiedDt: string;
+    name: string;
+    url: string;
+    uuid: string;
+  };
+  type: string;
+  wishCount: number;
+  wishYn: string;
 };
 const SearchPage = () => {
   const { keyword } = useParams<{ keyword: string }>();
@@ -45,6 +74,15 @@ const SearchPage = () => {
   };
   return isLoading ? (
     <Loading />
+  ) : data?.totalCount === 0 ? (
+    <Container maxWidth="xl" sx={{ minHeight: "600px", paddingTop: "100px" }}>
+      <Typography variant="h3" sx={{ marginY: 10 }}>
+        No Search Products
+      </Typography>
+      <NoneStyledLink to="/products/category/all">
+        <Button variant="contained">상품 바로가기</Button>
+      </NoneStyledLink>
+    </Container>
   ) : (
     <>
       <Container maxWidth="xl" sx={{ paddingBottom: "50px" }}>
@@ -54,7 +92,7 @@ const SearchPage = () => {
           <Typography sx={{ color: "blue" }}>{data?.totalCount}개</Typography>
         </div>
         <Grid container gap={2} sx={{ justifyContent: "center" }}>
-          {data?.items.map((item: any) => (
+          {data?.items.map((item) => (
             <Grid item xs={2.5} key={item.id}>
               <NoneStyledLink to={`/products/${item.id}`}>
                 <div
