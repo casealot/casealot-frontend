@@ -28,6 +28,7 @@ import TokenHandler from "./components/Useable/KakaoRedirect";
 import AdminOrderList from "./pages/Admin/AdminOrderList";
 import SearchPage from "./pages/SearchPage";
 import AdminQnaList from "./pages/Admin/AdminQnaList";
+import TopScroll from "./components/Useable/TopScroll";
 
 const role = localStorage.getItem("role");
 
@@ -86,7 +87,9 @@ function App() {
           element={role === "ADMIN" ? <AdminOrderList /> : <h1>No access</h1>}
         />
       </Routes>
+
       <Footer />
+      <TopScroll />
     </BrowserRouter>
   );
 }
