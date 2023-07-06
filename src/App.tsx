@@ -24,7 +24,7 @@ import AdminInfo from "./pages/Admin/AdminInfo";
 import OrderList from "./pages/User/OrderList";
 import OrderDetail from "./pages/User/OrderDetail";
 import CategoryPage from "./pages/Product/CategoryPage";
-import TokenHandler from "./components/Useable/KakaoRedirect";
+import TokenHandler from "./pages/User/KakaoRedirect";
 import AdminOrderList from "./pages/Admin/AdminOrderList";
 import SearchPage from "./pages/SearchPage";
 import AdminQnaList from "./pages/Admin/AdminQnaList";

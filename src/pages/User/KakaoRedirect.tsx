@@ -9,19 +9,21 @@ function TokenHandler() {
     const refreshToken = new URLSearchParams(location.search).get(
       "refreshToken"
     );
-    if (token && refreshToken) {
+    const role = new URLSearchParams(location.search).get("role");
+    if (token && refreshToken && role) {
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("accessToken", token);
+      localStorage.setItem("role", role);
       navigate("/");
     }
     const storedToken = localStorage.getItem("accessToken");
     const storedRefreshToken = localStorage.getItem("refreshToken");
+    const storedRoleType = localStorage.getItem("role");
 
-    if (storedToken && storedRefreshToken) {
-      // Tokens are present in local storage, navigate to the main screen or desired route
+    if (storedToken && storedRefreshToken && storedRoleType) {
       navigate("/");
     }
-  }, [location.search]);
+  }, [location.search, navigate]);
 
   return null;
 }

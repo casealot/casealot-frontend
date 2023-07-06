@@ -17,7 +17,7 @@ import { useState } from "react";
 import axios from "axios";
 import ErrorModal from "../../components/Modal/ErrorHandleModal";
 import { NoneStyledLink } from "../../components/Useable/Link";
-import KakaoLogin from "../../components/Useable/KakaoLogin";
+import KakaoLogin from "./KakaoLogin";
 
 const defaultTheme = createTheme();
 
