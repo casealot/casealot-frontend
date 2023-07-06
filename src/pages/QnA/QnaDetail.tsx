@@ -3,10 +3,12 @@ import { api } from "../../atom/apiCall";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../components/Useable/Loading";
 import { Container, Typography, Box, Divider, Button } from "@mui/material";
+import AdminQnaReply from "../Admin/AdminQnaReply";
 
 const QnaDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const roleType = localStorage.getItem("role");
   console.log(id);
 
   const QnaDetail = async () => {
@@ -75,6 +77,7 @@ const QnaDetail = () => {
           </Button>
         </div>
       </Container>
+      {roleType === "ADMIN" && id && <AdminQnaReply id={id} />}
     </>
   );
 };

@@ -10,6 +10,7 @@ import {
   TableRow,
   Paper,
   Container,
+  Button,
 } from "@mui/material";
 import { NoneStyledLink } from "../../components/Useable/Link";
 
@@ -48,6 +49,7 @@ const AdminQnaList = () => {
                 <TableCell>Content</TableCell>
                 <TableCell>Created Date</TableCell>
                 <TableCell>Views</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -69,6 +71,9 @@ const AdminQnaList = () => {
 
                   <TableCell>{qna.createdDt}</TableCell>
                   <TableCell>{qna.views}</TableCell>
+                  <TableCell>
+                    <Button>답변하기</Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -13,7 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { NoneStyledLink } from "../components/Useable/Link";
 import { useEffect, useState } from "react";
 import ready from "../dummy/img/noimage.gif";
-import ConfirmationDialog from "../components/Useable/ConfirmModal";
+import ConfirmationDialog from "../components/Modal/ConfirmModal";
 import Banner from "../components/Useable/Banner";
 
 const WishListPage = () => {

@@ -28,7 +28,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../components/Useable/Loading";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { RequestPayParams, RequestPayResponse } from "../../atom/PortOne";
-import ConfirmationDialog from "../../components/Useable/ConfirmModal";
+import ConfirmationDialog from "../../components/Modal/ConfirmModal";
 import { useNavigate } from "react-router-dom";
 
 const DetailTop = styled.div`

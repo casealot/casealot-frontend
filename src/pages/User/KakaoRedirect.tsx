@@ -14,7 +14,6 @@ function TokenHandler() {
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("accessToken", token);
       localStorage.setItem("role", role);
-      navigate("/");
     }
     const storedToken = localStorage.getItem("accessToken");
     const storedRefreshToken = localStorage.getItem("refreshToken");

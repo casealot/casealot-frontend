@@ -18,7 +18,7 @@ import { NoneStyledLink } from "../../components/Useable/Link";
 import CenterAlignedCell from "../../components/Useable/CenterAlignedCell";
 import ready from "../../dummy/img/noimage.gif";
 import { useState } from "react";
-import ConfirmationDialog from "../../components/Useable/ConfirmModal";
+import ConfirmationDialog from "../../components/Modal/ConfirmModal";
 
 const OrderDetail = () => {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
