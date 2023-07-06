@@ -1,18 +1,26 @@
 import { TextField, Button, Container } from "@mui/material";
 import { useState } from "react";
 import { api } from "../../atom/apiCall";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Loading from "../../components/Useable/Loading";
 
 const AdminQnaReply = (qnaId: { id: string }) => {
   const [replyContent, setReplyContent] = useState("");
 
   const { id } = qnaId;
+  const queryClient = useQueryClient();
 
-  const handleReplySubmit = async () => {
-    const response = await api.post(`cal/v1/admin/qna/${id}`, {
-      content: replyContent,
-    });
-    console.log(response);
-  };
+  const handleReplySubmit = useMutation(async () => {
+    try {
+      await api.post(`cal/v1/admin/qna/${id}`, {
+        content: replyContent,
+      });
+      queryClient.invalidateQueries(["QnADetail", id]);
+      setReplyContent("");
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   return (
     <>
@@ -28,7 +36,7 @@ const AdminQnaReply = (qnaId: { id: string }) => {
         />
         <Button
           variant="contained"
-          onClick={handleReplySubmit}
+          onClick={() => handleReplySubmit.mutate()}
           sx={{ marginY: "30px", placeItems: "end" }}
         >
           답변하기

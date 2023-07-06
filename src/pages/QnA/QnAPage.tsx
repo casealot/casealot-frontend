@@ -18,26 +18,7 @@ import { NoneStyledLink } from "../../components/Useable/Link";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Banner from "../../components/Useable/Banner";
-
-interface QNA {
-  content: string;
-  createdDt: string;
-  customerId: string;
-  id: number;
-  modifiedDt: string;
-  title: string;
-  views: number;
-}
-
-interface QnaListResponseType {
-  header: {
-    code: number;
-    message: string;
-  };
-  body: {
-    qna: QNA[];
-  };
-}
+import { QnAList, QnaListResponseType } from "../../atom/QnA";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -127,7 +108,7 @@ const QnaPage = () => {
     pageNumbers.push(i);
   }
 
-  const filteredItems = currentItems.filter((item: QNA) => {
+  const filteredItems = currentItems.filter((item: QnAList) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return item.title.toLowerCase().includes(lowerCaseSearchTerm);
   });
@@ -180,7 +161,7 @@ const QnaPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredItems.map((row: QNA, index: number) => (
+              {filteredItems.map((row: QnAList, index: number) => (
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

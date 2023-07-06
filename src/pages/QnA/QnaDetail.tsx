@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../atom/apiCall";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../components/Useable/Loading";
 import {
   Container,
@@ -21,14 +21,14 @@ const QnaDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const roleType = localStorage.getItem("role");
-  console.log(id);
 
+  const queryClient = useQueryClient();
   const QnaDetail = async () => {
     const response = await api.get(`cal/v1/qna/list/${id}`);
     return response.data.body.qna;
   };
 
-  const { data, isLoading } = useQuery<QnA>(["QnADetail"], QnaDetail);
+  const { data, isLoading } = useQuery<QnA>(["QnADetail", id], QnaDetail);
 
   const { content, createdDt, customerId, title, available } = data || {};
 
@@ -37,6 +37,7 @@ const QnaDetail = () => {
       const response = await api.delete(`/cal/v1/qna/${id}`);
       if (response) {
         navigate("/qna");
+        queryClient.invalidateQueries(["QnADetail", id]);
       }
     } catch (error) {
       alert("error");
@@ -100,7 +101,7 @@ const QnaDetail = () => {
             width: "100%",
           }}
         >
-          {data?.qnaCommentList.map((item: any) => (
+          {data?.qnaCommentList.map((item) => (
             <ListItem alignItems="flex-start" sx={{ padding: "none" }}>
               <ListItemAvatar>
                 <Avatar
