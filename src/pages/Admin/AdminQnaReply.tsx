@@ -9,6 +9,7 @@ const AdminQnaReply = (qnaId: { id: string }) => {
 
   const handleReplySubmit = async () => {
     const response = await api.post(`cal/v1/admin/qna/${id}`);
+    console.log(response);
   };
 
   return (
