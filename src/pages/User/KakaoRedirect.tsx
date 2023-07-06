@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { isLoggedInSelector } from "../../atom/User";
 import { useRecoilValueLoadable } from "recoil";
+import { getCart } from "../../atom/Cart";
 
 function TokenHandler() {
   const isLoginLoadable = useRecoilValueLoadable(isLoggedInSelector);
@@ -32,6 +33,7 @@ function TokenHandler() {
       storedRoleType
     ) {
       navigate("/");
+      getCart();
     }
   }, [isLoginLoadable, location.search, navigate]);
 
