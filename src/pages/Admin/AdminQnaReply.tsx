@@ -2,7 +2,6 @@ import { TextField, Button, Container } from "@mui/material";
 import { useState } from "react";
 import { api } from "../../atom/apiCall";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Loading from "../../components/Useable/Loading";
 
 const AdminQnaReply = (qnaId: { id: string }) => {
   const [replyContent, setReplyContent] = useState("");
