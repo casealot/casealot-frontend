@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../atom/apiCall";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../components/Useable/Loading";
 import {
   Container,
@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 import AdminQnaReply from "../Admin/AdminQnaReply";
 import { QnA } from "../../atom/QnA";
+import EditIcon from "@mui/icons-material/Edit";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const QnaDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,7 +30,10 @@ const QnaDetail = () => {
     return response.data.body.qna;
   };
 
-  const { data, isLoading } = useQuery<QnA>(["QnADetail", id], QnaDetail);
+  const { data, isLoading, refetch } = useQuery<QnA>(
+    ["QnADetail", id],
+    QnaDetail
+  );
 
   const { content, createdDt, customerId, title, available } = data || {};
 
@@ -43,6 +48,16 @@ const QnaDetail = () => {
       alert("error");
     }
   };
+  const handleDeleteComment = useMutation(
+    async (commentId: number) => {
+      await api.delete(`/cal/v1/admin/qna/${commentId}`);
+    },
+    {
+      onSuccess: () => {
+        refetch();
+      },
+    }
+  );
   return isLoading ? (
     <Loading />
   ) : (
@@ -125,9 +140,25 @@ const QnaDetail = () => {
                     >
                       {item.content}
                     </Typography>
-                    <Typography sx={{ marginLeft: "auto" }} variant="body2">
-                      {item.modifiedDt}
-                    </Typography>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        marginLeft: "auto",
+                      }}
+                    >
+                      <Typography variant="body2">{item.modifiedDt}</Typography>
+                      <div style={{ display: "flex" }}>
+                        <Button>
+                          <EditIcon />
+                        </Button>
+                        <Button
+                          onClick={() => handleDeleteComment.mutate(item.id)}
+                        >
+                          <CancelIcon />
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 }
               />
