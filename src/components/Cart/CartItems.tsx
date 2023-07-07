@@ -243,7 +243,7 @@ const CartItems = () => {
                   >
                     {item.price}원
                   </Typography>
-                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                  <Typography sx={{ fontWeight: "700", fontSize: "14px" }}>
                     {item.calculatePrice}원
                   </Typography>
                 </TableCell>

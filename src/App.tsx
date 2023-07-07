@@ -29,6 +29,7 @@ import AdminOrderList from "./pages/Admin/AdminOrderList";
 import SearchPage from "./pages/SearchPage";
 import AdminQnaList from "./pages/Admin/AdminQnaList";
 import TopScroll from "./components/Useable/TopScroll";
+import Instagram from "./components/Useable/Instagram";
 
 const role = localStorage.getItem("role");
 
@@ -89,7 +90,9 @@ function App() {
       </Routes>
 
       <Footer />
+
       <TopScroll />
+      <Instagram />
     </BrowserRouter>
   );
 }
