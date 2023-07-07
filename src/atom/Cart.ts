@@ -12,6 +12,7 @@ export interface cartItems {
   color: string;
   season: string;
   type: string;
+  calculatePrice: number;
 }
 
 export const getCart = async () => {

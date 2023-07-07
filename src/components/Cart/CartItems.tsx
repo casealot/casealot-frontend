@@ -232,7 +232,21 @@ const CartItems = () => {
                   </Link>
                 </TableCell>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>{item.price}원</TableCell>
+
+                <TableCell>
+                  <Typography
+                    sx={{
+                      textDecorationLine: "line-through",
+                      fontSize: "14px",
+                      color: "#808080",
+                    }}
+                  >
+                    {item.price}원
+                  </Typography>
+                  <Typography sx={{ fontWeight: "600", fontSize: "14px" }}>
+                    {item.calculatePrice}원
+                  </Typography>
+                </TableCell>
                 <TableCell>
                   <div
                     style={{
@@ -251,8 +265,8 @@ const CartItems = () => {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body1">
-                    {item.quantity * Number(item.price)}원
+                  <Typography variant="body2" sx={{ fontWeight: "600" }}>
+                    {item.quantity * Number(item.calculatePrice)}원
                   </Typography>
                 </TableCell>
                 <TableCell>
