@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { CartListState } from "../../atom/Cart";
 import { cartItems } from "../../atom/Cart";
 import { api } from "../../atom/apiCall";
-import { Box, Container, Rating, TextField } from "@mui/material";
+import { Box, Container, Rating } from "@mui/material";
 import ready from "../../dummy/img/noimage.gif";
 import ReviewForm from "../../components/Product/Review";
 import axios from "axios";
@@ -20,6 +20,8 @@ import { RequestPayParams, RequestPayResponse } from "../../atom/PortOne";
 import ConfirmationDialog from "../../components/Modal/ConfirmModal";
 import { useNavigate } from "react-router-dom";
 import ReviewAccordion from "../../components/Product/ReviewAccordion";
+import { Review } from "../../atom/Product";
+import DetailRightTop from "../../components/Product/ProductDetailRightTop";
 
 const DetailTop = styled.div`
   width: 1180px;
@@ -56,11 +58,6 @@ const DetailTitle = styled.h1`
   word-break: keep-all;
   word-wrap: break-word;
   white-space: normal;
-`;
-const DetailRightTop = styled.div`
-  position: relative;
-  padding-bottom: 17px;
-  border-bottom: 1px solid #222;
 `;
 
 const ProductDetail = () => {
@@ -309,166 +306,13 @@ const ProductDetail = () => {
         )}
 
         <div style={{ width: "470px", textAlign: "left", paddingTop: "20px" }}>
-          <DetailRightTop>
-            <div style={{ display: "flex", borderBottom: "1px solid #d3d3d3" }}>
-              <DetailTitle>{name}</DetailTitle>
-            </div>
-            <div
-              style={{
-                marginTop: "27px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                borderBottom: "1px solid #d3d3d3",
-                paddingBottom: "20px",
-              }}
-            >
-              <div style={{ display: "flex" }}>
-                <span
-                  style={{
-                    fontSize: "16px",
-                    marginRight: "30px",
-                    width: "33%",
-                  }}
-                >
-                  판매가
-                </span>
-                <span
-                  style={{
-                    fontSize: "16px",
-                    marginLeft: "auto",
-                  }}
-                >
-                  {price}원
-                </span>
-              </div>
-
-              <div style={{ display: "flex" }}>
-                <span
-                  style={{
-                    fontSize: "16px",
-                    marginRight: "30px",
-                    width: "33%",
-                  }}
-                >
-                  할인율
-                </span>
-                <span
-                  style={{
-                    fontSize: "16px",
-                    marginLeft: "auto",
-                    color: "#808080",
-                  }}
-                >
-                  {sale} %
-                </span>
-              </div>
-              <div style={{ display: "flex" }}>
-                <span
-                  style={{
-                    fontSize: "16px",
-                    marginRight: "30px",
-                    width: "33%",
-                  }}
-                >
-                  할인판매가
-                </span>
-                <span
-                  style={{
-                    fontSize: "16px",
-                    marginLeft: "auto",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {calculatePrice}원
-                </span>
-              </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "left",
-                marginTop: "20px",
-                maxHeight: "30px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "14px",
-                  marginRight: "30px",
-                }}
-              >
-                {name}
-              </span>
-              <span
-                style={{
-                  fontSize: "16px",
-                  marginRight: "30px",
-                  marginLeft: "auto",
-                }}
-              >
-                <TextField
-                  value={quantity}
-                  onChange={(event) => setQuantity(Number(event.target.value))}
-                  type="number"
-                  inputProps={{
-                    min: 1,
-                    max: 50,
-                    style: {
-                      padding: "4px",
-                      fontSize: "12px",
-                      maxWidth: "30px",
-                    },
-                  }}
-                />{" "}
-                개
-              </span>
-              <span
-                style={{
-                  fontSize: "16px",
-                  marginLeft: "auto",
-                }}
-              >
-                {price * quantity}원
-              </span>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "left",
-                color: "#808080",
-                maxHeight: "30px",
-                borderBottom: "1px solid #d3d3d3",
-                paddingBottom: "30px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "14px",
-                  marginLeft: "auto",
-                }}
-              >
-                -{price * quantity - calculatePrice * quantity}원
-              </span>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "left",
-                marginTop: "20px",
-                maxHeight: "30px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "16px",
-                  marginLeft: "auto",
-                }}
-              >
-                TOTAL : {calculatePrice * quantity}원
-              </span>
-            </div>
-          </DetailRightTop>
+          <DetailRightTop
+            name={name}
+            price={price}
+            calculatePrice={calculatePrice}
+            quantity={quantity}
+            setQuantity={setQuantity}
+          />
           <div
             style={{
               display: "flex",
@@ -575,7 +419,7 @@ const ProductDetail = () => {
               marginTop: "80px",
             }}
           >
-            {data.reviewList.map((item: any, index: number) => (
+            {data.reviewList.map((item: Review, index: number) => (
               <ReviewAccordion
                 key={index}
                 review={item}
