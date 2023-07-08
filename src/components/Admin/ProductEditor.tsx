@@ -227,7 +227,7 @@ const ProductEditor = () => {
               margin="normal"
               sx={{ width: "220px", marginRight: " auto" }}
             >
-              <InputLabel id="demo-simple-select-label">Color</InputLabel>
+              <InputLabel id="demo-simple-select-label">Category</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -235,14 +235,14 @@ const ProductEditor = () => {
                 value={category}
                 onChange={handleCategoryChange}
               >
-                <MenuItem value="빨강">ALL</MenuItem>
-                <MenuItem value="주황">NEW</MenuItem>
-                <MenuItem value="노랑">BEST</MenuItem>
-                <MenuItem value="파랑">CAP</MenuItem>
-                <MenuItem value="핑크">TOP</MenuItem>
-                <MenuItem value="보라">BOTTOM</MenuItem>
-                <MenuItem value="검정">ACCESSORY</MenuItem>
-                <MenuItem value="흰색">LOOKBOOK</MenuItem>
+                <MenuItem value="ALL">ALL</MenuItem>
+                <MenuItem value="NEW">NEW</MenuItem>
+                <MenuItem value="BEST">BEST</MenuItem>
+                <MenuItem value="CAP">CAP</MenuItem>
+                <MenuItem value="TOP">TOP</MenuItem>
+                <MenuItem value="PUPPLE">BOTTOM</MenuItem>
+                <MenuItem value="ACCESSORY">ACCESSORY</MenuItem>
+                <MenuItem value="LOOKBOOK">LOOKBOOK</MenuItem>
               </Select>
             </FormControl>
           </ContentText>
