@@ -42,10 +42,23 @@ export const ProductListAtom = atom<ProductType[]>({
 });
 
 export interface Review {
-  customerName: string;
   id: number;
-  rating: number | null;
-  comment: string;
+  customerName: string;
+  rating: number;
+  reviewText: string;
+  available: string;
+  reviewCommentList: [
+    {
+      id: number;
+      customerName: string;
+      reviewCommentText: string;
+      available: string;
+      createdDt: string;
+      modifiedDt: string;
+    }
+  ];
+  createdDt: string;
+  modifiedDt: string;
 }
 
 export const ReviewListAtom = atom<Review[]>({

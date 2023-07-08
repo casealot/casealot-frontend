@@ -7,18 +7,7 @@ import Button from "@mui/material/Button";
 import { CartListState } from "../../atom/Cart";
 import { cartItems } from "../../atom/Cart";
 import { api } from "../../atom/apiCall";
-import {
-  Box,
-  Container,
-  FormControl,
-  OutlinedInput,
-  Rating,
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  TextField,
-} from "@mui/material";
+import { Box, Container, Rating, TextField } from "@mui/material";
 import ready from "../../dummy/img/noimage.gif";
 import ReviewForm from "../../components/Product/Review";
 import axios from "axios";
@@ -30,6 +19,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { RequestPayParams, RequestPayResponse } from "../../atom/PortOne";
 import ConfirmationDialog from "../../components/Modal/ConfirmModal";
 import { useNavigate } from "react-router-dom";
+import ReviewAccordion from "../../components/Product/ReviewAccordion";
 
 const DetailTop = styled.div`
   width: 1180px;
@@ -77,7 +67,6 @@ const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  // const [, setReviewList] = useRecoilState<Review[]>(ReviewListAtom);
   const setCartItems = useSetRecoilState<cartItems[]>(CartListState);
   const [wishboolean, setWishboolean] = useState("");
   const [wishCountState, setWishCountState] = useState("");
@@ -218,7 +207,6 @@ const ProductDetail = () => {
     },
     [addReviewCommentMutation, comment]
   );
-  // console.log(cartItems);
 
   const onSubmitOrder = async () => {
     try {
@@ -250,7 +238,7 @@ const ProductDetail = () => {
             }
 
             const data: RequestPayParams = {
-              pg: "html5_inicis.INIBillTst", // PG사 : https://portone.gitbook.io/docs/sdk/javascript-sdk/payrq#undefined-1 참고
+              pg: "html5_inicis.INIBillTst",
               pay_method: "card", // 결제수단
               merchant_uid: `${responseData.orderNumber}`, // 주문번호
               amount: Number(`${responseData.totalAmount}`),
@@ -425,10 +413,10 @@ const ProductDetail = () => {
                   type="number"
                   inputProps={{
                     min: 1,
-                    max: 50, // Set the maximum allowed quantity here
+                    max: 50,
                     style: {
-                      padding: "4px", // Adjust the padding value as needed
-                      fontSize: "12px", // Adjust the font size as needed
+                      padding: "4px",
+                      fontSize: "12px",
                       maxWidth: "30px",
                     },
                   }}
@@ -587,110 +575,14 @@ const ProductDetail = () => {
               marginTop: "80px",
             }}
           >
-            {data.reviewList.map((item: any, index: number) => {
-              return (
-                <>
-                  {/* <-- Accordion 추가 */}
-
-                  <Accordion key={index}>
-                    <div style={{ paddingLeft: "10px" }}>
-                      <AccordionSummary>
-                        <Typography variant="h5">
-                          {item.customerName}
-                        </Typography>
-                        <Rating
-                          name="read-only"
-                          value={item.rating}
-                          readOnly
-                          sx={{ paddingLeft: "8px", paddingTop: "2px" }}
-                        />
-                        <Typography
-                          sx={{
-                            marginLeft: "10px",
-                            fontWeight: "500",
-                            marginTop: "2px",
-                          }}
-                        >
-                          {item.reviewText}
-                        </Typography>
-                        <Typography
-                          sx={{ fontSize: "12px", marginLeft: "auto" }}
-                        >
-                          작성시간 : {item.createdDt}
-                        </Typography>
-                      </AccordionSummary>
-                    </div>
-                    <AccordionDetails>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          width: "100%",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          {item.reviewCommentList &&
-                            item.reviewCommentList.map(
-                              (reviewComment: any, index: number) => (
-                                <div
-                                  key={index}
-                                  style={{
-                                    display: "flex",
-                                    marginBottom: "5px",
-                                    paddingLeft: "10px",
-                                  }}
-                                >
-                                  <Typography
-                                    sx={{
-                                      marginRight: "3px",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    {reviewComment.customerName}님
-                                  </Typography>
-                                  <Typography>
-                                    {" "}
-                                    - {reviewComment.reviewCommentText}
-                                  </Typography>
-                                </div>
-                              )
-                            )}
-                        </div>
-                        <div>
-                          <FormControl
-                            sx={{
-                              width: "90%",
-                              marginY: "10px",
-                            }}
-                          >
-                            <OutlinedInput
-                              onChange={handleCommentChange}
-                              placeholder="댓글을 입력하세요"
-                            />
-                          </FormControl>
-                          <Button
-                            variant="contained"
-                            sx={{
-                              marginLeft: "10px",
-                              marginTop: "20px",
-                              height: "fit-content",
-                            }}
-                            onClick={() => handleCommentSubmit(item.id)}
-                          >
-                            등록
-                          </Button>
-                        </div>
-                      </div>
-                    </AccordionDetails>
-                  </Accordion>
-                </>
-              );
-            })}
+            {data.reviewList.map((item: any, index: number) => (
+              <ReviewAccordion
+                key={index}
+                review={item}
+                onCommentSubmit={handleCommentSubmit}
+                onCommentChange={handleCommentChange}
+              />
+            ))}
           </Box>
           <ReviewForm onSubmit={handleReviewSubmit} />
         </Container>
