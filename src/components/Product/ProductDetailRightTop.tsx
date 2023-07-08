@@ -6,6 +6,7 @@ interface DetailRightTopProps {
   price: number;
   calculatePrice: number;
   quantity: number;
+  sale: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -35,6 +36,7 @@ const DetailRightTop: React.FC<DetailRightTopProps> = ({
   price,
   calculatePrice,
   quantity,
+  sale,
   setQuantity,
 }) => {
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +94,7 @@ const DetailRightTop: React.FC<DetailRightTopProps> = ({
               color: "#808080",
             }}
           >
-            {calculatePrice} %
+            {sale} %
           </span>
         </div>
         <div style={{ display: "flex" }}>

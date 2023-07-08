@@ -2,12 +2,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import Button from "@mui/material/Button";
 import { CartListState } from "../../atom/Cart";
 import { cartItems } from "../../atom/Cart";
 import { api } from "../../atom/apiCall";
-import { Box, Container, Rating } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import ready from "../../dummy/img/noimage.gif";
 import ReviewForm from "../../components/Product/Review";
 import axios from "axios";
@@ -15,49 +13,17 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import ErrorModal from "../../components/Modal/ErrorHandleModal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../components/Useable/Loading";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { RequestPayParams, RequestPayResponse } from "../../atom/PortOne";
 import ConfirmationDialog from "../../components/Modal/ConfirmModal";
 import { useNavigate } from "react-router-dom";
 import ReviewAccordion from "../../components/Product/ReviewAccordion";
 import { Review } from "../../atom/Product";
-import DetailRightTop from "../../components/Product/ProductDetailRightTop";
+import ProductDetailTop from "../../components/Product/ProductDetailTop";
 
-const DetailTop = styled.div`
-  width: 1180px;
-  margin: 0 auto;
-  margin-top: 80px;
-  display: flex;
-
-  margin-bottom: 50px;
-`;
 const DetailBottom = styled.div`
   width: 1180px;
   margin: 0 auto;
   display: flex;
-`;
-const ThumbNail = styled.img`
-  position: relative;
-  width: 600px;
-  height: 600px;
-  padding-left: 50px;
-  margin-right: auto;
-  transform: scale(0.8);
-`;
-
-const DetailTitle = styled.h1`
-  margin: 19px 0 9px;
-  font-size: 27px;
-  font-weight: 500;
-  font-family: "ssgBan", sans-serif;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 2;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  word-break: keep-all;
-  word-wrap: break-word;
-  white-space: normal;
 `;
 
 const ProductDetail = () => {
@@ -298,106 +264,23 @@ const ProductDetail = () => {
     <>
       <CssBaseline />
 
-      <DetailTop>
-        {thumbnail ? (
-          <ThumbNail src={thumbnail.url} />
-        ) : (
-          <ThumbNail src={ready} />
-        )}
-
-        <div style={{ width: "470px", textAlign: "left", paddingTop: "20px" }}>
-          <DetailRightTop
-            name={name}
-            price={price}
-            calculatePrice={calculatePrice}
-            quantity={quantity}
-            setQuantity={setQuantity}
-          />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "left",
-              paddingTop: "20px",
-              alignItems: "center",
-            }}
-          >
-            <Rating value={rating} readOnly />
-            <span style={{ marginLeft: "10px" }}> {ratingCount} 건</span>
-            {wishboolean === "N" ? (
-              <Button
-                style={{
-                  alignItems: "right",
-                  fontSize: "23px",
-                  verticalAlign: "baseline",
-                  marginLeft: "auto",
-                }}
-                onClick={handleWishAdd}
-              >
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <FavoriteBorderIcon sx={{ paddingTop: "2px" }} />
-                  <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
-                    {wishCountState}
-                  </span>
-                </div>
-              </Button>
-            ) : (
-              <Button
-                style={{
-                  alignItems: "right",
-                  fontSize: "23px",
-                  verticalAlign: "baseline",
-                  marginLeft: "auto",
-                }}
-                onClick={handleWishRemove}
-              >
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <FavoriteIcon sx={{ paddingTop: "2px" }} />
-                  <span style={{ color: "#d0d0d0", fontSize: "18px" }}>
-                    {wishCountState}
-                  </span>
-                </div>
-              </Button>
-            )}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "20px",
-            }}
-          >
-            <Button
-              variant="outlined"
-              sx={{
-                width: "220px",
-                marginRight: "auto",
-                fontSize: "16px",
-                fontWeight: "500",
-                color: "#000",
-                borderColor: "#000",
-              }}
-              onClick={handleAddToCart}
-            >
-              장바구니 담기
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{
-                width: "220px",
-                marginLeft: "auto",
-                fontSize: "16px",
-                fontWeight: "500",
-                color: "#fff",
-                borderColor: "#000",
-                backgroundColor: "#000",
-              }}
-              onClick={onSubmitOrder}
-            >
-              바로구매
-            </Button>
-          </div>
-        </div>
-      </DetailTop>
+      <ProductDetailTop
+        thumbnailUrl={thumbnail ? thumbnail.url : ready}
+        name={name}
+        price={price}
+        sale={sale}
+        calculatePrice={calculatePrice}
+        quantity={quantity}
+        setQuantity={setQuantity}
+        rating={rating}
+        ratingCount={ratingCount}
+        wishboolean={wishboolean}
+        wishCountState={wishCountState}
+        handleWishAdd={handleWishAdd}
+        handleWishRemove={handleWishRemove}
+        handleAddToCart={handleAddToCart}
+        onSubmitOrder={onSubmitOrder}
+      />
 
       <DetailBottom>
         <Container maxWidth="xl">
