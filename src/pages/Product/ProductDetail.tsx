@@ -1,6 +1,5 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { useParams } from "react-router";
-import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
 import { CartListState } from "../../atom/Cart";
 import { cartItems } from "../../atom/Cart";
@@ -19,12 +18,6 @@ import { useNavigate } from "react-router-dom";
 import ReviewAccordion from "../../components/Product/ReviewAccordion";
 import { Review } from "../../atom/Product";
 import ProductDetailTop from "../../components/Product/ProductDetailTop";
-
-const DetailBottom = styled.div`
-  width: 1180px;
-  margin: 0 auto;
-  display: flex;
-`;
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -46,8 +39,9 @@ const ProductDetail = () => {
       setWishboolean(productDetail.product.wishYn);
       setWishCountState(productDetail.product.wishCount);
       return productDetail;
-    } catch (error: any) {
-      console.log(error);
+    } catch (error) {
+      if (axios.isAxiosError(error))
+        handleOpenErrorModal(error.response?.data.message);
     }
   }, [id]);
 
@@ -73,6 +67,16 @@ const ProductDetail = () => {
     setWishCountState(wishCount);
   }, [wishYn, wishCount]);
 
+  const handleOpenErrorModal = (errorMessage: string) => {
+    setErrorMessage(errorMessage);
+    setIsErrorModalOpen(true);
+  };
+
+  const handleCloseErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  //카트 관련함수//
   const handleAddToCart = useCallback(async () => {
     try {
       const response = await api.post(`cal/v1/cart/items/${id}/${quantity}`);
@@ -84,30 +88,7 @@ const ProductDetail = () => {
     }
   }, [id, setCartItems, quantity]);
 
-  const addReviewMutation = useMutation(
-    async (reviewData: { rating: number; reviewText: string }) => {
-      const response = await api.post(`/cal/v1/review/${id}`, reviewData);
-      return response.data;
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["productdetail"]);
-      },
-    }
-  );
-
-  const handleReviewSubmit = useCallback(
-    async (rating: number, comment: string): Promise<void> => {
-      try {
-        await addReviewMutation.mutateAsync({ rating, reviewText: comment });
-      } catch (error) {
-        if (axios.isAxiosError(error))
-          handleOpenErrorModal(error.response?.data.message);
-      }
-    },
-    [addReviewMutation]
-  );
-
+  //위시리스트 관련 함수//
   const handleWishAdd = useCallback(async () => {
     try {
       await api.post(`cal/v1/wishlist/${id}`);
@@ -128,49 +109,7 @@ const ProductDetail = () => {
     }
   }, [id, getProductDetail]);
 
-  const handleOpenErrorModal = (errorMessage: string) => {
-    setErrorMessage(errorMessage);
-    setIsErrorModalOpen(true);
-  };
-
-  const handleCloseErrorModal = () => {
-    setIsErrorModalOpen(false);
-  };
-
-  const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setComment(event.target.value);
-  };
-
-  const addReviewCommentMutation = useMutation(
-    async (commentData: { reviewCommentText: string; commentId: number }) => {
-      const response = await api.post(
-        `/cal/v1/review/comment/${commentData.commentId}`,
-        commentData
-      );
-      return response.data;
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["productdetail"]);
-      },
-    }
-  );
-
-  const handleCommentSubmit = useCallback(
-    async (commentId: number) => {
-      try {
-        await addReviewCommentMutation.mutateAsync({
-          reviewCommentText: comment,
-          commentId: commentId,
-        });
-      } catch (error) {
-        if (axios.isAxiosError(error))
-          handleOpenErrorModal(error.response?.data.message);
-      }
-    },
-    [addReviewCommentMutation, comment]
-  );
-
+  //결제 관련 함수//
   const onSubmitOrder = async () => {
     try {
       const response = await api.post("cal/v1/order", {
@@ -257,6 +196,65 @@ const ProductDetail = () => {
     navigate("/cart");
   };
 
+  // 리뷰 관련 함수 //
+  const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(event.target.value);
+  };
+
+  const addReviewCommentMutation = useMutation(
+    async (commentData: { reviewCommentText: string; commentId: number }) => {
+      const response = await api.post(
+        `/cal/v1/review/comment/${commentData.commentId}`,
+        commentData
+      );
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["productdetail"]);
+      },
+    }
+  );
+
+  const handleCommentSubmit = useCallback(
+    async (commentId: number) => {
+      try {
+        await addReviewCommentMutation.mutateAsync({
+          reviewCommentText: comment,
+          commentId: commentId,
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error))
+          handleOpenErrorModal(error.response?.data.message);
+      }
+    },
+    [addReviewCommentMutation, comment]
+  );
+
+  const addReviewMutation = useMutation(
+    async (reviewData: { rating: number; reviewText: string }) => {
+      const response = await api.post(`/cal/v1/review/${id}`, reviewData);
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["productdetail"]);
+      },
+    }
+  );
+
+  const handleReviewSubmit = useCallback(
+    async (rating: number, comment: string): Promise<void> => {
+      try {
+        await addReviewMutation.mutateAsync({ rating, reviewText: comment });
+      } catch (error) {
+        if (axios.isAxiosError(error))
+          handleOpenErrorModal(error.response?.data.message);
+      }
+    },
+    [addReviewMutation]
+  );
+
   console.log(quantity);
   return isLoading ? (
     <Loading />
@@ -282,38 +280,36 @@ const ProductDetail = () => {
         onSubmitOrder={onSubmitOrder}
       />
 
-      <DetailBottom>
-        <Container maxWidth="xl">
-          <div
-            style={{
-              justifyContent: "center",
-              borderBottom: "1px solid #d3d3d3",
-              borderTop: "1px solid #d3d3d3",
-              minHeight: "500px",
-              padding: "50px",
-            }}
-            dangerouslySetInnerHTML={{ __html: content }}
-          ></div>
-          <Box
-            sx={{
-              width: "100%",
-              border: "1px solid #d3d3d3",
-              textAlign: "left",
-              marginTop: "80px",
-            }}
-          >
-            {data.reviewList.map((item: Review, index: number) => (
-              <ReviewAccordion
-                key={index}
-                review={item}
-                onCommentSubmit={handleCommentSubmit}
-                onCommentChange={handleCommentChange}
-              />
-            ))}
-          </Box>
-          <ReviewForm onSubmit={handleReviewSubmit} />
-        </Container>
-      </DetailBottom>
+      <Container maxWidth="lg">
+        <div
+          style={{
+            justifyContent: "center",
+            borderBottom: "1px solid #d3d3d3",
+            borderTop: "1px solid #d3d3d3",
+            minHeight: "500px",
+            padding: "50px",
+          }}
+          dangerouslySetInnerHTML={{ __html: content }}
+        ></div>
+        <Box
+          sx={{
+            width: "100%",
+            border: "1px solid #d3d3d3",
+            textAlign: "left",
+            marginTop: "80px",
+          }}
+        >
+          {data.reviewList.map((item: Review, index: number) => (
+            <ReviewAccordion
+              key={index}
+              review={item}
+              onCommentSubmit={handleCommentSubmit}
+              onCommentChange={handleCommentChange}
+            />
+          ))}
+        </Box>
+        <ReviewForm onSubmit={handleReviewSubmit} />
+      </Container>
 
       <ErrorModal
         open={isErrorModalOpen}
