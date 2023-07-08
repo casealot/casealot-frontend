@@ -235,14 +235,14 @@ const ProductEditor = () => {
                 value={category}
                 onChange={handleCategoryChange}
               >
-                <MenuItem value="ALL">ALL</MenuItem>
-                <MenuItem value="NEW">NEW</MenuItem>
-                <MenuItem value="BEST">BEST</MenuItem>
-                <MenuItem value="CAP">CAP</MenuItem>
-                <MenuItem value="TOP">TOP</MenuItem>
-                <MenuItem value="PUPPLE">BOTTOM</MenuItem>
-                <MenuItem value="ACCESSORY">ACCESSORY</MenuItem>
-                <MenuItem value="LOOKBOOK">LOOKBOOK</MenuItem>
+                <MenuItem value="all">ALL</MenuItem>
+                <MenuItem value="new">NEW</MenuItem>
+                <MenuItem value="best">BEST</MenuItem>
+                <MenuItem value="cap">CAP</MenuItem>
+                <MenuItem value="top">TOP</MenuItem>
+                <MenuItem value="bottom">BOTTOM</MenuItem>
+                <MenuItem value="accessory">ACCESSORY</MenuItem>
+                <MenuItem value="lookbook">LOOKBOOK</MenuItem>
               </Select>
             </FormControl>
           </ContentText>
