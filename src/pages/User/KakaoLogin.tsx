@@ -1,4 +1,4 @@
-import KakaoLoginImg from "../../dummy/img/kakaologin.png";
+import KakaoLoginImg from "../../dummy/img/kakao.png";
 // import { api } from "../../atom/apiCall";
 
 const KakaoLogin = () => {
@@ -25,8 +25,12 @@ const KakaoLogin = () => {
     <img
       alt="카카오 로그인"
       src={KakaoLoginImg}
-      width="100%"
-      style={{ margin: "0 auto", cursor: "pointer" }}
+      style={{
+        margin: "0 auto",
+        cursor: "pointer",
+        width: "49%",
+        borderRadius: "8px",
+      }}
       onClick={() => (window.location.href = requestURL)}
     />
   );

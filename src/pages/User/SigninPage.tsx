@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -88,7 +86,9 @@ const SigninPage = () => {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <Avatar
+              sx={{ m: 1, bgcolor: "#000", width: "50px", height: "50px" }}
+            >
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -104,10 +104,10 @@ const SigninPage = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="이메일"
-                name="email"
-                autoComplete="email"
+                id="ID"
+                label="아이디"
+                name="ID"
+                autoComplete="ID"
                 autoFocus
                 value={userId}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -128,25 +128,21 @@ const SigninPage = () => {
                   setPassword(e.target.value)
                 }
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, height: "40px" }}
               >
                 로그인
               </Button>
-              <KakaoLogin />
-              <NaverLogin />
+              <div style={{ display: "flex", gap: "2%", marginBottom: "10px" }}>
+                <KakaoLogin />
+                <NaverLogin />
+              </div>
               <Grid container>
-                <Grid item xs>
-                  <NoneStyledLink to="/">비밀번호 찾기</NoneStyledLink>
-                </Grid>
-                <Grid item>
+                <Grid item sx={{ marginLeft: "auto", color: "blue" }}>
                   <NoneStyledLink to="/signup">
                     {"계정이 아직 없으신가요?"}
                   </NoneStyledLink>
