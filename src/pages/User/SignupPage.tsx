@@ -58,6 +58,7 @@ const SignUpPage = () => {
         }
       );
       if (response) navigate("/signin");
+      alert("회원가입에 성공하였습니다.");
     } catch (error) {
       if (axios.isAxiosError(error))
         handleOpenErrorModal(error.response?.data.message);

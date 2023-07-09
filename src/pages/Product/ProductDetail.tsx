@@ -45,7 +45,7 @@ const ProductDetail = () => {
     }
   }, [id]);
 
-  const { data, isLoading } = useQuery(["productdetail"], () =>
+  const { data, isLoading, refetch } = useQuery(["productdetail", id], () =>
     api.get(`cal/v1/product/${id}`).then((response) => response.data.body)
   );
   const product = useMemo(() => data?.product || {}, [data]);
@@ -67,6 +67,9 @@ const ProductDetail = () => {
     setWishCountState(wishCount);
   }, [wishYn, wishCount]);
 
+  useEffect(() => {
+    refetch();
+  }, [id]);
   const handleOpenErrorModal = (errorMessage: string) => {
     setErrorMessage(errorMessage);
     setIsErrorModalOpen(true);
@@ -255,7 +258,6 @@ const ProductDetail = () => {
     [addReviewMutation]
   );
 
-  console.log(quantity);
   return isLoading ? (
     <Loading />
   ) : (
