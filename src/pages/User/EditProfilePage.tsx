@@ -184,6 +184,9 @@ const EditProfile = () => {
   const handleQuit = async () => {
     const response = await api.delete("/cal/v1/customer/quit");
     if (response) {
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("role");
       navigate("/");
     }
   };
