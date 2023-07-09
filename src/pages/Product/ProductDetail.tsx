@@ -76,7 +76,7 @@ const ProductDetail = () => {
     setIsErrorModalOpen(false);
   };
 
-  //카트 관련함수//
+  //---------------카트 관련함수---------------//
   const handleAddToCart = useCallback(async () => {
     try {
       const response = await api.post(`cal/v1/cart/items/${id}/${quantity}`);
@@ -88,7 +88,15 @@ const ProductDetail = () => {
     }
   }, [id, setCartItems, quantity]);
 
-  //위시리스트 관련 함수//
+  const handleCloseConfirmation = () => {
+    setIsConfirmationOpen(false);
+  };
+
+  const handlelocateCart = () => {
+    navigate("/cart");
+  };
+
+  //---------------위시리스트 관련 함수---------------//
   const handleWishAdd = useCallback(async () => {
     try {
       await api.post(`cal/v1/wishlist/${id}`);
@@ -109,7 +117,7 @@ const ProductDetail = () => {
     }
   }, [id, getProductDetail]);
 
-  //결제 관련 함수//
+  //---------------결제 관련 함수---------------//
   const onSubmitOrder = async () => {
     try {
       const response = await api.post("cal/v1/order", {
@@ -188,15 +196,7 @@ const ProductDetail = () => {
     }
   };
 
-  const handleCloseConfirmation = () => {
-    setIsConfirmationOpen(false);
-  };
-
-  const handlelocateCart = () => {
-    navigate("/cart");
-  };
-
-  // 리뷰 관련 함수 //
+  // ---------------리뷰 관련 함수--------------- //
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
   };

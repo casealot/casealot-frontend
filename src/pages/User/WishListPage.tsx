@@ -4,17 +4,17 @@ import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
 import Typography from "@mui/joy/Typography";
 import Chip from "@mui/joy/Chip";
-import { api } from "../atom/apiCall";
+import { api } from "../../atom/apiCall";
 import { useRecoilState } from "recoil";
-import { WishType, wishListState } from "../atom/Wish";
+import { WishType, wishListState } from "../../atom/Wish";
 import IconButton from "@mui/joy/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { NoneStyledLink } from "../components/Useable/Link";
+import { NoneStyledLink } from "../../components/Useable/Link";
 import { useEffect, useState } from "react";
-import ready from "../dummy/img/noimage.gif";
-import ConfirmationDialog from "../components/Modal/ConfirmModal";
-import Banner from "../components/Useable/Banner";
+import ready from "../../dummy/img/noimage.gif";
+import ConfirmationDialog from "../../components/Modal/ConfirmModal";
+import Banner from "../../components/Useable/Banner";
 
 const WishListPage = () => {
   const [wishState, setWishState] = useRecoilState<WishType[]>(wishListState);
@@ -26,7 +26,8 @@ const WishListPage = () => {
 
   useEffect(() => {
     getWishList();
-  }, []);
+  });
+
   const handleWishDelete = async (id: number) => {
     const response = await api.delete(`cal/v1/wishlist/${id}`);
     setWishState(response.data.body.wishlist.productList);

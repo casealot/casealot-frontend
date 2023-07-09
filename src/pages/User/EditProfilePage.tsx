@@ -5,9 +5,6 @@ import {
   Box,
   Typography,
   Container,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
   Modal,
   Avatar,
 } from "@mui/material";
@@ -19,6 +16,7 @@ import { api } from "../../atom/apiCall";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ConfirmationDialog from "../../components/Modal/ConfirmModal";
 const FormFlex = styled.div`
   display: flex;
   justify-content: start;
@@ -43,6 +41,7 @@ const EditProfile = () => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profilePreview, setProfilePreview] = useState("");
   const [, setIsErrorModalOpen] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const navigate = useNavigate();
   // const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [, setErrorMessage] = useState("");
@@ -174,6 +173,20 @@ const EditProfile = () => {
     justifyContent: "center",
   }; // 스타일 정의 code
 
+  const handleOpenConfirmation = () => {
+    setIsConfirmationOpen(true);
+  };
+
+  const handleCloseConfirmation = () => {
+    setIsConfirmationOpen(false);
+  };
+
+  const handleQuit = async () => {
+    const response = await api.delete("/cal/v1/customer/quit");
+    if (response) {
+      navigate("/");
+    }
+  };
   return (
     <>
       <Container maxWidth="lg">
@@ -332,30 +345,15 @@ const EditProfile = () => {
             sx={{ fontWeight: "600", marginTop: "100px", marginBottom: "5px" }}
             align="left"
           >
-            추가정보
+            회원탈퇴
           </Typography>
 
           <FormFlex>
-            <FormText>생년월일</FormText>
-            <TextField
-              required
-              id="standard-required"
-              label="생년월일"
-              placeholder="ex)200120"
-            />
+            <Button sx={{ marginX: "auto" }} onClick={handleOpenConfirmation}>
+              탈퇴하기
+            </Button>
           </FormFlex>
-          <FormFlex>
-            <FormText>성별</FormText>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              sx={{ marginLeft: "8px" }}
-            >
-              <FormControlLabel value="남자" control={<Radio />} label="남자" />
-              <FormControlLabel value="여자" control={<Radio />} label="여자" />
-            </RadioGroup>
-          </FormFlex>
+
           <FormFlex
             style={{
               marginTop: "90px",
@@ -383,6 +381,15 @@ const EditProfile = () => {
           </FormFlex>
         </Box>
       </Container>
+      <ConfirmationDialog
+        open={isConfirmationOpen}
+        onClose={handleCloseConfirmation}
+        onConfirm={handleQuit}
+        dialogTitle="탈퇴 확인"
+        dialogContent="정말 탈퇴하시겠습니까?"
+        confirmText="탈퇴"
+        cancelText="취소"
+      />
     </>
   );
 };
