@@ -48,6 +48,7 @@ const SignUpPage = () => {
           id: username,
           name: name,
           password: password,
+          phoneNumber: phoneNumber,
           profileImageUrl: "",
         },
         {
