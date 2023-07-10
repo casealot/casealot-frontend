@@ -30,6 +30,9 @@ import SearchPage from "./pages/SearchPage";
 import AdminQnaList from "./pages/Admin/AdminQnaList";
 import TopScroll from "./components/Useable/TopScroll";
 import Instagram from "./components/Useable/Instagram";
+import NoticePage from "./pages/Notice/NoticePage";
+import NoticeDetail from "./pages/Notice/NoticeDetail";
+import NoticePost from "./pages/Notice/NoticePost";
 
 const role = localStorage.getItem("role");
 
@@ -58,6 +61,9 @@ function App() {
         <Route path="/qna/new" element={<QNAPost />} />
         <Route path="/qna/:id" element={<QnaDetail />} />
         <Route path="/qna/fix/:id" element={<QnAFix />} />
+        <Route path="/notice" element={<NoticePage />} />
+        <Route path="/notice/:id" element={<NoticeDetail />} />
+
         <Route path="/search/:keyword" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishListPage />} />
         {/* <Route element={<ProductRegistrationPage />} />/ */}
@@ -74,6 +80,10 @@ function App() {
         <Route
           path="/admin/qna"
           element={role === "ADMIN" ? <AdminQnaList /> : <h1>NO access</h1>}
+        />
+        <Route
+          path="/notice/new"
+          element={role === "ADMIN" ? <NoticePost /> : <h1>NO access</h1>}
         />
         <Route
           path="/admin/product"

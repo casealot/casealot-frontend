@@ -157,6 +157,9 @@ const AdminInfoTop = () => {
           <NoneStyledLink to="/admin/product">
             <Button>배너관리</Button>
           </NoneStyledLink>
+          <NoneStyledLink to="/notice">
+            <Button>공지현황</Button>
+          </NoneStyledLink>
         </div>
       </div>
     </Box>
