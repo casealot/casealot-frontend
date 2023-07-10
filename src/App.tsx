@@ -33,6 +33,7 @@ import Instagram from "./components/Useable/Instagram";
 import NoticePage from "./pages/Notice/NoticePage";
 import NoticeDetail from "./pages/Notice/NoticeDetail";
 import NoticePost from "./pages/Notice/NoticePost";
+import NoticeFix from "./pages/Admin/AdminNoticeFix";
 
 const role = localStorage.getItem("role");
 
@@ -80,6 +81,10 @@ function App() {
         <Route
           path="/admin/qna"
           element={role === "ADMIN" ? <AdminQnaList /> : <h1>NO access</h1>}
+        />
+        <Route
+          path="/admin/notice/fix/:id"
+          element={role === "ADMIN" ? <NoticeFix /> : <h1>NO access</h1>}
         />
         <Route
           path="/notice/new"

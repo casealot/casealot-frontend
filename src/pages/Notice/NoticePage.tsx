@@ -121,7 +121,7 @@ const NoticePage = () => {
   ) : (
     <>
       <Container maxWidth="xl" sx={{ minHeight: "880px" }}>
-        <Banner item="Q&A" />
+        <Banner item="NOTICE" />
         <div style={{ display: "flex" }}>
           <Search sx={{ marginBottom: "5px" }}>
             <SearchIconWrapper>

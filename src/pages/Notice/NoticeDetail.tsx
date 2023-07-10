@@ -15,18 +15,15 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
-import AdminQnaReply from "../Admin/AdminQnaReply";
-import { QnA } from "../../atom/QnA";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useState } from "react";
-import { NoticeDetailItem, NoticeItem } from "../../atom/Notice";
+import { NoticeDetailItem } from "../../atom/Notice";
 import NoticeReply from "./NoticeReply";
 
 const NoticeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const roleType = localStorage.getItem("role");
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editedComment, setEditedComment] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -45,9 +42,9 @@ const NoticeDetail = () => {
 
   const handleDeleteQNA = async () => {
     try {
-      const response = await api.delete(`/cal/v1/qna/${id}`);
+      const response = await api.delete(`/cal/v1/admin/notice/${id}`);
       if (response) {
-        navigate("/qna");
+        navigate("/notice");
         queryClient.invalidateQueries(["NoticeList", id]);
       }
     } catch (error) {
@@ -125,6 +122,10 @@ const NoticeDetail = () => {
             paddingBottom: "20px",
           }}
         >
+          <Button onClick={() => navigate(`/admin/notice/fix/${id}`)}>
+            수정하기
+          </Button>
+          <Button onClick={() => handleDeleteQNA()}>삭제하기</Button>
           <Button
             variant="contained"
             sx={{ marginLeft: "auto" }}
