@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 
 import { Review } from "../../atom/Product";
-
+import EditIcon from "@mui/icons-material/Edit";
+import CancelIcon from "@mui/icons-material/Cancel";
 interface ReviewAccordionProps {
   review: Review;
   onCommentSubmit: (reviewId: number) => void;
@@ -23,8 +24,14 @@ const ReviewAccordion: React.FC<ReviewAccordionProps> = ({
   onCommentSubmit,
   onCommentChange,
 }) => {
-  const { customerName, rating, reviewText, createdDt, reviewCommentList } =
-    review;
+  const {
+    customerName,
+    rating,
+    reviewText,
+    createdDt,
+    reviewCommentList,
+    available,
+  } = review;
 
   const handleCommentSubmit = () => {
     onCommentSubmit(review.id);
@@ -45,6 +52,20 @@ const ReviewAccordion: React.FC<ReviewAccordionProps> = ({
           >
             {reviewText}
           </Typography>
+          {available === "Y" ? (
+            <>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Button sx={{ padding: "0", minWidth: "0px" }}>
+                  <EditIcon />
+                </Button>
+                <Button sx={{ padding: "0", minWidth: "0px" }}>
+                  <CancelIcon />
+                </Button>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           <Typography sx={{ fontSize: "12px", marginLeft: "auto" }}>
             작성시간 : {createdDt}
           </Typography>
@@ -74,6 +95,11 @@ const ReviewAccordion: React.FC<ReviewAccordionProps> = ({
                     {reviewComment.customerName}님
                   </Typography>
                   <Typography> - {reviewComment.reviewCommentText}</Typography>
+
+                  <Typography sx={{ marginLeft: "auto", fontSize: "12px" }}>
+                    {" "}
+                    {reviewComment.modifiedDt}
+                  </Typography>
                 </div>
               ))}
           </div>

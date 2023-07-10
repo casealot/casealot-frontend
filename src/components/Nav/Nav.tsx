@@ -65,7 +65,7 @@ const Nav = () => {
       name: "ACCESSORY",
     },
     {
-      name: "LOOKBOOK",
+      name: "SHOOES",
     },
   ];
   return (

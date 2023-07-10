@@ -111,7 +111,7 @@ const NavRight = () => {
         }}
         sx={{ transition: "ease 0.3s" }}
       >
-        <NoneStyledLink to="/mypage">
+        <NoneStyledLink to="/notice">
           <MenuItem onClick={handleMenuClose}>NOTICE</MenuItem>
         </NoneStyledLink>
         <NoneStyledLink to="/qna">
