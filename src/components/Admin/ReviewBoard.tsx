@@ -13,6 +13,7 @@ type ReviewList = {
   productThumbnail: string | null;
   customerId: string;
   productName: string;
+  productId: number;
 };
 
 const ImageContainer = styled.div`
@@ -44,7 +45,7 @@ const ReviewBoard = () => {
   ) : (
     <Box sx={{ marginTop: "60px" }}>
       {Review?.map((ReviewList: ReviewList, index: number) => (
-        <NoneStyledLink to={`/products/${ReviewList.id}`}>
+        <NoneStyledLink to={`/products/${ReviewList.productId}`}>
           <div key={index} style={{ display: "flex", padding: "8px" }}>
             <ImageContainer style={{ marginRight: "10px" }}>
               {ReviewList.productThumbnail ? (
