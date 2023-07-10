@@ -26,7 +26,7 @@ const WishListPage = () => {
 
   useEffect(() => {
     getWishList();
-  });
+  }, []);
 
   const handleWishDelete = async (id: number) => {
     const response = await api.delete(`cal/v1/wishlist/${id}`);
