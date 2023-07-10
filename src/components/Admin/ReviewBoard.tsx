@@ -4,6 +4,7 @@ import Loading from "../Useable/Loading";
 import ready from "../../dummy/img/noimage.gif";
 import { Box, Typography } from "@mui/material";
 import { styled } from "styled-components";
+import { NoneStyledLink } from "../Useable/Link";
 
 type ReviewList = {
   id: number;
@@ -43,49 +44,51 @@ const ReviewBoard = () => {
   ) : (
     <Box sx={{ marginTop: "60px" }}>
       {Review?.map((ReviewList: ReviewList, index: number) => (
-        <div key={index} style={{ display: "flex", padding: "8px" }}>
-          <ImageContainer style={{ marginRight: "10px" }}>
-            {ReviewList.productThumbnail ? (
-              <StyledImage src={ReviewList.productThumbnail} alt="Profile" />
-            ) : (
-              <StyledImage src={ready} alt="Placeholder" />
-            )}
-          </ImageContainer>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              margin: "auto 0",
-            }}
-          >
-            <div style={{ display: "flex" }}>
-              <Typography
-                sx={{
-                  fontSize: "12px",
-                  marginBottom: "2px",
-                  color: "#000",
-                }}
-              >
-                {ReviewList.customerId}님
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: "12px",
-                  marginBottom: "2px",
-                  color: "#000",
-                  fontWeight: 600,
-                  marginLeft: "6px",
-                }}
-              >
-                [ {ReviewList.productName} ]
-              </Typography>
+        <NoneStyledLink to={`/products/${ReviewList.id}`}>
+          <div key={index} style={{ display: "flex", padding: "8px" }}>
+            <ImageContainer style={{ marginRight: "10px" }}>
+              {ReviewList.productThumbnail ? (
+                <StyledImage src={ReviewList.productThumbnail} alt="Profile" />
+              ) : (
+                <StyledImage src={ready} alt="Placeholder" />
+              )}
+            </ImageContainer>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                margin: "auto 0",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    marginBottom: "2px",
+                    color: "#000",
+                  }}
+                >
+                  {ReviewList.customerId}님
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    marginBottom: "2px",
+                    color: "#000",
+                    fontWeight: 600,
+                    marginLeft: "6px",
+                  }}
+                >
+                  [ {ReviewList.productName} ]
+                </Typography>
+              </div>
+              <Typography>{ReviewList.reviewText}</Typography>
             </div>
-            <Typography>{ReviewList.reviewText}</Typography>
+            <Typography sx={{ marginLeft: "auto", fontSize: "10px" }}>
+              {ReviewList.modifiedDt}
+            </Typography>
           </div>
-          <Typography sx={{ marginLeft: "auto", fontSize: "10px" }}>
-            {ReviewList.modifiedDt}
-          </Typography>
-        </div>
+        </NoneStyledLink>
       ))}
     </Box>
   );

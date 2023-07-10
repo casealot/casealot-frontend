@@ -4,6 +4,7 @@ import Loading from "../Useable/Loading";
 import ready from "../../dummy/img/noimage.gif";
 import { Box, Typography } from "@mui/material";
 import { styled } from "styled-components";
+import { NoneStyledLink } from "../Useable/Link";
 
 type QnAList = {
   id: number;
@@ -49,32 +50,34 @@ const QnABoard = () => {
   ) : (
     <Box sx={{ marginTop: "60px" }}>
       {QnA?.map((qnaList: QnAList, index: number) => (
-        <div key={index} style={{ display: "flex", padding: "8px" }}>
-          <ImageContainer style={{ marginRight: "10px" }}>
-            {qnaList.profileImg ? (
-              <StyledImage src={qnaList.profileImg} alt="Profile" />
-            ) : (
-              <StyledImage src={ready} alt="Placeholder" />
-            )}
-          </ImageContainer>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              margin: "auto 0",
-            }}
-          >
-            <Typography
-              sx={{ fontSize: "12px", color: "blue", marginBottom: "2px" }}
+        <NoneStyledLink to={`/qna/${qnaList.id}`}>
+          <div key={index} style={{ display: "flex", padding: "8px" }}>
+            <ImageContainer style={{ marginRight: "10px" }}>
+              {qnaList.profileImg ? (
+                <StyledImage src={qnaList.profileImg} alt="Profile" />
+              ) : (
+                <StyledImage src={ready} alt="Placeholder" />
+              )}
+            </ImageContainer>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                margin: "auto 0",
+              }}
             >
-              {qnaList.customerId}님
+              <Typography
+                sx={{ fontSize: "12px", color: "blue", marginBottom: "2px" }}
+              >
+                {qnaList.customerId}님
+              </Typography>
+              <TitleTypography>{qnaList.title}</TitleTypography>
+            </div>
+            <Typography sx={{ marginLeft: "auto", fontSize: "10px" }}>
+              {qnaList.modifiedDt}
             </Typography>
-            <TitleTypography>{qnaList.title}</TitleTypography>
           </div>
-          <Typography sx={{ marginLeft: "auto", fontSize: "10px" }}>
-            {qnaList.modifiedDt}
-          </Typography>
-        </div>
+        </NoneStyledLink>
       ))}
     </Box>
   );
