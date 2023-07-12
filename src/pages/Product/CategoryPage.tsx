@@ -28,7 +28,6 @@ import PriceFilterButtons from "../../components/Product/PriceFilter";
 import SortOptionButtons from "../../components/Product/SortOptionButtons";
 import { NoneStyledLink } from "../../components/Useable/Link";
 import Loading from "../../components/Useable/Loading";
-
 import ready from "../../dummy/img/imgready.gif";
 import Banner from "../../components/Useable/Banner";
 

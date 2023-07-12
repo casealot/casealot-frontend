@@ -45,7 +45,7 @@ const ProductDetail = () => {
     }
   }, [id]);
 
-  const { data, isLoading, refetch } = useQuery(["productdetail", id], () =>
+  const { data, isLoading } = useQuery(["productdetail", id], () =>
     api.get(`cal/v1/product/${id}`).then((response) => response.data.body)
   );
   const product = useMemo(() => data?.product || {}, [data]);
