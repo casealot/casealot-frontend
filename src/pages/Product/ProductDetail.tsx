@@ -67,9 +67,6 @@ const ProductDetail = () => {
     setWishCountState(wishCount);
   }, [wishYn, wishCount]);
 
-  useEffect(() => {
-    refetch();
-  }, [id]);
   const handleOpenErrorModal = (errorMessage: string) => {
     setErrorMessage(errorMessage);
     setIsErrorModalOpen(true);
