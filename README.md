@@ -1,4 +1,5 @@
 ﻿# casealot-frontend
+
 배포링크 - https://casealot.netlify.app/
 
 ## 사용 기술 스택🖥️
@@ -73,3 +74,4 @@ CSS에 대한 이해도를 높이고 싶어 Mui-v5 Components + styledcomponents
 - 카카오 로그인 - https://velog.io/@tykim1227/React-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
 - 포트원을 사용한 결제모듈, 결제처리 - https://velog.io/@tykim1227/PORTONE-%EA%B2%B0%EC%A0%9C%EB%AA%A8%EB%93%88-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0
 - 검색어 HighLights + 검색기능 - https://velog.io/@tykim1227/HighLights-%EA%B2%80%EC%83%89%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84
+
