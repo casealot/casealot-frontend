@@ -1,7 +1,7 @@
 ﻿# casealot-frontend
 배포링크 - https://casealot.netlify.app/
 ## 사용 기술 스택🖥️
-<img src="https://img.shields.io/badge/react-#61DAFB?style=for-the-badge&logo=react&logoColor=white">
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
 ### 상품, 공지, 문의, 카트 등 CRUD - Axios, React Query
 - useQuery - queryKey를 사용한 특정상태값 변경에 따른 자동 재조회
 - CUD API mutate 응답 완료 후, useQueryClient의 invalidateQueries를 이용한 쿼리 무효화 및 재조회
