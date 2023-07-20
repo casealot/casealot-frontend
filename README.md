@@ -24,7 +24,7 @@ CSS에 대한 이해도를 높이고 싶어 Mui-v5 Components + styledcomponents
 ## ✨ 프로젝트 주요기능
 
 ## 👤 Admin
-### /admin 으로 접속가능, 
+### baseurl/admin 으로 접속가능, 
 id : admin<br />
 password : 1234dfdf
 - Product
