@@ -68,7 +68,7 @@ const CategoryPage = () => {
     setSelectedPrice("");
     setSelectedColor("");
   }, [categoryName]);
-  const size = 12;
+  let size = 12;
 
   const queryClient = useQueryClient();
 
@@ -96,7 +96,7 @@ const CategoryPage = () => {
         filter: filterValue,
         page: pageParam,
         query: "",
-        size: size,
+        size: size - 8,
         sort: [{ field: sortOption, option: sortOrder }],
       });
 
