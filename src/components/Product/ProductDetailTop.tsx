@@ -8,7 +8,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 const DetailTopWrapper = styled.div`
   width: 1180px;
   margin: 0 auto;
-  margin-top: 80px;
+  
   display: flex;
   margin-bottom: 50px;
 `;
