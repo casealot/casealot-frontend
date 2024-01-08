@@ -96,7 +96,7 @@ const CategoryPage = () => {
         filter: filterValue,
         page: pageParam,
         query: "",
-        size: size - 8,
+        size: size - 4,
         sort: [{ field: sortOption, option: sortOrder }],
       });
 
