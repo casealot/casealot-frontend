@@ -67,6 +67,11 @@ const ProductDetail = () => {
     setWishCountState(wishCount);
   }, [wishYn, wishCount]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])  
+
+  
   const handleOpenErrorModal = (errorMessage: string) => {
     setErrorMessage(errorMessage);
     setIsErrorModalOpen(true);
