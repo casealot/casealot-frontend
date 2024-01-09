@@ -76,5 +76,15 @@ password : 1234dfdf
   - 결제 요청, 내역 조회 
 - DELIVERY
   - 배송 내역 조회
-    
+
+# 실행 방법
+### Local
+  
+    npm install
+    npm run dev
+
+### Build
+
+    npm install
+    npm run build
 
