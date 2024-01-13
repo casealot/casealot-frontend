@@ -1,34 +1,15 @@
-import {
-  Typography,
-  Chip,
-  Button,
-  Divider,
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  CardActions,
-} from "@mui/material";
+import { Typography, Chip, Button, Divider, Grid } from "@mui/material";
 import { Container } from "@mui/system";
-import {
-  useQueryClient,
-  useMutation,
-  useInfiniteQuery,
-} from "@tanstack/react-query";
+import { useQueryClient, useMutation, useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
-import { ProductType } from "../../atom/Product";
+import { FilterValueType, ProductType } from "../../atom/Product";
 import { api } from "../../atom/apiCall";
-import {
-  colorOptions,
-  ColorFilterButtons,
-} from "../../components/Product/ColorPicker";
+import { colorOptions, ColorFilterButtons} from "../../components/Product/ColorPicker";
 import PriceFilterButtons from "../../components/Product/PriceFilter";
 import SortOptionButtons from "../../components/Product/SortOptionButtons";
-import { NoneStyledLink } from "../../components/Useable/Link";
 import Loading from "../../components/Useable/Loading";
-import ready from "../../dummy/img/imgready.gif";
 import Banner from "../../components/Useable/Banner";
 import ProductCard from "../../components/Product/ProductCard";
 
@@ -57,13 +38,8 @@ const CategoryPage = () => {
   const [totalProduct, setTotalProduct] = useState(0);
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedPrice, setSelectedPrice] = useState<string>("");
-  const [filterValue, setFilterValue] = useState<
-    {
-      key: string;
-      operation: string;
-      value: string | number | null | undefined;
-    }[]
-  >([{ key: "", operation: "", value: null }]);
+  const [filterValue, setFilterValue] = useState<FilterValueType[]>([]);
+  
   useEffect(() => {
     setFilterValue([{ key: "", operation: "", value: null }]);
     setSelectedPrice("");
@@ -133,21 +109,6 @@ const CategoryPage = () => {
       setSortOrder("desc");
     }
     sortMutation([option, sortOrder]);
-  };
-
-  const calculateDiscount = (price: number, sale: number) => {
-    const discountedPrice = price - (price * sale) / 100;
-    return discountedPrice.toFixed(0);
-  };
-  const handleImageHover = (event: React.MouseEvent<HTMLDivElement>) => {
-    const cardMediaElement = event.currentTarget as HTMLDivElement;
-    cardMediaElement.style.transform = "scale(1.1)";
-    cardMediaElement.style.transition = "transform 0.2s ease";
-  };
-
-  const handleImageLeave = (event: React.MouseEvent<HTMLDivElement>) => {
-    const cardMediaElement = event.currentTarget as HTMLDivElement;
-    cardMediaElement.style.transform = "scale(1)";
   };
 
   const applyFilterMutation = useMutation(

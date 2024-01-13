@@ -65,3 +65,9 @@ export const ReviewListAtom = atom<Review[]>({
   key: "reviewList",
   default: [],
 });
+
+export interface FilterValueType {
+  key: string;
+  operation: string;
+  value: string | number | null | undefined;
+}
