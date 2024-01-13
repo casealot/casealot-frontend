@@ -2,9 +2,18 @@
 
 배포링크 - https://casealot.netlify.app/
 
+# 회고 및 트러블슈팅
+- [Mutation, QueryClient 사용해 데이터 동기화하기](https://velog.io/@tykim1227/react-query-Mutation-QueryClient-%EC%82%AC%EC%9A%A9)
+- [React-Query Infinite Scroll + react-infinite-scroll-components](https://velog.io/@tykim1227/React-Query-Infinite-Scroll-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)
+- [infiniteScroll 오류 해결 + useMutation에 익숙해지기](https://velog.io/@tykim1227/infiniteScroll-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0-useMutation%EA%B3%BC-%EC%B9%9C%ED%95%B4%EC%A7%80%EA%B8%B0)
+- [Mutation을 사용해 상품 필터링 기능 구현](https://velog.io/@tykim1227/mutation%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%9C-%ED%95%84%ED%84%B0%EB%A7%81-%EA%B8%B0%EB%8A%A5-%EB%A7%8C%EB%93%A4%EA%B8%B0) 
+- [카카오 로그인](https://velog.io/@tykim1227/React-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0)
+- [포트원을 사용한 결제모듈, 결제처리](https://velog.io/@tykim1227/PORTONE-%EA%B2%B0%EC%A0%9C%EB%AA%A8%EB%93%88-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0)
+- [검색어 HighLights + 검색기능](https://velog.io/@tykim1227/HighLights-%EA%B2%80%EC%83%89%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84)
+- [프로젝트 리팩토링(1)](https://velog.io/@tykim1227/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%811)
+
 ## 사용 기술 스택🖥️
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=black"> <img src="https://img.shields.io/badge/mui-007FFF?style=for-the-badge&logo=mui&logoColor=black">  <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=black"> <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=black"> <img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=black"> <img src="https://img.shields.io/badge/recoil-3578E5?style=for-the-badge&logo=recoil&logoColor=black"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=black"> <img src="https://img.shields.io/badge/netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=black"> 
-
 
 ### 상품, 공지, 문의, 카트 등 CRUD - Axios, React Query
 - useQuery - queryKey를 사용한 특정상태값 변경에 따른 자동 재조회
@@ -67,13 +76,15 @@ password : 1234dfdf
   - 결제 요청, 내역 조회 
 - DELIVERY
   - 배송 내역 조회
-    
-# 회고 및 트러블슈팅
-- Mutation, QueryClient 사용해 데이터 동기화하기 - https://velog.io/@tykim1227/react-query-Mutation-QueryClient-%EC%82%AC%EC%9A%A9  
-- React-Query Infinite Scroll + react-infinite-scroll-components - https://velog.io/@tykim1227/React-Query-Infinite-Scroll-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
-- infiniteScroll 오류 해결 + useMutation에 익숙해지기 - https://velog.io/@tykim1227/infiniteScroll-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0-useMutation%EA%B3%BC-%EC%B9%9C%ED%95%B4%EC%A7%80%EA%B8%B0
-- Mutation을 사용해 상품 필터링 기능 구현 - https://velog.io/@tykim1227/mutation%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%9C-%ED%95%84%ED%84%B0%EB%A7%81-%EA%B8%B0%EB%8A%A5-%EB%A7%8C%EB%93%A4%EA%B8%B0
-- 카카오 로그인 - https://velog.io/@tykim1227/React-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
-- 포트원을 사용한 결제모듈, 결제처리 - https://velog.io/@tykim1227/PORTONE-%EA%B2%B0%EC%A0%9C%EB%AA%A8%EB%93%88-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0
-- 검색어 HighLights + 검색기능 - https://velog.io/@tykim1227/HighLights-%EA%B2%80%EC%83%89%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84
+
+# 실행 방법
+### Local
+  
+    npm install
+    npm run dev
+
+### Build
+
+    npm install
+    npm run build
 
