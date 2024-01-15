@@ -12,7 +12,7 @@ import SortOptionButtons from "../../components/Product/SortOptionButtons";
 import Loading from "../../components/Useable/Loading";
 import Banner from "../../components/Useable/Banner";
 import ProductCard from "../../components/Product/ProductCard";
-import useProductList from "../../atom/useProductList";
+// import useProductList from "../../atom/useProductList";
 
 const CategoryPage = () => {
   const [categoryName, setCategoryName] = useState<string>("");
