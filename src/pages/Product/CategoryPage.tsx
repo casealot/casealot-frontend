@@ -12,6 +12,7 @@ import SortOptionButtons from "../../components/Product/SortOptionButtons";
 import Loading from "../../components/Useable/Loading";
 import Banner from "../../components/Useable/Banner";
 import ProductCard from "../../components/Product/ProductCard";
+import useProductList from "../../atom/useProductList";
 
 const CategoryPage = () => {
   const [categoryName, setCategoryName] = useState<string>("");
@@ -64,26 +65,7 @@ const CategoryPage = () => {
     }
   );
 
-  const { data, isLoading, fetchNextPage } = useInfiniteQuery(
-    ["getProducts", sortOption, sortOrder, filterValue, categoryName],
-    async ({ pageParam = page - 1 }) => {
-      const response = await api.post(`/cal/v1/product/${categoryName}`, {
-        filter: filterValue,
-        page: pageParam,
-        query: "",
-        size: size - 8,
-        sort: [{ field: sortOption, option: sortOrder }],
-      });
-
-      setTotalProduct(response.data.body.product.totalCount);
-      return response.data.body.product.items;
-    },
-    {
-      enabled: categoryName !== "",
-      refetchOnWindowFocus: false,
-      getNextPageParam: () => page,
-    }
-  );
+  const { data, isLoading, fetchNextPage } = useProductList({ categoryName, page, size, sortOption, sortOrder, filterValue})
 
   const handleLoadMore = () => {
     if (hasMore && !isLoading) {
@@ -324,7 +306,7 @@ const CategoryPage = () => {
                   }}
                 >
                   {data?.pages.map((card) =>
-                    card.map((item: ProductType) => (
+                    card.items.map((item: ProductType) => (
                       <ProductCard key={item.id} item={item}/>
                     ))
                   )}
