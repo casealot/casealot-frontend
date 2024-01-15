@@ -30,7 +30,7 @@ const CategoryPage = () => {
       setPage(1);
     }
   }, [category]);
-
+  const [filterValue, setFilterValue] = useState<FilterValueType[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [sortOption, setSortOption] = useState("rating");
@@ -38,8 +38,6 @@ const CategoryPage = () => {
   const [totalProduct, setTotalProduct] = useState(0);
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedPrice, setSelectedPrice] = useState<string>("");
-  const [filterValue, setFilterValue] = useState<FilterValueType[]>([]);
-  
   useEffect(() => {
     setFilterValue([{ key: "", operation: "", value: null }]);
     setSelectedPrice("");
@@ -49,7 +47,7 @@ const CategoryPage = () => {
 
   const queryClient = useQueryClient();
 
-  const sortMutation = useMutation<void, unknown, [string, string]>(
+  const { mutate: sortMutation } = useMutation<void, unknown, [string, string]>(
     async ([sortOption, sortOrder]) => {
       await api.post("/cal/v1/product/", {
         filter: [filterValue],
@@ -64,7 +62,7 @@ const CategoryPage = () => {
         queryClient.invalidateQueries(["getProducts", sortOption, sortOrder]);
       },
     }
-  ).mutate;
+  );
 
   const { data, isLoading, fetchNextPage } = useInfiniteQuery(
     ["getProducts", sortOption, sortOrder, filterValue, categoryName],
@@ -73,7 +71,7 @@ const CategoryPage = () => {
         filter: filterValue,
         page: pageParam,
         query: "",
-        size: size - 4,
+        size: size - 8,
         sort: [{ field: sortOption, option: sortOrder }],
       });
 
@@ -81,6 +79,7 @@ const CategoryPage = () => {
       return response.data.body.product.items;
     },
     {
+      enabled: categoryName !== "",
       refetchOnWindowFocus: false,
       getNextPageParam: () => page,
     }
