@@ -81,7 +81,7 @@ const CategoryPage = () => {
       return response.data.body.product.items;
     },
     {
-      enabled: categoryName !== "",
+      enabled: categoryName !== null,
       refetchOnWindowFocus: false,
       getNextPageParam: () => page,
     }
@@ -114,11 +114,7 @@ const CategoryPage = () => {
 
   const applyFilterMutation = useMutation(
     async () => {
-      const filterValues: {
-        key: string;
-        operation: string;
-        value: string | number | null | undefined;
-      }[] = [];
+      const filterValues: FilterValueType[] = [];
 
       if (selectedColor) {
         const convertedColor = colorOptions.find(
@@ -165,29 +161,28 @@ const CategoryPage = () => {
 
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
-    applyFilterMutation.mutate(); // 필터 적용
   };
 
   const handlePriceSelect = (price: string) => {
     setSelectedPrice(price);
-    applyFilterMutation.mutate(); // 필터 적용
   };
 
   const removeColorFilter = () => {
     setSelectedColor("");
-    applyFilterMutation.mutate();
   };
 
   const removePriceFilter = () => {
     setSelectedPrice("");
-    applyFilterMutation.mutate();
   };
 
   const removeFilters = () => {
     setSelectedColor("");
     setSelectedPrice("");
-    applyFilterMutation.mutate();
   };
+
+  useEffect(() => {
+    applyFilterMutation.mutate();
+  },[selectedColor, selectedPrice])
   return (
     <>
       <main>
