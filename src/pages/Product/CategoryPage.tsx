@@ -1,4 +1,4 @@
-import { Typography, Chip, Button, Divider, Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import { Container } from "@mui/system";
 import { useQueryClient, useMutation, useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -6,11 +6,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
 import { FilterValueType, ProductType } from "../../atom/Product";
 import { api } from "../../atom/apiCall";
-import { colorOptions, ColorFilterButtons} from "../../components/Product/ColorPicker";
-import PriceFilterButtons from "../../components/Product/PriceFilter";
-import SortOptionButtons from "../../components/Product/SortOptionButtons";
+import { colorOptions } from "../../components/Product/ColorPicker";
 import Loading from "../../components/Useable/Loading";
-import Banner from "../../components/Useable/Banner";
 import ProductCard from "../../components/Product/ProductCard";
 import ProductFilter from "../../components/Product/ProductFilter";
 // import useProductList from "../../atom/useProductList";
@@ -32,6 +29,7 @@ const CategoryPage = () => {
       setPage(1);
     }
   }, [category]);
+  
   const [filterValue, setFilterValue] = useState<FilterValueType[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -187,7 +185,8 @@ const CategoryPage = () => {
   return (
     <>
       <main>
-       <ProductFilter category={category? category : ""}
+      {/* 필터, 정렬 Props */}
+      <ProductFilter category={category? category : ""}
       selectedColor={selectedColor}
       handleColorSelect={handleColorSelect}
       selectedPrice={selectedPrice}
@@ -199,6 +198,7 @@ const CategoryPage = () => {
       removePriceFilter={removePriceFilter}
       removeFilters={removeFilters}/>
 
+        {/* 메인, 상품 인피니티 스크롤 */}
         <Container sx={{ padding: "0" }} maxWidth="xl">
           <div style={{ padding: "0", width: "100%" }}>
             {data ? (
@@ -228,6 +228,7 @@ const CategoryPage = () => {
                 >
                   {data?.pages.map((card) =>
                     card.map((item: ProductType) => (
+                      // Grid 영역 Props
                       <ProductCard key={item.id} item={item}/>
                     ))
                   )}

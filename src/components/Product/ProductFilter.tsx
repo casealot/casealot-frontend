@@ -8,7 +8,7 @@ import Banner from "../../components/Useable/Banner";
 
 import { ColorFilterButtons } from "../../components/Product/ColorPicker";
 
-interface IProductFilterProps {
+interface ProductFilterProps {
   category: string;
   selectedColor: string;
   handleColorSelect: (color: string) => void;
@@ -34,7 +34,7 @@ export default function ProductFilter({
   removeColorFilter,
   removePriceFilter,
   removeFilters,
-}: IProductFilterProps) {
+}: ProductFilterProps) {
   return (
     <Container maxWidth="xl">
       <Banner item={category ? category.toLocaleUpperCase() : ""} />
