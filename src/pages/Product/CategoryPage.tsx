@@ -12,6 +12,7 @@ import SortOptionButtons from "../../components/Product/SortOptionButtons";
 import Loading from "../../components/Useable/Loading";
 import Banner from "../../components/Useable/Banner";
 import ProductCard from "../../components/Product/ProductCard";
+import ProductFilter from "../../components/Product/ProductFilter";
 // import useProductList from "../../atom/useProductList";
 
 const CategoryPage = () => {
@@ -186,112 +187,17 @@ const CategoryPage = () => {
   return (
     <>
       <main>
-        <Container maxWidth="xl">
-          <Banner item={category ? category.toLocaleUpperCase() : ""} />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "left",
-              margin: "20px 0",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "20px",
-                marginY: "auto",
-                fontWeight: "600",
-                marginRight: "20px",
-              }}
-            >
-              색상
-            </Typography>
-            <ColorFilterButtons
-              selectedColor={selectedColor}
-              onColorSelect={handleColorSelect}
-            />
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "left",
-              margin: "20px 0",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "20px",
-                marginY: "auto",
-                fontWeight: "600",
-                marginRight: "20px",
-              }}
-            >
-              가격
-            </Typography>
-            <PriceFilterButtons
-              selectedPrice={selectedPrice}
-              onPriceSelect={handlePriceSelect}
-            />
-          </div>
-          <SortOptionButtons
-            sortOption={sortOption}
-            sortOrder={sortOrder}
-            handleSortChange={handleSortChange}
-          />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "left",
-              margin: "20px 0",
-              paddingBottom: "50px",
-              alignItems: "center",
-              borderBottom: "1px solid #d3d3d3",
-            }}
-          >
-            {selectedColor || selectedPrice ? (
-              <>
-                <Typography
-                  sx={{
-                    fontSize: "20px",
-                    marginY: "auto",
-                    fontWeight: "600",
-                    marginRight: "20px",
-                  }}
-                >
-                  필터
-                </Typography>
-                {selectedColor && (
-                  <Chip
-                    label={`색상: ${selectedColor}`}
-                    onDelete={removeColorFilter}
-                    color="secondary"
-                    size="small"
-                    sx={{ marginRight: "10px" }}
-                  />
-                )}
-                {selectedPrice && (
-                  <Chip
-                    label={`가격: ${selectedPrice}`}
-                    onDelete={removePriceFilter}
-                    color="secondary"
-                    size="small"
-                    sx={{ marginRight: "10px" }}
-                  />
-                )}
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  size="small"
-                  onClick={removeFilters}
-                >
-                  모든 필터 삭제
-                </Button>
-              </>
-            ) : (
-              ""
-            )}
-          </div>
-        </Container>
+       <ProductFilter category={category? category : ""}
+      selectedColor={selectedColor}
+      handleColorSelect={handleColorSelect}
+      selectedPrice={selectedPrice}
+      handlePriceSelect={handlePriceSelect}
+      sortOption={sortOption}
+      sortOrder={sortOrder}
+      handleSortChange={handleSortChange}
+      removeColorFilter={removeColorFilter}
+      removePriceFilter={removePriceFilter}
+      removeFilters={removeFilters}/>
 
         <Container sx={{ padding: "0" }} maxWidth="xl">
           <div style={{ padding: "0", width: "100%" }}>
