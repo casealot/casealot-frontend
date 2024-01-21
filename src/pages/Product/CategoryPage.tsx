@@ -10,7 +10,6 @@ import { colorOptions } from "../../components/Product/ColorPicker";
 import Loading from "../../components/Useable/Loading";
 import ProductCard from "../../components/Product/ProductCard";
 import ProductFilter from "../../components/Product/ProductFilter";
-// import useProductList from "../../atom/useProductList";
 
 const CategoryPage = () => {
   const [categoryName, setCategoryName] = useState<string>("");
@@ -38,6 +37,7 @@ const CategoryPage = () => {
   const [totalProduct, setTotalProduct] = useState(0);
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedPrice, setSelectedPrice] = useState<string>("");
+  
   useEffect(() => {
     setFilterValue([{ key: "", operation: "", value: null }]);
     setSelectedPrice("");
